@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import type { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/utils'
 import { renderMarkdownWithLatex } from '@/lib/markdown'
@@ -8,10 +9,15 @@ import { ArrowLeft, Calendar, User } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await prisma.post.findUnique({
-    where: { slug: params.slug, published: true },
-    include: { author: { select: { name: true } } },
-  })
+  let post: Prisma.PostGetPayload<{ include: { author: { select: { name: true } } } }> | null = null
+  try {
+    post = await prisma.post.findUnique({
+      where: { slug: params.slug, published: true },
+      include: { author: { select: { name: true } } },
+    })
+  } catch {
+    notFound()
+  }
 
   if (!post) notFound()
 
