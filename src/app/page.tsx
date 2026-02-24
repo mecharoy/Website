@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { NavigationServer } from '@/components/navigation-server'
 import { Hero } from '@/components/sections/hero'
 import { Services } from '@/components/sections/services'

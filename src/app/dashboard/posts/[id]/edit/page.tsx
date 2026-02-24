@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getSessionUser } from '@/lib/auth'

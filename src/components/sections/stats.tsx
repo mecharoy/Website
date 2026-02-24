@@ -55,7 +55,7 @@ export function Stats() {
               transition={{ duration: 0.5, delay: index * 0.15 }}
               viewport={{ once: true, amount: 0.3, margin: "0px 0px -100px 0px" }}
             >
-              <Counter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
+              <Counter value={stat.value} suffix={stat.suffix} />
               <div className="text-muted-foreground font-medium mt-2">{stat.label}</div>
             </motion.div>
           ))}
