@@ -6,11 +6,17 @@ import { BookOpen, ArrowRight } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 export default async function BlogPage() {
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    include: { author: { select: { name: true } } },
-  })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let posts: any[] = []
+  try {
+    posts = await prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+      include: { author: { select: { name: true } } },
+    })
+  } catch {
+    // DB unavailable – show empty state
+  }
 
   // Generate a short excerpt (first 200 chars, strip markdown/LaTeX markers)
   function excerpt(content: string) {

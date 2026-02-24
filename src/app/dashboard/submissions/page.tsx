@@ -39,14 +39,20 @@ export default async function SubmissionsPage() {
   const user = await getSessionUser()
   if (!user) redirect('/auth/login')
 
-  const submissions = await prisma.submission.findMany({
-    where: { authorId: user.id },
-    orderBy: { createdAt: 'desc' },
-    include: {
-      messages: { orderBy: { createdAt: 'asc' } },
-      todoItems: { orderBy: { order: 'asc' } },
-    },
-  })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let submissions: any[] = []
+  try {
+    submissions = await prisma.submission.findMany({
+      where: { authorId: user.id },
+      orderBy: { createdAt: 'desc' },
+      include: {
+        messages: { orderBy: { createdAt: 'asc' } },
+        todoItems: { orderBy: { order: 'asc' } },
+      },
+    })
+  } catch {
+    // DB unavailable – show empty state
+  }
 
   return (
     <div className="min-h-screen bg-background">

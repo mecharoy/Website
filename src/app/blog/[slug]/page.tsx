@@ -8,10 +8,16 @@ import { ArrowLeft, Calendar, User } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 export default async function BlogPostPage({ params }: { params: { slug: string } }) {
-  const post = await prisma.post.findUnique({
-    where: { slug: params.slug, published: true },
-    include: { author: { select: { name: true } } },
-  })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let post: any = null
+  try {
+    post = await prisma.post.findUnique({
+      where: { slug: params.slug, published: true },
+      include: { author: { select: { name: true } } },
+    })
+  } catch {
+    notFound()
+  }
 
   if (!post) notFound()
 

@@ -20,9 +20,13 @@ async function checkAuth() {
 }
 
 async function getLeads() {
-  return prisma.lead.findMany({
-    orderBy: { createdAt: 'desc' },
-  })
+  try {
+    return await prisma.lead.findMany({
+      orderBy: { createdAt: 'desc' },
+    })
+  } catch {
+    return []
+  }
 }
 
 export default async function AdminPage() {

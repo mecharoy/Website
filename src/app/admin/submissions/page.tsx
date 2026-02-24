@@ -27,14 +27,18 @@ const typeLabels: Record<string, string> = {
 type Submission = Awaited<ReturnType<typeof fetchSubmissions>>[number]
 
 async function fetchSubmissions() {
-  return prisma.submission.findMany({
-    orderBy: { createdAt: 'desc' },
-    include: {
-      author: { select: { name: true, email: true } },
-      messages: { orderBy: { createdAt: 'asc' } },
-      todoItems: { orderBy: { order: 'asc' } },
-    },
-  })
+  try {
+    return await prisma.submission.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        author: { select: { name: true, email: true } },
+        messages: { orderBy: { createdAt: 'asc' } },
+        todoItems: { orderBy: { order: 'asc' } },
+      },
+    })
+  } catch {
+    return []
+  }
 }
 
 function SubmissionCard({ sub }: { sub: Submission }) {

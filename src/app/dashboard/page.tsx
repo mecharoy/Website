@@ -20,10 +20,14 @@ import {
 export const dynamic = 'force-dynamic'
 
 async function getUserLeads(email: string) {
-  return prisma.lead.findMany({
-    where: { email },
-    orderBy: { createdAt: 'desc' },
-  })
+  try {
+    return await prisma.lead.findMany({
+      where: { email },
+      orderBy: { createdAt: 'desc' },
+    })
+  } catch {
+    return []
+  }
 }
 
 const statusColors: Record<string, string> = {
