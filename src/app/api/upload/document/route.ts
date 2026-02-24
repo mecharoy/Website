@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { put } from '@vercel/blob'
+import { writeFile, mkdir } from 'fs/promises'
+import path from 'path'
 import { getSessionUser } from '@/lib/auth'
 
 const MAX_SIZE = 20 * 1024 * 1024 // 20 MB
@@ -36,11 +37,19 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const ext = ALLOWED_TYPES[file.type]
+  const bytes = await file.arrayBuffer()
+  const buffer = Buffer.from(bytes)
+
   const originalName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
-  const storedName = `documents/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+  const ext = ALLOWED_TYPES[file.type]
+  const storedName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
-  const blob = await put(storedName, file, { access: 'public' })
+  const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'documents')
+  await mkdir(uploadDir, { recursive: true })
+  await writeFile(path.join(uploadDir, storedName), buffer)
 
-  return NextResponse.json({ url: blob.url, fileName: originalName })
+  return NextResponse.json({
+    url: `/uploads/documents/${storedName}`,
+    fileName: originalName,
+  })
 }

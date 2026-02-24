@@ -41,3 +41,6 @@ next-env.d.ts
 # uploaded files (ephemeral on Vercel – use object storage in production)
 /public/uploads/*
 !/public/uploads/.gitkeep
+!/public/uploads/documents/
+/public/uploads/documents/*
+!/public/uploads/documents/.gitkeep

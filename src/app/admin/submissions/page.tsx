@@ -40,6 +40,9 @@ const typeColors: Record<string, string> = {
   MESSAGE: 'text-green-500 bg-green-500/10 border-green-500/20',
 }
 
+const VALID_STATUSES = ['PENDING', 'REVIEWED', 'ACKNOWLEDGED'] as const
+type StatusFilter = (typeof VALID_STATUSES)[number] | null
+
 type Submission = Awaited<ReturnType<typeof fetchSubmissions>>[number]
 
 async function fetchSubmissions() {
@@ -105,28 +108,61 @@ function SubmissionCard({ sub }: { sub: Submission }) {
   )
 }
 
+const statusMeta: Record<string, { label: string; color: string; dotColor: string; badgeColor: string }> = {
+  PENDING: {
+    label: 'Pending',
+    color: 'border-yellow-500/20 hover:border-yellow-500/50',
+    dotColor: 'bg-yellow-500',
+    badgeColor: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20',
+  },
+  REVIEWED: {
+    label: 'Reviewed',
+    color: 'border-blue-500/20 hover:border-blue-500/50',
+    dotColor: 'bg-blue-500',
+    badgeColor: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
+  },
+  ACKNOWLEDGED: {
+    label: 'Acknowledged',
+    color: 'border-green-500/20 hover:border-green-500/50',
+    dotColor: 'bg-green-500',
+    badgeColor: 'bg-green-500/10 text-green-600 border-green-500/20',
+  },
+}
+
 export default async function AdminSubmissionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ user?: string }>
+  searchParams: Promise<{ user?: string; status?: string }>
 }) {
   await checkAuth()
 
   const params = await searchParams
   const userQuery = params.user?.toLowerCase().trim() ?? ''
+  const rawStatus = params.status?.toUpperCase().trim() ?? ''
+  const statusFilter: StatusFilter = VALID_STATUSES.includes(rawStatus as (typeof VALID_STATUSES)[number])
+    ? (rawStatus as (typeof VALID_STATUSES)[number])
+    : null
 
   const allSubmissions = await fetchSubmissions()
 
+  // Counts for folder tiles (always from unfiltered data)
+  const counts = {
+    PENDING: allSubmissions.filter((s) => s.status === 'PENDING').length,
+    REVIEWED: allSubmissions.filter((s) => s.status === 'REVIEWED').length,
+    ACKNOWLEDGED: allSubmissions.filter((s) => s.status === 'ACKNOWLEDGED').length,
+  }
+
   // Apply filters
   const filtered = allSubmissions.filter((s) => {
-    return (
+    const matchesUser =
       !userQuery ||
       s.author.name.toLowerCase().includes(userQuery) ||
       s.author.email.toLowerCase().includes(userQuery)
-    )
+    const matchesStatus = !statusFilter || s.status === statusFilter
+    return matchesUser && matchesStatus
   })
 
-  // Status groups
+  // Status groups (only needed when no status folder is active)
   const pending = filtered.filter((s) => s.status === 'PENDING')
   const reviewed = filtered.filter((s) => s.status === 'REVIEWED')
   const acknowledged = filtered.filter((s) => s.status === 'ACKNOWLEDGED')
@@ -139,6 +175,8 @@ export default async function AdminSubmissionsPage({
   }
 
   const uniqueUsers = new Set(allSubmissions.map((s) => s.author.email)).size
+
+  const isFiltered = !!userQuery || !!statusFilter
 
   return (
     <div className="min-h-screen bg-background">
@@ -153,10 +191,13 @@ export default async function AdminSubmissionsPage({
               <span className="text-foreground"> Name]</span>
               <span className="text-muted-foreground text-lg ml-2">Submissions</span>
             </h1>
-            {userQuery && (
-              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20">
-                Filtered
-              </span>
+            {isFiltered && (
+              <Link
+                href="/admin/submissions"
+                className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20 hover:bg-primary/20 transition-colors"
+              >
+                {statusFilter ? statusMeta[statusFilter].label : 'Filtered'} · Clear
+              </Link>
             )}
           </div>
           <div className="flex items-center gap-3">
@@ -174,7 +215,7 @@ export default async function AdminSubmissionsPage({
           <div className="bg-card border border-primary/10 rounded-lg p-4">
             <div className="text-2xl font-bold text-primary">{stats.total}</div>
             <div className="text-sm text-muted-foreground">
-              {userQuery ? 'Matching' : 'Total'}
+              {isFiltered ? 'Matching' : 'Total'}
             </div>
           </div>
           <div className="bg-card border border-primary/10 rounded-lg p-4">
@@ -196,88 +237,107 @@ export default async function AdminSubmissionsPage({
           <SubmissionsFilters />
         </Suspense>
 
+        {/* Status Folder tiles — only shown when not already filtered by status */}
+        {!statusFilter && (
+          <div className="grid grid-cols-3 gap-3 mb-8">
+            {VALID_STATUSES.map((s) => {
+              const meta = statusMeta[s]
+              return (
+                <Link
+                  key={s}
+                  href={`/admin/submissions?status=${s}${userQuery ? `&user=${encodeURIComponent(params.user ?? '')}` : ''}`}
+                  className={`flex items-center gap-3 p-4 rounded-xl border bg-card transition-all ${meta.color}`}
+                >
+                  <div className={`w-3 h-3 rounded-full ${meta.dotColor} shrink-0`} />
+                  <div>
+                    <div className="font-semibold text-sm">{meta.label}</div>
+                    <div className="text-xs text-muted-foreground">
+                      {counts[s]} submission{counts[s] !== 1 ? 's' : ''}
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        )}
+
         {filtered.length === 0 && (
           <div className="bg-card border border-primary/10 rounded-lg px-6 py-12 text-center text-muted-foreground">
-            {userQuery ? 'No submissions match your filters.' : 'No submissions yet.'}
+            {isFiltered ? 'No submissions match your filters.' : 'No submissions yet.'}
           </div>
         )}
 
         {filtered.length > 0 && (
           <>
-            {/* ── Status Folders ── */}
-            <div className="grid grid-cols-3 gap-3 mb-8">
-              <a href="#section-pending" className="flex items-center gap-3 p-4 rounded-xl border bg-card border-yellow-500/20 hover:border-yellow-500/50 transition-all">
-                <div className="w-3 h-3 rounded-full bg-yellow-500 shrink-0" />
-                <div>
-                  <div className="font-semibold text-sm">Pending</div>
-                  <div className="text-xs text-muted-foreground">{pending.length} submission{pending.length !== 1 ? 's' : ''}</div>
-                </div>
-              </a>
-              <a href="#section-reviewed" className="flex items-center gap-3 p-4 rounded-xl border bg-card border-blue-500/20 hover:border-blue-500/50 transition-all">
-                <div className="w-3 h-3 rounded-full bg-blue-500 shrink-0" />
-                <div>
-                  <div className="font-semibold text-sm">Reviewed</div>
-                  <div className="text-xs text-muted-foreground">{reviewed.length} submission{reviewed.length !== 1 ? 's' : ''}</div>
-                </div>
-              </a>
-              <a href="#section-acknowledged" className="flex items-center gap-3 p-4 rounded-xl border bg-card border-green-500/20 hover:border-green-500/50 transition-all">
-                <div className="w-3 h-3 rounded-full bg-green-500 shrink-0" />
-                <div>
-                  <div className="font-semibold text-sm">Acknowledged</div>
-                  <div className="text-xs text-muted-foreground">{acknowledged.length} submission{acknowledged.length !== 1 ? 's' : ''}</div>
-                </div>
-              </a>
-            </div>
-
-            {pending.length > 0 && (
-              <section id="section-pending" className="mb-10 scroll-mt-24">
+            {/* When a status folder is active, show a single flat list */}
+            {statusFilter ? (
+              <section className="mb-10">
                 <div className="flex items-center gap-2 mb-4">
-                  <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-                  <h3 className="font-semibold text-lg">Pending</h3>
-                  <span className="text-xs font-medium bg-yellow-500/10 text-yellow-600 px-2 py-0.5 rounded-full border border-yellow-500/20">
-                    {pending.length}
+                  <div className={`w-2.5 h-2.5 rounded-full ${statusMeta[statusFilter].dotColor}`} />
+                  <h2 className="font-semibold text-lg">{statusMeta[statusFilter].label}</h2>
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${statusMeta[statusFilter].badgeColor}`}>
+                    {filtered.length}
                   </span>
                 </div>
                 <div className="space-y-4">
-                  {pending.map((sub) => (
+                  {filtered.map((sub) => (
                     <SubmissionCard key={sub.id} sub={sub} />
                   ))}
                 </div>
               </section>
-            )}
+            ) : (
+              <>
+                {pending.length > 0 && (
+                  <section className="mb-10">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                      <h3 className="font-semibold text-lg">Pending</h3>
+                      <span className="text-xs font-medium bg-yellow-500/10 text-yellow-600 px-2 py-0.5 rounded-full border border-yellow-500/20">
+                        {pending.length}
+                      </span>
+                    </div>
+                    <div className="space-y-4">
+                      {pending.map((sub) => (
+                        <SubmissionCard key={sub.id} sub={sub} />
+                      ))}
+                    </div>
+                  </section>
+                )}
 
-            {reviewed.length > 0 && (
-              <section id="section-reviewed" className="mb-10 scroll-mt-24">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-                  <h3 className="font-semibold text-lg">Reviewed</h3>
-                  <span className="text-xs font-medium bg-blue-500/10 text-blue-600 px-2 py-0.5 rounded-full border border-blue-500/20">
-                    {reviewed.length}
-                  </span>
-                </div>
-                <div className="space-y-4">
-                  {reviewed.map((sub) => (
-                    <SubmissionCard key={sub.id} sub={sub} />
-                  ))}
-                </div>
-              </section>
-            )}
+                {reviewed.length > 0 && (
+                  <section className="mb-10">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+                      <h3 className="font-semibold text-lg">Reviewed</h3>
+                      <span className="text-xs font-medium bg-blue-500/10 text-blue-600 px-2 py-0.5 rounded-full border border-blue-500/20">
+                        {reviewed.length}
+                      </span>
+                    </div>
+                    <div className="space-y-4">
+                      {reviewed.map((sub) => (
+                        <SubmissionCard key={sub.id} sub={sub} />
+                      ))}
+                    </div>
+                  </section>
+                )}
 
-            {acknowledged.length > 0 && (
-              <section id="section-acknowledged" className="mb-10 scroll-mt-24">
-                <div className="flex items-center gap-2 mb-4">
-                  <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                  <h3 className="font-semibold text-lg">Acknowledged</h3>
-                  <span className="text-xs font-medium bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full border border-green-500/20">
-                    {acknowledged.length}
-                  </span>
-                </div>
-                <div className="space-y-4">
-                  {acknowledged.map((sub) => (
-                    <SubmissionCard key={sub.id} sub={sub} />
-                  ))}
-                </div>
-              </section>
+                {acknowledged.length > 0 && (
+                  <section className="mb-10">
+                    <div className="flex items-center gap-2 mb-4">
+                      <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                      <h3 className="font-semibold text-lg">Acknowledged</h3>
+                      <span className="text-xs font-medium bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full border border-green-500/20">
+                        {acknowledged.length}
+                      </span>
+                    </div>
+                    <div className="space-y-4">
+                      {acknowledged.map((sub) => (
+                        <SubmissionCard key={sub.id} sub={sub} />
+                      ))}
+                    </div>
+                  </section>
+                )}
+              </>
             )}
           </>
         )}
