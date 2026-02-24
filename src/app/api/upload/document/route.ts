@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { put } from '@vercel/blob'
+import { writeFile, mkdir } from 'fs/promises'
+import path from 'path'
 import { getSessionUser } from '@/lib/auth'
 
 const MAX_SIZE = 20 * 1024 * 1024 // 20 MB
@@ -36,15 +38,26 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  // Sanitize original filename for storage
   const originalName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_')
   const ext = ALLOWED_TYPES[file.type]
-  const storedName = `documents/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+  const storedName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
-  const blob = await put(storedName, file, { access: 'public' })
-
-  return NextResponse.json({
-    url: blob.url,
-    fileName: originalName,
-  })
+  try {
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      // Production: store in Vercel Blob
+      const blob = await put(`documents/${storedName}`, file, { access: 'public' })
+      return NextResponse.json({ url: blob.url, fileName: originalName })
+    } else {
+      // Local dev: store on filesystem under public/uploads/documents
+      const bytes = await file.arrayBuffer()
+      const buffer = Buffer.from(bytes)
+      const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'documents')
+      await mkdir(uploadDir, { recursive: true })
+      await writeFile(path.join(uploadDir, storedName), buffer)
+      return NextResponse.json({ url: `/uploads/documents/${storedName}`, fileName: originalName })
+    }
+  } catch (err) {
+    const message = err instanceof Error ? err.message : 'Upload error'
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
 }
