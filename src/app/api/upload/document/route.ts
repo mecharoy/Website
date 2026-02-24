@@ -44,18 +44,30 @@ export async function POST(req: NextRequest) {
 
   try {
     if (process.env.BLOB_READ_WRITE_TOKEN) {
-      // Production: store in Vercel Blob
+      // Vercel Blob (production and any env where the token is set)
       const blob = await put(`documents/${storedName}`, file, { access: 'public' })
       return NextResponse.json({ url: blob.url, fileName: originalName })
-    } else {
-      // Local dev: store on filesystem under public/uploads/documents
-      const bytes = await file.arrayBuffer()
-      const buffer = Buffer.from(bytes)
-      const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'documents')
-      await mkdir(uploadDir, { recursive: true })
-      await writeFile(path.join(uploadDir, storedName), buffer)
-      return NextResponse.json({ url: `/uploads/documents/${storedName}`, fileName: originalName })
     }
+
+    if (process.env.VERCEL) {
+      // Running on Vercel but no Blob token — filesystem is read-only here
+      return NextResponse.json(
+        {
+          error:
+            'Storage not configured. Add a Vercel Blob store to this project and re-deploy ' +
+            '(Storage → Create → Blob → connect to this project).',
+        },
+        { status: 503 },
+      )
+    }
+
+    // Local dev fallback: write to public/uploads/documents/
+    const bytes = await file.arrayBuffer()
+    const buffer = Buffer.from(bytes)
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'documents')
+    await mkdir(uploadDir, { recursive: true })
+    await writeFile(path.join(uploadDir, storedName), buffer)
+    return NextResponse.json({ url: `/uploads/documents/${storedName}`, fileName: originalName })
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Upload error'
     return NextResponse.json({ error: message }, { status: 500 })
