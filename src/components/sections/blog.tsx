@@ -1,15 +1,23 @@
 import Link from 'next/link'
+import type { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/utils'
 import { ArrowRight, BookOpen } from 'lucide-react'
 
+type PostWithAuthor = Prisma.PostGetPayload<{ include: { author: { select: { name: true } } } }>
+
 export async function Blog() {
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    take: 3,
-    include: { author: { select: { name: true } } },
-  })
+  let posts: PostWithAuthor[] = []
+  try {
+    posts = await prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      include: { author: { select: { name: true } } },
+    })
+  } catch {
+    // DB not ready yet — show empty state
+  }
 
   // Strip markdown/LaTeX to create excerpt
   function excerpt(content: string) {
