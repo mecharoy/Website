@@ -108,24 +108,22 @@ function SubmissionCard({ sub }: { sub: Submission }) {
 export default async function AdminSubmissionsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ user?: string; type?: string }>
+  searchParams: Promise<{ user?: string }>
 }) {
   await checkAuth()
 
   const params = await searchParams
   const userQuery = params.user?.toLowerCase().trim() ?? ''
-  const typeQuery = params.type?.toUpperCase().trim() ?? ''
 
   const allSubmissions = await fetchSubmissions()
 
   // Apply filters
   const filtered = allSubmissions.filter((s) => {
-    const matchesUser =
+    return (
       !userQuery ||
       s.author.name.toLowerCase().includes(userQuery) ||
       s.author.email.toLowerCase().includes(userQuery)
-    const matchesType = !typeQuery || s.type === typeQuery
-    return matchesUser && matchesType
+    )
   })
 
   // Status groups
@@ -155,7 +153,7 @@ export default async function AdminSubmissionsPage({
               <span className="text-foreground"> Name]</span>
               <span className="text-muted-foreground text-lg ml-2">Submissions</span>
             </h1>
-            {(userQuery || typeQuery) && (
+            {userQuery && (
               <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full border border-primary/20">
                 Filtered
               </span>
@@ -176,7 +174,7 @@ export default async function AdminSubmissionsPage({
           <div className="bg-card border border-primary/10 rounded-lg p-4">
             <div className="text-2xl font-bold text-primary">{stats.total}</div>
             <div className="text-sm text-muted-foreground">
-              {userQuery || typeQuery ? 'Matching' : 'Total'}
+              {userQuery ? 'Matching' : 'Total'}
             </div>
           </div>
           <div className="bg-card border border-primary/10 rounded-lg p-4">
@@ -200,57 +198,39 @@ export default async function AdminSubmissionsPage({
 
         {filtered.length === 0 && (
           <div className="bg-card border border-primary/10 rounded-lg px-6 py-12 text-center text-muted-foreground">
-            {userQuery || typeQuery
-              ? 'No submissions match your filters.'
-              : 'No submissions yet.'}
+            {userQuery ? 'No submissions match your filters.' : 'No submissions yet.'}
           </div>
         )}
 
         {filtered.length > 0 && (
           <>
-            {/* ── Type Folders ── */}
-            <div className="mb-10">
-              <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3">
-                Folders by Type
-              </h2>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-                {(['DOCUMENT', 'TODO_LIST', 'UPDATE', 'MESSAGE'] as const).map((t) => {
-                  const count = filtered.filter((s) => s.type === t).length
-                  const isActive = typeQuery === t
-                  const href = `/admin/submissions?${new URLSearchParams({
-                    ...(userQuery ? { user: params.user! } : {}),
-                    ...(isActive ? {} : { type: t }),
-                  }).toString()}`
-                  return (
-                    <Link
-                      key={t}
-                      href={href}
-                      className={`flex items-center gap-3 p-4 rounded-xl border transition-all ${
-                        isActive
-                          ? `${typeColors[t]} border-current`
-                          : 'bg-card border-primary/10 hover:border-primary/30 text-foreground'
-                      }`}
-                    >
-                      <span className={isActive ? '' : 'text-muted-foreground'}>
-                        {typeIcons[t]}
-                      </span>
-                      <div>
-                        <div className="font-semibold text-sm">{typeLabels[t]}</div>
-                        <div className="text-xs opacity-70">{count} submission{count !== 1 ? 's' : ''}</div>
-                      </div>
-                    </Link>
-                  )
-                })}
-              </div>
+            {/* ── Status Folders ── */}
+            <div className="grid grid-cols-3 gap-3 mb-8">
+              <a href="#section-pending" className="flex items-center gap-3 p-4 rounded-xl border bg-card border-yellow-500/20 hover:border-yellow-500/50 transition-all">
+                <div className="w-3 h-3 rounded-full bg-yellow-500 shrink-0" />
+                <div>
+                  <div className="font-semibold text-sm">Pending</div>
+                  <div className="text-xs text-muted-foreground">{pending.length} submission{pending.length !== 1 ? 's' : ''}</div>
+                </div>
+              </a>
+              <a href="#section-reviewed" className="flex items-center gap-3 p-4 rounded-xl border bg-card border-blue-500/20 hover:border-blue-500/50 transition-all">
+                <div className="w-3 h-3 rounded-full bg-blue-500 shrink-0" />
+                <div>
+                  <div className="font-semibold text-sm">Reviewed</div>
+                  <div className="text-xs text-muted-foreground">{reviewed.length} submission{reviewed.length !== 1 ? 's' : ''}</div>
+                </div>
+              </a>
+              <a href="#section-acknowledged" className="flex items-center gap-3 p-4 rounded-xl border bg-card border-green-500/20 hover:border-green-500/50 transition-all">
+                <div className="w-3 h-3 rounded-full bg-green-500 shrink-0" />
+                <div>
+                  <div className="font-semibold text-sm">Acknowledged</div>
+                  <div className="text-xs text-muted-foreground">{acknowledged.length} submission{acknowledged.length !== 1 ? 's' : ''}</div>
+                </div>
+              </a>
             </div>
 
-            {/* ── Status Groups ── */}
-            <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">
-              By Status
-            </h2>
-
             {pending.length > 0 && (
-              <section className="mb-10">
+              <section id="section-pending" className="mb-10 scroll-mt-24">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
                   <h3 className="font-semibold text-lg">Pending</h3>
@@ -267,7 +247,7 @@ export default async function AdminSubmissionsPage({
             )}
 
             {reviewed.length > 0 && (
-              <section className="mb-10">
+              <section id="section-reviewed" className="mb-10 scroll-mt-24">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
                   <h3 className="font-semibold text-lg">Reviewed</h3>
@@ -284,7 +264,7 @@ export default async function AdminSubmissionsPage({
             )}
 
             {acknowledged.length > 0 && (
-              <section className="mb-10">
+              <section id="section-acknowledged" className="mb-10 scroll-mt-24">
                 <div className="flex items-center gap-2 mb-4">
                   <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
                   <h3 className="font-semibold text-lg">Acknowledged</h3>
