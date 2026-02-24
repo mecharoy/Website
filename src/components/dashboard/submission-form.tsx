@@ -13,11 +13,11 @@ const TYPES = [
 
 const ACCEPTED = '.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.csv,.zip'
 
-export function SubmissionForm() {
+export function SubmissionForm({ initialType = 'MESSAGE' }: { initialType?: string }) {
   const router = useRouter()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const [type, setType] = useState('MESSAGE')
+  const [type, setType] = useState(initialType)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [todoItems, setTodoItems] = useState<string[]>([])

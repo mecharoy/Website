@@ -15,6 +15,7 @@ import {
   PenSquare,
   Send,
   BookOpen,
+  Upload,
 } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -95,7 +96,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Feature cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Link
             href="/dashboard/posts"
             className="group flex items-center gap-4 bg-card border border-primary/10 hover:border-primary/30 rounded-2xl p-5 transition-all hover:shadow-md"
@@ -111,6 +112,20 @@ export default async function DashboardPage() {
           </Link>
 
           <Link
+            href="/dashboard/submit?type=DOCUMENT"
+            className="group flex items-center gap-4 bg-card border border-blue-500/20 hover:border-blue-500/50 rounded-2xl p-5 transition-all hover:shadow-md"
+          >
+            <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0 group-hover:bg-blue-500/20 transition-colors">
+              <Upload className="w-5 h-5 text-blue-500" />
+            </div>
+            <div className="min-w-0">
+              <p className="font-semibold text-sm">Upload Document</p>
+              <p className="text-xs text-muted-foreground">PDF, DOC, XLS &amp; more</p>
+            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </Link>
+
+          <Link
             href="/dashboard/submit"
             className="group flex items-center gap-4 bg-card border border-primary/10 hover:border-primary/30 rounded-2xl p-5 transition-all hover:shadow-md"
           >
@@ -119,7 +134,7 @@ export default async function DashboardPage() {
             </div>
             <div className="min-w-0">
               <p className="font-semibold text-sm">Send to Admin</p>
-              <p className="text-xs text-muted-foreground">Docs, to-dos, updates</p>
+              <p className="text-xs text-muted-foreground">To-dos, updates, messages</p>
             </div>
             <ArrowRight className="w-4 h-4 text-muted-foreground ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
@@ -181,6 +196,7 @@ export default async function DashboardPage() {
               <ul className="space-y-2">
                 {[
                   { href: '/dashboard/submissions', label: 'My Submissions' },
+                  { href: '/dashboard/submit?type=DOCUMENT', label: 'Upload Document' },
                   { href: '/#research', label: 'Our Research' },
                   { href: '/#contact', label: 'Contact Us' },
                 ].map((link) => (
