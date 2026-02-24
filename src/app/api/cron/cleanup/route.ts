@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { unlink } from 'fs/promises'
-import path from 'path'
+import { del } from '@vercel/blob'
 import { prisma } from '@/lib/prisma'
 
 export async function GET(req: NextRequest) {
@@ -24,13 +23,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ deleted: 0, message: 'Nothing to clean up' })
   }
 
-  // Delete physical files for document uploads
+  // Delete blob files for document uploads
   for (const sub of expired) {
     if (sub.attachmentUrl) {
-      // attachmentUrl is like /uploads/documents/filename.pdf
-      const filePath = path.join(process.cwd(), 'public', sub.attachmentUrl)
-      await unlink(filePath).catch(() => {
-        // Ignore if file is already gone
+      await del(sub.attachmentUrl).catch(() => {
+        // Ignore if blob is already gone
       })
     }
   }
