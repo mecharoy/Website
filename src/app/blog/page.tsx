@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import type { Prisma } from '@prisma/client'
 import { prisma } from '@/lib/prisma'
 import { formatDate } from '@/lib/utils'
 import { BookOpen, ArrowRight } from 'lucide-react'
@@ -6,11 +7,16 @@ import { BookOpen, ArrowRight } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 
 export default async function BlogPage() {
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    include: { author: { select: { name: true } } },
-  })
+  let posts: Prisma.PostGetPayload<{ include: { author: { select: { name: true } } } }>[] = []
+  try {
+    posts = await prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+      include: { author: { select: { name: true } } },
+    })
+  } catch {
+    // DB not ready yet
+  }
 
   // Generate a short excerpt (first 200 chars, strip markdown/LaTeX markers)
   function excerpt(content: string) {
