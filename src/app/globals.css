@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    --font-outfit: 'Outfit', sans-serif;
+    --font-dm-sans: 'DM Sans', sans-serif;
+
     --background: 210 30% 98%;
     --foreground: 215 25% 15%;
 

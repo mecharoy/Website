@@ -37,3 +37,7 @@ next-env.d.ts
 
 # prisma
 /prisma/migrations
+
+# uploaded files (ephemeral on Vercel – use object storage in production)
+/public/uploads/*
+!/public/uploads/.gitkeep
