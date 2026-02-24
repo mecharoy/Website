@@ -4,12 +4,19 @@ import { formatDate } from '@/lib/utils'
 import { ArrowRight, BookOpen } from 'lucide-react'
 
 export async function Blog() {
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { createdAt: 'desc' },
-    take: 3,
-    include: { author: { select: { name: true } } },
-  })
+  type PostWithAuthor = Awaited<ReturnType<typeof prisma.post.findMany>> extends (infer T)[] ? T & { author: { name: string } } : never
+  let posts: PostWithAuthor[] = []
+  try {
+    const result = await prisma.post.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      include: { author: { select: { name: true } } },
+    })
+    posts = result as PostWithAuthor[]
+  } catch {
+    // DB unavailable – render empty state rather than crashing
+  }
 
   // Strip markdown/LaTeX to create excerpt
   function excerpt(content: string) {
