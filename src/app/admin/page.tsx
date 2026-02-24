@@ -40,8 +40,8 @@ export default async function AdminPage() {
       <header className="border-b border-primary/10 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="font-display text-2xl font-bold">
-            <span className="text-purple-500">monx</span>
-            <span className="text-foreground">digit</span>
+            <span className="text-primary">[Lab</span>
+            <span className="text-foreground"> Name]</span>
             <span className="text-muted-foreground text-lg ml-2">Admin</span>
           </h1>
           <LogoutButton />
@@ -64,7 +64,7 @@ export default async function AdminPage() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
           <div className="bg-card border border-primary/10 rounded-lg p-4">
             <div className="text-2xl font-bold text-primary">{stats.total}</div>
-            <div className="text-sm text-muted-foreground">Total Leads</div>
+            <div className="text-sm text-muted-foreground">Total Contacts</div>
           </div>
           <div className="bg-card border border-primary/10 rounded-lg p-4">
             <div className="text-2xl font-bold text-blue-500">{stats.new}</div>
@@ -87,7 +87,7 @@ export default async function AdminPage() {
         {/* Leads Table */}
         <div className="bg-card border border-primary/10 rounded-lg overflow-hidden">
           <div className="px-6 py-4 border-b border-primary/10">
-            <h2 className="font-display text-xl font-bold">All Leads</h2>
+            <h2 className="font-display text-xl font-bold">All Contacts</h2>
           </div>
 
           <div className="overflow-x-auto">
@@ -104,7 +104,7 @@ export default async function AdminPage() {
                     Email
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    Business
+                    Affiliation
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-semibold text-muted-foreground uppercase tracking-wider">
                     Message
@@ -151,7 +151,7 @@ export default async function AdminPage() {
 
           {leads.length === 0 && (
             <div className="px-6 py-12 text-center text-muted-foreground">
-              No leads yet. They'll appear here when someone submits the contact form.
+              No contacts yet. They'll appear here when someone submits the contact form.
             </div>
           )}
         </div>

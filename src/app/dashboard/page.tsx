@@ -56,8 +56,8 @@ export default async function DashboardPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="hover:opacity-80 transition-opacity">
             <h1 className="font-display text-2xl font-bold">
-              <span className="text-purple-500">monx</span>
-              <span className="text-foreground">digit</span>
+              <span className="text-primary">[Lab</span>
+              <span className="text-foreground"> Name]</span>
             </h1>
           </Link>
           <div className="flex items-center gap-3">
@@ -181,8 +181,8 @@ export default async function DashboardPage() {
               <ul className="space-y-2">
                 {[
                   { href: '/dashboard/submissions', label: 'My Submissions' },
-                  { href: '/#services', label: 'Our Services' },
-                  { href: '/#contact', label: 'Book a Call' },
+                  { href: '/#research', label: 'Our Research' },
+                  { href: '/#contact', label: 'Contact Us' },
                 ].map((link) => (
                   <li key={link.href}>
                     <Link
@@ -220,7 +220,7 @@ export default async function DashboardPage() {
             <div className="bg-card border border-primary/10 rounded-2xl overflow-hidden">
               <div className="flex items-center gap-2 px-6 py-4 border-b border-primary/10">
                 <MessageSquare className="w-5 h-5 text-primary" />
-                <h3 className="font-display font-bold text-lg">My Enquiries</h3>
+                <h3 className="font-display font-bold text-lg">My Contact Submissions</h3>
                 {leads.length > 0 && (
                   <span className="ml-auto bg-primary/10 text-primary text-xs font-semibold px-2.5 py-0.5 rounded-full border border-primary/20">
                     {leads.length}
@@ -232,13 +232,13 @@ export default async function DashboardPage() {
                 <div className="px-6 py-14 text-center">
                   <MessageSquare className="w-10 h-10 text-muted-foreground/40 mx-auto mb-3" />
                   <p className="text-muted-foreground text-sm mb-4">
-                    You haven&apos;t sent any enquiries yet.
+                    You haven&apos;t sent any messages yet.
                   </p>
                   <Link
                     href="/#contact"
                     className="inline-flex items-center gap-2 bg-gradient-to-r from-primary to-secondary text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 transition-opacity"
                   >
-                    Send an Enquiry
+                    Send a Message
                     <ArrowRight className="w-4 h-4" />
                   </Link>
                 </div>

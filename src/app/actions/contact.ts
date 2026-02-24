@@ -31,17 +31,17 @@ export async function submitContactForm(formData: FormData) {
     // Send email notification
     try {
       await sendEmail({
-        to: process.env.EMAIL_TO || 'hello@monxdigit.com',
-        subject: `New Lead from ${validated.name}`,
+        to: process.env.EMAIL_TO || 'advisor@university.edu',
+        subject: `New Contact from ${validated.name}`,
         html: `
-          <h2>New Lead Submission</h2>
+          <h2>New Contact Form Submission</h2>
           <p><strong>Name:</strong> ${validated.name}</p>
           <p><strong>Email:</strong> ${validated.email}</p>
-          ${validated.business ? `<p><strong>Business:</strong> ${validated.business}</p>` : ''}
+          ${validated.business ? `<p><strong>Affiliation:</strong> ${validated.business}</p>` : ''}
           <p><strong>Message:</strong></p>
           <p>${validated.message}</p>
           <hr>
-          <p><small>Lead ID: ${lead.id}</small></p>
+          <p><small>Submission ID: ${lead.id}</small></p>
         `,
       })
     } catch (emailError) {

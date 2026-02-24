@@ -32,10 +32,10 @@ export async function Blog() {
         </div>
         <div className="mb-12 max-w-2xl">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            Latest from our Blog
+            Latest from the Lab
           </h2>
           <p className="text-muted-foreground text-lg">
-            Insights, tips, and resources on digital marketing and growth.
+            News, updates, and insights from our research group.
           </p>
         </div>
 

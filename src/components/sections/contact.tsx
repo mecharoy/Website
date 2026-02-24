@@ -48,7 +48,7 @@ export function Contact() {
             Let's Connect
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-4">
-            {'Ready to Grow Your Business?'.split(' ').map((word, wordIndex) => (
+            {'Get in Touch'.split(' ').map((word, wordIndex) => (
               <span key={`word-${wordIndex}`} className="inline-flex">
                 {word.split('').map((char, charIndex) => (
                   <motion.span
@@ -66,12 +66,12 @@ export function Contact() {
                     {char}
                   </motion.span>
                 ))}
-                {wordIndex < 'Ready to Grow Your Business?'.split(' ').length - 1 && '\u00A0'}
+                {wordIndex < 'Get in Touch'.split(' ').length - 1 && '\u00A0'}
               </span>
             ))}
           </h2>
           <p className="text-lg text-muted-foreground">
-            Book a free consultation to discuss how we can help you reach your target audience and achieve your marketing goals.
+            Interested in our research, collaboration, or joining the lab? Send us a message and we'll get back to you.
           </p>
         </motion.div>
 
@@ -113,20 +113,20 @@ export function Contact() {
 
             <div>
               <label htmlFor="business" className="block text-sm font-semibold mb-2">
-                Business Name
+                Affiliation / Institution
               </label>
               <input
                 type="text"
                 id="business"
                 name="business"
                 className="w-full px-4 py-3 bg-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
-                placeholder="Your Company"
+                placeholder="Your University or Organization"
               />
             </div>
 
             <div>
               <label htmlFor="message" className="block text-sm font-semibold mb-2">
-                Tell us about your goals
+                Your Message
               </label>
               <textarea
                 id="message"
@@ -134,7 +134,7 @@ export function Contact() {
                 required
                 rows={5}
                 className="w-full px-4 py-3 bg-background border border-primary/20 rounded-lg focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all resize-none"
-                placeholder="I'm looking to increase leads for my..."
+                placeholder="I'm interested in joining the lab / collaborating on / learning more about..."
               />
             </div>
 
@@ -149,7 +149,7 @@ export function Contact() {
                   Sending...
                 </>
               ) : (
-                'Book Your Free Consultation'
+                'Send Message'
               )}
             </button>
           </form>
@@ -162,13 +162,13 @@ export function Contact() {
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <a href="mailto:atulya@monxdigit.com" className="text-center block hover:scale-105 transition-transform">
+          <a href="mailto:advisor@university.edu" className="text-center block hover:scale-105 transition-transform">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
               <Mail className="w-6 h-6 text-primary" />
             </div>
             <h4 className="font-display font-bold text-primary mb-1">Email</h4>
             <p className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              atulya@monxdigit.com
+              [advisor@university.edu]
             </p>
           </a>
 
@@ -176,9 +176,9 @@ export function Contact() {
             <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
               <Globe className="w-6 h-6 text-primary" />
             </div>
-            <h4 className="font-display font-bold text-primary mb-1">Follow Us</h4>
+            <h4 className="font-display font-bold text-primary mb-1">Lab Website</h4>
             <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              Social Media
+              [university.edu/lab]
             </a>
           </div>
         </motion.div>

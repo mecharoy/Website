@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 
 const stats = [
-  { value: 500, label: 'Campaigns Launched', suffix: '+' },
-  { value: 150, label: 'Happy Clients', suffix: '+' },
-  { value: 95, label: 'Client Retention', suffix: '%' },
-  { value: 2, label: 'Ad Spend Managed', prefix: '$', suffix: 'M+' },
+  { value: 0, label: 'Publications', suffix: '+' },
+  { value: 0, label: 'Lab Members', suffix: '' },
+  { value: 0, label: 'Projects', suffix: '+' },
+  { value: 0, label: 'Years Active', suffix: '' },
 ]
 
 function Counter({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {

@@ -18,13 +18,13 @@ const dmSans = DM_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'monxdigit | Helping Niche Find Their Audience',
-  description: 'Expert Meta & Google Ads management for small businesses and e-commerce brands. Data-driven campaigns that generate real leads and measurable ROI.',
-  keywords: ['digital marketing', 'facebook ads', 'google ads', 'lead generation', 'social media marketing'],
-  authors: [{ name: 'monxdigit' }],
+  title: '[Lab Name] | [University Name]',
+  description: 'Welcome to [Lab Name] at [University Name]. We conduct cutting-edge research in [Research Area]. Explore our work, team, and publications.',
+  keywords: ['research', 'lab', 'university', 'publications', 'team'],
+  authors: [{ name: '[Advisor Name]' }],
   openGraph: {
-    title: 'monxdigit | Helping Niche Find Their Audience',
-    description: 'Expert Meta & Google Ads management for small businesses and e-commerce brands.',
+    title: '[Lab Name] | [University Name]',
+    description: 'Welcome to [Lab Name] at [University Name]. We conduct cutting-edge research in [Research Area].',
     type: 'website',
   },
 }

@@ -1,47 +1,47 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Smartphone, Target, Zap, Check } from 'lucide-react'
+import { Microscope, Cpu, BrainCircuit, Check } from 'lucide-react'
 
-const services = [
+const researchAreas = [
   {
-    icon: Smartphone,
-    title: 'Credit Repair Lead Generation',
-    description: 'Connect with individuals seeking to rebuild their credit score and financial future through targeted advertising.',
-    features: [
-      'Target clients with low credit scores',
-      'Pre-qualified lead filtering',
-      'Debt consolidation seekers',
-      'First-time credit builders',
+    icon: Microscope,
+    title: '[Research Area 1]',
+    description: '[Placeholder: Brief description of the first research area and its significance.]',
+    topics: [
+      '[Topic / Sub-area 1]',
+      '[Topic / Sub-area 2]',
+      '[Topic / Sub-area 3]',
+      '[Topic / Sub-area 4]',
     ],
   },
   {
-    icon: Target,
-    title: 'Mortgage Lead Acquisition',
-    description: 'Reach homebuyers actively searching for mortgage solutions and ready to take the next step.',
-    features: [
-      'First-time homebuyers',
-      'Refinance opportunities',
-      'Investment property buyers',
-      'FHA/VA loan candidates',
+    icon: Cpu,
+    title: '[Research Area 2]',
+    description: '[Placeholder: Brief description of the second research area and its significance.]',
+    topics: [
+      '[Topic / Sub-area 1]',
+      '[Topic / Sub-area 2]',
+      '[Topic / Sub-area 3]',
+      '[Topic / Sub-area 4]',
     ],
   },
   {
-    icon: Zap,
-    title: 'Appointment Setting',
-    description: 'We qualify and book consultations with serious prospects, filling your calendar with ready-to-close clients.',
-    features: [
-      'Phone & email outreach',
-      'Credit/financial pre-qualification',
-      'Calendar integration',
-      'Follow-up automation',
+    icon: BrainCircuit,
+    title: '[Research Area 3]',
+    description: '[Placeholder: Brief description of the third research area and its significance.]',
+    topics: [
+      '[Topic / Sub-area 1]',
+      '[Topic / Sub-area 2]',
+      '[Topic / Sub-area 3]',
+      '[Topic / Sub-area 4]',
     ],
   },
 ]
 
 export function Services() {
   return (
-    <section id="services" className="py-20 sm:py-32 px-4">
+    <section id="research" className="py-20 sm:py-32 px-4">
       <div className="container mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -51,10 +51,10 @@ export function Services() {
           viewport={{ once: true, amount: 0.3 }}
         >
           <div className="text-primary text-sm font-bold uppercase tracking-wider mb-4">
-            What We Offer
+            What We Study
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-4">
-            {'Services & Solutions'.split(' ').map((word, wordIndex) => (
+            {'Research Areas'.split(' ').map((word, wordIndex) => (
               <span key={`word-${wordIndex}`} className="inline-flex">
                 {word.split('').map((char, charIndex) => (
                   <motion.span
@@ -72,19 +72,19 @@ export function Services() {
                     {char}
                   </motion.span>
                 ))}
-                {wordIndex < 'Services & Solutions'.split(' ').length - 1 && '\u00A0'}
+                {wordIndex < 'Research Areas'.split(' ').length - 1 && '\u00A0'}
               </span>
             ))}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Comprehensive client conversion strategies that turn prospects into paying customers.
+            [Placeholder: Short tagline about the lab's research philosophy or interdisciplinary approach.]
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {services.map((service, index) => (
+          {researchAreas.map((area, index) => (
             <motion.div
-              key={service.title}
+              key={area.title}
               className="group relative bg-card border-2 border-primary/20 rounded-2xl p-8 transition-all hover:border-primary hover:shadow-xl hover:shadow-primary/20 cursor-pointer shadow-lg dark:shadow-sm"
               style={{ opacity: 0 }}
               initial={{ opacity: 0, y: 30 }}
@@ -105,17 +105,17 @@ export function Services() {
 
               <div className="relative z-10">
                 <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform">
-                  <service.icon className="w-8 h-8 text-white" />
+                  <area.icon className="w-8 h-8 text-white" />
                 </div>
 
-                <h3 className="font-display text-2xl font-bold mb-3">{service.title}</h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">{service.description}</p>
+                <h3 className="font-display text-2xl font-bold mb-3">{area.title}</h3>
+                <p className="text-muted-foreground mb-6 leading-relaxed">{area.description}</p>
 
                 <ul className="space-y-3 mb-6">
-                  {service.features.map((feature) => (
-                    <li key={feature} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  {area.topics.map((topic) => (
+                    <li key={topic} className="flex items-start gap-2 text-sm text-muted-foreground">
                       <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span>{feature}</span>
+                      <span>{topic}</span>
                     </li>
                   ))}
                 </ul>
@@ -124,7 +124,7 @@ export function Services() {
                   href="#contact"
                   className="inline-flex items-center text-primary font-semibold text-sm group-hover:gap-3 gap-2 transition-all"
                 >
-                  Get Started
+                  Learn More
                   <span className="transition-transform group-hover:translate-x-1">→</span>
                 </a>
               </div>

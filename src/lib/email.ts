@@ -16,7 +16,7 @@ export async function sendEmail({ to, subject, html }: EmailOptions) {
 
   try {
     const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'hello@monxdigit.com',
+      from: process.env.EMAIL_FROM || 'noreply@university.edu',
       to,
       subject,
       html,

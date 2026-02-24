@@ -1,29 +1,38 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { CreditCard, Home } from 'lucide-react'
+import { GraduationCap, FlaskConical } from 'lucide-react'
 
-const industries = [
+const members = [
   {
-    icon: CreditCard,
-    title: 'Credit Repair',
-    description: 'Connecting credit repair experts with clients who need to rebuild their financial future.',
-    image: '/images/credit-repair.png',
-    objectPosition: 'center',
+    icon: GraduationCap,
+    role: 'PhD Student',
+    name: '[Student Name 1]',
+    description: '[Placeholder: Research focus and brief background of this team member.]',
   },
   {
-    icon: Home,
-    title: 'Property Mortgage',
-    description: 'Helping mortgage professionals find qualified buyers ready to secure their dream home.',
-    image: '/images/mortgage.jpg',
-    objectPosition: 'center 35%',
+    icon: GraduationCap,
+    role: 'PhD Student',
+    name: '[Student Name 2]',
+    description: '[Placeholder: Research focus and brief background of this team member.]',
+  },
+  {
+    icon: GraduationCap,
+    role: 'MS Student',
+    name: '[Student Name 3]',
+    description: '[Placeholder: Research focus and brief background of this team member.]',
+  },
+  {
+    icon: FlaskConical,
+    role: 'Undergraduate Researcher',
+    name: '[Student Name 4]',
+    description: '[Placeholder: Research focus and brief background of this team member.]',
   },
 ]
 
 export function Portfolio() {
   return (
-    <section id="portfolio" className="py-20 sm:py-32 px-4">
+    <section id="team" className="py-20 sm:py-32 px-4">
       <div className="container mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -33,10 +42,10 @@ export function Portfolio() {
           viewport={{ once: true, amount: 0.3 }}
         >
           <div className="text-primary text-sm font-bold uppercase tracking-wider mb-4">
-            Our Work
+            Our People
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-4">
-            {'Industries We Serve'.split(' ').map((word, wordIndex) => (
+            {'Meet the Team'.split(' ').map((word, wordIndex) => (
               <span key={`word-${wordIndex}`} className="inline-flex">
                 {word.split('').map((char, charIndex) => (
                   <motion.span
@@ -54,19 +63,19 @@ export function Portfolio() {
                     {char}
                   </motion.span>
                 ))}
-                {wordIndex < 'Industries We Serve'.split(' ').length - 1 && '\u00A0'}
+                {wordIndex < 'Meet the Team'.split(' ').length - 1 && '\u00A0'}
               </span>
             ))}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Proven expertise across diverse sectors, delivering results that matter.
+            [Placeholder: A short line about the team culture or diversity of backgrounds.]
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 max-w-4xl mx-auto">
-          {industries.map((industry, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+          {members.map((member, index) => (
             <motion.div
-              key={industry.title}
+              key={member.name}
               className="group bg-card border-2 border-primary/20 rounded-2xl overflow-hidden text-center hover:border-primary hover:shadow-xl hover:shadow-primary/20 transition-all cursor-pointer shadow-lg dark:shadow-sm"
               style={{ opacity: 0 }}
               initial={{ opacity: 0, scale: 0.95 }}
@@ -74,8 +83,8 @@ export function Portfolio() {
               transition={{ duration: 0.5, delay: index * 0.15 }}
               viewport={{ once: true, amount: 0.2, margin: "0px 0px -100px 0px" }}
               whileHover={{
-                y: -15,
-                scale: 1.08,
+                y: -10,
+                scale: 1.04,
                 transition: {
                   type: "spring",
                   stiffness: 500,
@@ -83,23 +92,15 @@ export function Portfolio() {
                 }
               }}
             >
-              <div className="relative h-48 w-full bg-gradient-to-br from-primary/10 to-secondary/10">
-                <Image
-                  src={industry.image}
-                  alt={industry.title}
-                  fill
-                  className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
-                  style={{ objectPosition: industry.objectPosition }}
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-card/80 to-transparent" />
-              </div>
-              <div className="p-8">
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full mb-6 group-hover:scale-110 transition-transform -mt-16 relative z-10 border-4 border-card">
-                  <industry.icon className="w-10 h-10 text-primary" />
+              <div className="h-32 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+                  <member.icon className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="font-display text-2xl font-bold mb-3">{industry.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{industry.description}</p>
+              </div>
+              <div className="p-6">
+                <span className="text-xs font-bold uppercase tracking-wider text-primary">{member.role}</span>
+                <h3 className="font-display text-lg font-bold mt-1 mb-2">{member.name}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
               </div>
             </motion.div>
           ))}

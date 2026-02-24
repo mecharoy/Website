@@ -57,8 +57,8 @@ export default async function SubmissionsPage() {
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <h1 className="font-display text-xl font-bold">
-              <span className="text-purple-500">monx</span>
-              <span className="text-foreground">digit</span>
+              <span className="text-primary">[Lab</span>
+              <span className="text-foreground"> Name]</span>
               <span className="text-muted-foreground text-base ml-2">My Submissions</span>
             </h1>
           </div>

@@ -1,14 +1,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
-import { Target, Megaphone, UserCheck, Calendar } from 'lucide-react'
+import { BookOpen, Users, Award, Lightbulb } from 'lucide-react'
 
 const features = [
-  { icon: Target, title: 'Market Understanding', description: 'We analyze your ideal customer profile and target the right audience.' },
-  { icon: Megaphone, title: 'High-Impact Ads', description: 'We design and run effective ad campaigns to attract qualified leads.' },
-  { icon: UserCheck, title: 'Lead Qualification', description: 'Only the most promising prospects get through—no wasted time.' },
-  { icon: Calendar, title: 'Appointment Booking', description: 'We handle call scheduling, so you only meet ready-to-talk clients.' },
+  { icon: BookOpen, title: 'Publications', description: '[Placeholder: Brief note about the lab\'s publication record and venues.]' },
+  { icon: Users, title: 'Collaboration', description: '[Placeholder: Note about industry or academic collaborations.]' },
+  { icon: Award, title: 'Recognition', description: '[Placeholder: Awards, grants, or honors received by the lab.]' },
+  { icon: Lightbulb, title: 'Innovation', description: '[Placeholder: What sets this lab\'s approach apart.]' },
 ]
 
 export function About() {
@@ -23,10 +22,10 @@ export function About() {
             viewport={{ once: true, amount: 0.3 }}
           >
             <div className="text-primary text-sm font-bold uppercase tracking-wider mb-4">
-              Why Choose Us?
+              Who We Are
             </div>
             <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-6">
-              {'Your Partner in Client Acquisition'.split(' ').map((word, wordIndex) => (
+              {'About the Lab'.split(' ').map((word, wordIndex) => (
                 <span key={`word-${wordIndex}`} className="inline-flex">
                   {word.split('').map((char, charIndex) => (
                     <motion.span
@@ -44,16 +43,16 @@ export function About() {
                       {char}
                     </motion.span>
                   ))}
-                  {wordIndex < 'Your Partner in Client Acquisition'.split(' ').length - 1 && '\u00A0'}
+                  {wordIndex < 'About the Lab'.split(' ').length - 1 && '\u00A0'}
                 </span>
               ))}
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">
               <p>
-                We know it's challenging for credit repair specialists and mortgage professionals to consistently find qualified clients. That's where we step in.
+                [Placeholder: First paragraph about the lab — its founding, mission, and core values. E.g., "The [Lab Name] was established in [Year] by [Advisor Name] at [University Name]. Our mission is to..."]
               </p>
               <p>
-                Whether you're helping clients rebuild their credit or securing their dream home, we bring you ready-to-convert prospects. Our targeted approach ensures you spend less time chasing leads and more time closing deals.
+                [Placeholder: Second paragraph about research impact, current projects, or unique positioning. E.g., "Our work spans [domain A] and [domain B], with a focus on translating fundamental discoveries into..."]
               </p>
             </div>
 
@@ -83,25 +82,33 @@ export function About() {
             </motion.div>
           </motion.div>
 
-          {/* Data-Driven Image - Right Side */}
+          {/* Advisor / Lab Highlight - Right Side */}
           <motion.div
-            className="relative h-[600px] rounded-3xl overflow-hidden shadow-2xl"
+            className="relative bg-card border-2 border-primary/20 rounded-3xl p-10 shadow-2xl flex flex-col gap-6"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <Image
-              src="/images/data-driven.jpg"
-              alt="Data-Driven Results"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/60 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-8">
-              <h3 className="font-display text-3xl font-bold text-foreground mb-3">Data-Driven Results</h3>
-              <p className="text-muted-foreground text-base leading-relaxed">Every campaign is optimized for maximum ROI and qualified leads.</p>
+            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-extrabold mx-auto">
+              PI
+            </div>
+            <div className="text-center">
+              <h3 className="font-display text-2xl font-bold mb-1">[Advisor Name]</h3>
+              <p className="text-primary font-semibold text-sm mb-3">[Title, e.g., Associate Professor]</p>
+              <p className="text-muted-foreground text-sm leading-relaxed">
+                [Placeholder: Short bio of the PI — research interests, background, and vision for the lab.]
+              </p>
+            </div>
+            <div className="border-t border-primary/10 pt-6 grid grid-cols-2 gap-4 text-center">
+              <div>
+                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">[#]</div>
+                <div className="text-xs text-muted-foreground mt-1">Publications</div>
+              </div>
+              <div>
+                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">[#]</div>
+                <div className="text-xs text-muted-foreground mt-1">Lab Members</div>
+              </div>
             </div>
           </motion.div>
         </div>

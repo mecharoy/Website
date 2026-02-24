@@ -115,8 +115,8 @@ export default async function AdminSubmissionsPage() {
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <h1 className="font-display text-2xl font-bold">
-              <span className="text-purple-500">monx</span>
-              <span className="text-foreground">digit</span>
+              <span className="text-primary">[Lab</span>
+              <span className="text-foreground"> Name]</span>
               <span className="text-muted-foreground text-lg ml-2">Submissions</span>
             </h1>
           </div>

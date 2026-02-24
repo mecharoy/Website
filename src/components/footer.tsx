@@ -7,12 +7,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="font-display text-2xl font-extrabold mb-3">
-              <span className="text-primary">monx</span>
-              <span className="text-foreground">digit</span>
+              <span className="text-primary">[Lab</span>
+              <span className="text-foreground"> Name]</span>
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              Expert digital advertising for businesses ready to grow. Ads, customer acquisition
-              and lead generation strategies that deliver results.
+              [Placeholder: One or two sentences about the lab's mission and home institution.]
             </p>
           </div>
 
@@ -20,18 +19,18 @@ export function Footer() {
             <h4 className="font-display font-bold mb-3">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#services" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Services
+                <a href="#research" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Research
+                </a>
+              </li>
+              <li>
+                <a href="#team" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Team
                 </a>
               </li>
               <li>
                 <a href="#about" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="#portfolio" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Portfolio
+                  About
                 </a>
               </li>
               <li>
@@ -43,21 +42,21 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="font-display font-bold mb-3">Services</h4>
+            <h4 className="font-display font-bold mb-3">Research Areas</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#services" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Lead Generation
+                <a href="#research" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  [Research Area 1]
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Lead Acquisition
+                <a href="#research" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  [Research Area 2]
                 </a>
               </li>
               <li>
-                <a href="#services" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  Appointment Settings
+                <a href="#research" className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  [Research Area 3]
                 </a>
               </li>
             </ul>
@@ -66,7 +65,7 @@ export function Footer() {
 
         <div className="border-t border-primary/10 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} monxdigit. All rights reserved. | Helping niche find their audience.
+            © {currentYear} [Lab Name], [University Name]. All rights reserved.
           </p>
         </div>
       </div>

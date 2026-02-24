@@ -2,16 +2,15 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import { Menu, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ThemeToggle } from './theme-toggle'
 
 const navLinks = [
-  { href: '#services', label: 'Services' },
-  { href: '#about', label: 'Why Us' },
-  { href: '#portfolio', label: 'Portfolio' },
+  { href: '#research', label: 'Research' },
   { href: '/blog', label: 'Blog' },
+  { href: '#team', label: 'Team' },
+  { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' },
 ]
 
@@ -47,14 +46,10 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             href="/"
             className="hover:scale-105 transition-transform"
           >
-            <Image
-              src="/monxdigit.png"
-              alt="monxdigit"
-              width={200}
-              height={60}
-              className="h-12 w-auto"
-              priority
-            />
+            <span className="font-display text-xl font-extrabold">
+              <span className="text-primary">[Lab</span>
+              <span className="text-foreground"> Name]</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -79,7 +74,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
                 href="#contact"
                 className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-0.5"
               >
-                Book a Call
+                Get in Touch
               </a>
             )}
           </div>
@@ -119,7 +114,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
                     className="block w-full text-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    Book a Call
+                    Get in Touch
                   </a>
                 )}
               </li>

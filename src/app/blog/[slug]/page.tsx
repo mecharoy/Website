@@ -26,8 +26,8 @@ export default async function BlogPostPage({ params }: { params: { slug: string 
           </Link>
           <Link href="/" className="hover:opacity-80 transition-opacity">
             <span className="font-display text-xl font-bold">
-              <span className="text-purple-500">monx</span>
-              <span className="text-foreground">digit</span>
+              <span className="text-primary">[Lab</span>
+              <span className="text-foreground"> Name]</span>
             </span>
           </Link>
         </div>

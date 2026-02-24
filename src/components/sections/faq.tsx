@@ -6,17 +6,21 @@ import { useState } from 'react'
 
 const faqs = [
   {
-    question: 'Who is this for?',
-    answer: 'Our services are specifically designed for credit repair specialists and mortgage professionals who want to scale their business with a consistent flow of qualified clients. If you\'re tired of inconsistent lead flow, spending hours on unqualified prospects, or struggling to fill your calendar with serious buyers, we\'re here to help. Whether you\'re a solo practitioner or a growing agency, our targeted approach ensures you connect with clients who are ready to take action—whether that\'s rebuilding their credit or securing their dream home. Don\'t worry, you would be in the right hands '
+    question: 'How can I join the lab?',
+    answer: '[Placeholder: Describe the process for prospective students — whether to email the PI directly, apply through the department, what qualifications you look for (GPA, background, research experience), and when openings are typically available.]'
   },
   {
-    question: 'What do we promise?',
-    answer: 'Monxdigit promises qualified, ready-to-convert leads that match your ideal client profile. Our data-driven approach focuses on attracting individuals who are actively seeking credit repair or mortgage solutions, rather than just clicks or impressions. You\'ll receive pre-qualified prospects who have been vetted based on their financial situation and intent. We handle the heavy lifting—from ad creation and targeting to lead qualification and appointment booking—so you can focus on what you do best: closing deals. Our commitment is simple: measurable ROI, transparent reporting, and a partnership focused on your long-term success.'
+    question: 'What research projects are currently active?',
+    answer: '[Placeholder: Give a brief overview of ongoing projects. E.g., "We are currently working on [Project 1], [Project 2], and [Project 3]. Each project is at a different stage — from early exploration to publication-ready work. Reach out to learn which projects have openings."]'
   },
   {
-    question: 'What should you expect?',
-    answer: 'Expect a streamlined process that takes the guesswork out of client acquisition. After our initial consultation, we\'ll create targeted Meta and Google Ads campaigns designed to attract your ideal clients. You\'ll receive a steady stream of pre-qualified leads delivered directly to your inbox or CRM. Our team handles appointment scheduling, so your calendar fills up with consultations—not cold calls. You can expect detailed monthly reports showing exactly where your leads are coming from, conversion rates, and ROI. Most importantly, expect more time to focus on serving clients rather than chasing them, with the peace of mind that comes from a predictable, scalable lead generation system.'
-  }
+    question: 'Do you accept undergraduate researchers?',
+    answer: '[Placeholder: Explain whether you take undergrads, what commitment you expect (hours per week, credit vs. paid, duration), and what skills or coursework would make a strong applicant.]'
+  },
+  {
+    question: 'Are there funded PhD positions available?',
+    answer: '[Placeholder: Describe funding situations — RA, TA, fellowship opportunities. Let prospective students know where and how to apply, and whether to contact the PI before or after applying to the program.]'
+  },
 ]
 
 export function FAQ() {
@@ -39,7 +43,7 @@ export function FAQ() {
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Everything you need to know about partnering with us.
+            Common questions about joining the lab, ongoing research, and collaborations.
           </p>
         </motion.div>
 

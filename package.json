@@ -1,7 +1,7 @@
 {
-  "name": "monxdigit",
+  "name": "lab-website",
   "version": "1.0.0",
-  "description": "Premium marketing website for lead generation",
+  "description": "Academic lab website",
   "private": true,
   "scripts": {
     "dev": "next dev",
