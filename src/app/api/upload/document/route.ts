@@ -22,7 +22,7 @@ const ALLOWED_TYPES: Record<string, string> = {
 // Vercel names the token after the store — support both the default name and
 // the prefixed name Vercel injects when the store is called "websiteblob".
 const BLOB_TOKEN =
-  process.env.websiteblob_READ_WRITE_TOKEN ?? process.env.BLOB_READ_WRITE_TOKEN
+  process.env.blobsite_READ_WRITE_TOKEN ?? process.env.BLOB_READ_WRITE_TOKEN
 
 export async function POST(req: NextRequest) {
   const user = await getSessionUser()

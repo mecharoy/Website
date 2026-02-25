@@ -3,7 +3,7 @@ import { del } from '@vercel/blob'
 import { prisma } from '@/lib/prisma'
 
 const BLOB_TOKEN =
-  process.env.websiteblob_READ_WRITE_TOKEN ?? process.env.BLOB_READ_WRITE_TOKEN
+  process.env.blobsite_READ_WRITE_TOKEN ?? process.env.BLOB_READ_WRITE_TOKEN
 
 export async function GET(req: NextRequest) {
   // Verify the request comes from an authorized caller (Vercel Cron or manual)
