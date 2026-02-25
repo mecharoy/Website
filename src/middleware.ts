@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const PROTECTED_PATHS = ['/dashboard']
+const PROTECTED_PATHS = ['/dashboard', '/admin']
 const AUTH_PATHS = ['/auth/login', '/auth/register']
 const USER_SESSION_COOKIE = 'user_session'
 
@@ -29,5 +29,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/auth/:path*'],
+  matcher: ['/dashboard/:path*', '/admin/:path*', '/auth/:path*'],
 }

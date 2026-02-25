@@ -6,7 +6,7 @@ const nextConfig = {
     domains: [],
   },
   experimental: {
-    serverComponentsExternalPackages: ['@vercel/blob'],
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma', '@vercel/blob'],
   },
 }
 

@@ -7,6 +7,10 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
+  // TODO: Replace url with a connection pooler URL (e.g. Prisma Accelerate or pgBouncer)
+  // to avoid exhausting PostgreSQL connection limits in serverless environments.
+  // Set a separate env var (e.g. websitestorage_POOLER_URL) for `url` and keep
+  // websitestorage_DATABASE_URL as `directUrl` for migrations.
   url       = env("websitestorage_DATABASE_URL")
   directUrl = env("websitestorage_DATABASE_URL")
 }

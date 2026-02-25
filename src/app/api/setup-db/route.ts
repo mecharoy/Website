@@ -38,7 +38,5 @@ export async function GET() {
       details: error instanceof Error ? error.message : 'Unknown error',
       solution: 'Make sure DATABASE_URL is set in Vercel Environment Variables (Storage > Postgres)'
     }, { status: 500 })
-  } finally {
-    await prisma.$disconnect()
   }
 }
