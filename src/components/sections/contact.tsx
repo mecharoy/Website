@@ -162,13 +162,13 @@ export function Contact() {
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <a href="mailto:advisor@university.edu" className="text-center block hover:scale-105 transition-transform">
+          <a href="mailto:rajdipn@iitd.ac.in" className="text-center block hover:scale-105 transition-transform">
             <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
               <Mail className="w-6 h-6 text-primary" />
             </div>
             <h4 className="font-display font-bold text-primary mb-1">Email</h4>
             <p className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              [advisor@university.edu]
+              rajdipn@iitd.ac.in
             </p>
           </a>
 
@@ -176,10 +176,10 @@ export function Contact() {
             <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-3">
               <Globe className="w-6 h-6 text-primary" />
             </div>
-            <h4 className="font-display font-bold text-primary mb-1">Lab Website</h4>
-            <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-              [university.edu/lab]
-            </a>
+            <h4 className="font-display font-bold text-primary mb-1">Office</h4>
+            <p className="text-sm text-muted-foreground">
+              Room B-24, Block IV, IIT Delhi<br />Hauz Khas, New Delhi 110016
+            </p>
           </div>
         </motion.div>
       </div>

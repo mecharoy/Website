@@ -7,11 +7,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="font-display text-2xl font-extrabold mb-3">
-              <span className="text-primary">[Lab</span>
-              <span className="text-foreground"> Name]</span>
+              <span className="text-primary">SMICR</span>
+              <span className="text-foreground"> Lab</span>
             </h3>
             <p className="text-muted-foreground text-sm leading-relaxed">
-              [Placeholder: One or two sentences about the lab's mission and home institution.]
+              Structural Mechanics, Inference, and Computational Research Lab — Department of Applied Mechanics, IIT Delhi. Advancing probabilistic machine learning for structural systems.
             </p>
           </div>
 
@@ -46,17 +46,17 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <a href="#research" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  [Research Area 1]
+                  Digital Twins
                 </a>
               </li>
               <li>
                 <a href="#research" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  [Research Area 2]
+                  Structural Health Monitoring
                 </a>
               </li>
               <li>
                 <a href="#research" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                  [Research Area 3]
+                  Physics-Informed Machine Learning
                 </a>
               </li>
             </ul>
@@ -65,7 +65,7 @@ export function Footer() {
 
         <div className="border-t border-primary/10 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            © {currentYear} [Lab Name], [University Name]. All rights reserved.
+            © {currentYear} SMICR Lab, IIT Delhi. All rights reserved.
           </p>
         </div>
       </div>

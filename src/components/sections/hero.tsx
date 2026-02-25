@@ -15,7 +15,7 @@ export function Hero() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-semibold mb-8 animate-float">
               <FlaskConical className="w-4 h-4" />
-              [University Name] — [Department Name]
+              IIT Delhi — Applied Mechanics Department
             </div>
           </motion.div>
 
@@ -47,7 +47,7 @@ export function Hero() {
               </span>
             ))}
             <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-              {'[Lab Name]'.split(' ').map((word, wordIndex) => (
+              {'SMICR Lab'.split(' ').map((word, wordIndex) => (
                 <span key={`gradient-word-${wordIndex}`} className="inline-flex">
                   {word.split('').map((char, charIndex) => (
                     <motion.span
@@ -65,7 +65,7 @@ export function Hero() {
                       {char}
                     </motion.span>
                   ))}
-                  {wordIndex < '[Lab Name]'.split(' ').length - 1 && '\u00A0'}
+                  {wordIndex < 'SMICR Lab'.split(' ').length - 1 && '\u00A0'}
                 </span>
               ))}
             </span>
@@ -77,7 +77,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            [Placeholder: Brief description of the lab's mission and research focus. E.g., "We investigate the fundamental principles of [Research Area] to advance knowledge and develop solutions for real-world challenges."]
+            We develop probabilistic machine learning algorithms for structural vibration analysis, digital twin modeling, and structural health monitoring — bridging the gap between physics-based models and real-world measurements at IIT Delhi.
           </motion.p>
 
           <motion.div

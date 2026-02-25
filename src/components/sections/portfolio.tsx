@@ -7,26 +7,32 @@ const members = [
   {
     icon: GraduationCap,
     role: 'PhD Student',
-    name: '[Student Name 1]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
+    name: 'Sahil Kashyap',
+    description: 'Digital twin modeling and Bayesian filtering with neural operators. M.Tech. from MNNIT Allahabad. (Aug 2022–present)',
   },
   {
     icon: GraduationCap,
     role: 'PhD Student',
-    name: '[Student Name 2]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
+    name: 'Toiba Noor',
+    description: 'Soil constitutive modeling using deep learning. B.Tech. from NIT Srinagar. (Dec 2022–present)',
   },
   {
     icon: GraduationCap,
-    role: 'MS Student',
-    name: '[Student Name 3]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
+    role: 'PhD Student',
+    name: 'Rohan Thorat',
+    description: 'Integration of control, system identification, and reinforcement learning for structural systems. (Aug 2023–present)',
+  },
+  {
+    icon: GraduationCap,
+    role: 'PhD Student',
+    name: 'Sawan',
+    description: 'Gaussian process-based uncertainty-aware neural operators. B.Tech. from Delhi Technological University. (Dec 2022–present)',
   },
   {
     icon: FlaskConical,
-    role: 'Undergraduate Researcher',
-    name: '[Student Name 4]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
+    role: 'MS Student',
+    name: 'Abhijit Choudhury',
+    description: 'Multi-fidelity deep learning for structural health monitoring via elastic wave propagation. (Aug 2023–present)',
   },
 ]
 
@@ -68,11 +74,11 @@ export function Portfolio() {
             ))}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            [Placeholder: A short line about the team culture or diversity of backgrounds.]
+            A diverse group of researchers from top institutions across India, united by a passion for combining machine learning with structural mechanics.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {members.map((member, index) => (
             <motion.div
               key={member.name}
