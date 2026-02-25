@@ -19,6 +19,11 @@ const ALLOWED_TYPES: Record<string, string> = {
   'application/zip': 'zip',
 }
 
+// Vercel names the token after the store — support both the default name and
+// the prefixed name Vercel injects when the store is called "websiteblob".
+const BLOB_TOKEN =
+  process.env.websiteblob_READ_WRITE_TOKEN ?? process.env.BLOB_READ_WRITE_TOKEN
+
 export async function POST(req: NextRequest) {
   const user = await getSessionUser()
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
@@ -43,9 +48,12 @@ export async function POST(req: NextRequest) {
   const storedName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
 
   try {
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
+    if (BLOB_TOKEN) {
       // Vercel Blob (production and any env where the token is set)
-      const blob = await put(`documents/${storedName}`, file, { access: 'public' })
+      const blob = await put(`documents/${storedName}`, file, {
+        access: 'public',
+        token: BLOB_TOKEN,
+      })
       return NextResponse.json({ url: blob.url, fileName: originalName })
     }
 

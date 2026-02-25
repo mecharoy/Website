@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { del } from '@vercel/blob'
 import { prisma } from '@/lib/prisma'
 
+const BLOB_TOKEN =
+  process.env.websiteblob_READ_WRITE_TOKEN ?? process.env.BLOB_READ_WRITE_TOKEN
+
 export async function GET(req: NextRequest) {
   // Verify the request comes from an authorized caller (Vercel Cron or manual)
   const authHeader = req.headers.get('authorization')
@@ -26,7 +29,7 @@ export async function GET(req: NextRequest) {
   // Delete blob files for document uploads
   for (const sub of expired) {
     if (sub.attachmentUrl) {
-      await del(sub.attachmentUrl).catch(() => {
+      await del(sub.attachmentUrl, { token: BLOB_TOKEN }).catch(() => {
         // Ignore if blob is already gone
       })
     }
