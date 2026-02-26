@@ -17,7 +17,7 @@ export function Hero() {
         />
         <div className="absolute inset-0 bg-background/70" />
       </div>
-      <div className="container mx-auto max-w-5xl">
+      <div className="relative z-10 container mx-auto max-w-5xl">
         <div className="text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
