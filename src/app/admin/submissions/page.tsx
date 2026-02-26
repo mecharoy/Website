@@ -90,17 +90,30 @@ function SubmissionCard({ sub }: { sub: Submission }) {
   )
 }
 
-export default async function AdminSubmissionsPage() {
+export default async function AdminSubmissionsPage({
+  searchParams,
+}: {
+  searchParams: { user?: string }
+}) {
   await checkAuth()
 
   const submissions = await fetchSubmissions()
 
-  const pending = submissions.filter((s) => s.status === 'PENDING')
-  const reviewed = submissions.filter((s) => s.status === 'REVIEWED')
-  const acknowledged = submissions.filter((s) => s.status === 'ACKNOWLEDGED')
+  // Unique users for the filter dropdown
+  const users = Array.from(
+    new Map(submissions.map((s) => [s.author.email, s.author])).values()
+  ).sort((a, b) => a.name.localeCompare(b.name))
+
+  const filtered = searchParams.user
+    ? submissions.filter((s) => s.author.email === searchParams.user)
+    : submissions
+
+  const pending = filtered.filter((s) => s.status === 'PENDING')
+  const reviewed = filtered.filter((s) => s.status === 'REVIEWED')
+  const acknowledged = filtered.filter((s) => s.status === 'ACKNOWLEDGED')
 
   const stats = {
-    total: submissions.length,
+    total: filtered.length,
     pending: pending.length,
     reviewed: reviewed.length,
     acknowledged: acknowledged.length,
@@ -126,7 +139,7 @@ export default async function AdminSubmissionsPage() {
 
       <main className="container mx-auto px-4 py-8">
         {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-card border border-primary/10 rounded-lg p-4">
             <div className="text-2xl font-bold text-primary">{stats.total}</div>
             <div className="text-sm text-muted-foreground">Total</div>
@@ -145,6 +158,42 @@ export default async function AdminSubmissionsPage() {
           </div>
         </div>
 
+        {/* User filter */}
+        {users.length > 0 && (
+          <form method="get" action="/admin/submissions" className="mb-8 flex items-center gap-3">
+            <label htmlFor="user-filter" className="text-sm font-medium text-muted-foreground shrink-0">
+              Filter by user:
+            </label>
+            <select
+              id="user-filter"
+              name="user"
+              defaultValue={searchParams.user ?? ''}
+              className="bg-card border border-primary/10 rounded-lg px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+            >
+              <option value="">All users</option>
+              {users.map((u) => (
+                <option key={u.email} value={u.email}>
+                  {u.name} ({u.email})
+                </option>
+              ))}
+            </select>
+            <button
+              type="submit"
+              className="px-3 py-1.5 rounded-lg text-sm font-medium bg-primary/10 text-primary border border-primary/20 hover:bg-primary/20 transition-colors"
+            >
+              Apply
+            </button>
+            {searchParams.user && (
+              <Link
+                href="/admin/submissions"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Clear
+              </Link>
+            )}
+          </form>
+        )}
+
         {submissions.length === 0 && (
           <div className="bg-card border border-primary/10 rounded-lg px-6 py-12 text-center text-muted-foreground">
             No submissions yet.
@@ -152,58 +201,64 @@ export default async function AdminSubmissionsPage() {
         )}
 
         {/* Pending Section */}
-        {pending.length > 0 && (
-          <section className="mb-10">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-              <h2 className="font-semibold text-lg">Pending</h2>
-              <span className="text-xs font-medium bg-yellow-500/10 text-yellow-600 px-2 py-0.5 rounded-full border border-yellow-500/20">
-                {pending.length}
-              </span>
-            </div>
+        <section className="mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+            <h2 className="font-semibold text-lg">Pending</h2>
+            <span className="text-xs font-medium bg-yellow-500/10 text-yellow-600 px-2 py-0.5 rounded-full border border-yellow-500/20">
+              {pending.length}
+            </span>
+          </div>
+          {pending.length === 0 ? (
+            <p className="text-sm text-muted-foreground bg-muted/30 rounded-lg px-4 py-3">No submissions here.</p>
+          ) : (
             <div className="space-y-4">
               {pending.map((sub) => (
                 <SubmissionCard key={sub.id} sub={sub} />
               ))}
             </div>
-          </section>
-        )}
+          )}
+        </section>
 
         {/* Reviewed Section */}
-        {reviewed.length > 0 && (
-          <section className="mb-10">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
-              <h2 className="font-semibold text-lg">Reviewed</h2>
-              <span className="text-xs font-medium bg-blue-500/10 text-blue-600 px-2 py-0.5 rounded-full border border-blue-500/20">
-                {reviewed.length}
-              </span>
-            </div>
+        <section className="mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+            <h2 className="font-semibold text-lg">Reviewed</h2>
+            <span className="text-xs font-medium bg-blue-500/10 text-blue-600 px-2 py-0.5 rounded-full border border-blue-500/20">
+              {reviewed.length}
+            </span>
+          </div>
+          {reviewed.length === 0 ? (
+            <p className="text-sm text-muted-foreground bg-muted/30 rounded-lg px-4 py-3">No submissions here.</p>
+          ) : (
             <div className="space-y-4">
               {reviewed.map((sub) => (
                 <SubmissionCard key={sub.id} sub={sub} />
               ))}
             </div>
-          </section>
-        )}
+          )}
+        </section>
 
         {/* Acknowledged Section */}
-        {acknowledged.length > 0 && (
-          <section className="mb-10">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-              <h2 className="font-semibold text-lg">Acknowledged</h2>
-              <span className="text-xs font-medium bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full border border-green-500/20">
-                {acknowledged.length}
-              </span>
-            </div>
+        <section className="mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+            <h2 className="font-semibold text-lg">Acknowledged</h2>
+            <span className="text-xs font-medium bg-green-500/10 text-green-600 px-2 py-0.5 rounded-full border border-green-500/20">
+              {acknowledged.length}
+            </span>
+          </div>
+          {acknowledged.length === 0 ? (
+            <p className="text-sm text-muted-foreground bg-muted/30 rounded-lg px-4 py-3">No submissions here.</p>
+          ) : (
             <div className="space-y-4">
               {acknowledged.map((sub) => (
                 <SubmissionCard key={sub.id} sub={sub} />
               ))}
             </div>
-          </section>
-        )}
+          )}
+        </section>
       </main>
     </div>
   )
