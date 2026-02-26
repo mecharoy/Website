@@ -56,7 +56,7 @@ function MemberAvatar({ photo, initials, name }: { photo: string; initials: stri
     <img
       src={photo}
       alt={name}
-      className="w-full h-full object-cover object-top"
+      className="w-full h-full object-cover object-center"
       onError={() => setImgFailed(true)}
     />
   )
