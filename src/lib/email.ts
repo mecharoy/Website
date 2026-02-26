@@ -14,17 +14,17 @@ export async function sendEmail({ to, subject, html }: EmailOptions) {
     return
   }
 
-  try {
-    const data = await resend.emails.send({
-      from: process.env.EMAIL_FROM || 'noreply@university.edu',
-      to,
-      subject,
-      html,
-    })
+  const { data, error } = await resend.emails.send({
+    from: process.env.EMAIL_FROM || 'onboarding@resend.dev',
+    to,
+    subject,
+    html,
+  })
 
-    return data
-  } catch (error) {
-    console.error('Error sending email:', error)
-    throw error
+  if (error) {
+    console.error('Resend error:', error)
+    throw new Error(error.message)
   }
+
+  return data
 }
