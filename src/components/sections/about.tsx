@@ -112,7 +112,7 @@ export function About() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-primary/30 mx-auto">
+            <div className="w-52 h-52 rounded-full overflow-hidden ring-4 ring-primary/30 mx-auto">
               <PIAvatar />
             </div>
             <div className="text-center">

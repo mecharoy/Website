@@ -124,7 +124,7 @@ export function Portfolio() {
                 }
               }}
             >
-              <div className="h-40 overflow-hidden">
+              <div className="h-64 overflow-hidden">
                 <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} />
               </div>
               <div className="p-6">
