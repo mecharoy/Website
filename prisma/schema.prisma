@@ -7,12 +7,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  // TODO: Replace url with a connection pooler URL (e.g. Prisma Accelerate or pgBouncer)
-  // to avoid exhausting PostgreSQL connection limits in serverless environments.
-  // Set a separate env var (e.g. websitestorage_POOLER_URL) for `url` and keep
-  // websitestorage_DATABASE_URL as `directUrl` for migrations.
-  url       = env("websitestorage_DATABASE_URL")
-  directUrl = env("websitestorage_DATABASE_URL")
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Lead {
@@ -31,16 +27,16 @@ model Lead {
 }
 
 model Testimonial {
-  id          String   @id @default(cuid())
-  name        String
-  company     String?
-  position    String?
-  content     String
-  rating      Int      @default(5)
-  image       String?
-  featured    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  name      String
+  company   String?
+  position  String?
+  content   String
+  rating    Int      @default(5)
+  image     String?
+  featured  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([featured])
 }
@@ -50,7 +46,7 @@ model Service {
   title       String
   description String
   icon        String   @default("⚡")
-  features    String[] // Array of feature strings
+  features    String[]
   order       Int      @default(0)
   active      Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -60,13 +56,13 @@ model Service {
 }
 
 model User {
-  id          String       @id @default(cuid())
+  id          String   @id @default(cuid())
   name        String
-  email       String       @unique
+  email       String   @unique
   password    String
-  role        UserRole     @default(USER)
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
+  role        UserRole @default(USER)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
   posts       Post[]
   submissions Submission[]
 
@@ -90,22 +86,22 @@ model Post {
 }
 
 model Submission {
-  id           String              @id @default(cuid())
-  title        String
-  type         SubmissionType
-  content      String              @db.Text
+  id             String           @id @default(cuid())
+  title          String
+  type           SubmissionType
+  content        String           @db.Text
   attachmentUrl  String?
   attachmentName String?
-  status       SubmissionStatus    @default(PENDING)
-  adminReply   String?             @db.Text
-  threadClosed Boolean             @default(false)
-  authorId     String
-  author       User                @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  messages     SubmissionMessage[]
-  todoItems    TodoItem[]
-  createdAt    DateTime            @default(now())
-  updatedAt    DateTime            @updatedAt
-  expiresAt    DateTime?
+  status         SubmissionStatus @default(PENDING)
+  adminReply     String?          @db.Text
+  threadClosed   Boolean          @default(false)
+  authorId       String
+  author         User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  messages       SubmissionMessage[]
+  todoItems      TodoItem[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  expiresAt      DateTime?
 
   @@index([authorId])
   @@index([status])
