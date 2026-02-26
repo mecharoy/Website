@@ -139,8 +139,8 @@ export default async function StatusPage({
               <ArrowLeft className="w-4 h-4" />
             </Link>
             <h1 className="font-display text-2xl font-bold">
-              <span className="text-primary">[Lab</span>
-              <span className="text-foreground"> Name]</span>
+              <span className="text-primary">SMICR</span>
+              <span className="text-foreground">lab</span>
               <span className="text-muted-foreground text-lg ml-2">{label}</span>
             </h1>
           </div>

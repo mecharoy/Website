@@ -34,8 +34,8 @@ export default async function BlogPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="hover:opacity-80 transition-opacity">
             <h1 className="font-display text-2xl font-bold">
-              <span className="text-primary">[Lab</span>
-              <span className="text-foreground"> Name]</span>
+              <span className="text-primary">SMICR</span>
+              <span className="text-foreground">lab</span>
             </h1>
           </Link>
           <Link href="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
