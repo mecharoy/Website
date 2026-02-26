@@ -31,7 +31,7 @@ export async function NavigationServer() {
           <LayoutDashboard className="w-3.5 h-3.5 text-muted-foreground" />
         </Link>
         <a
-          href="mailto:rajdipn@iitd.ac.in"
+          href="#contact"
           className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-0.5"
         >
           Book a Call
@@ -49,7 +49,7 @@ export async function NavigationServer() {
           My Dashboard
         </Link>
         <a
-          href="mailto:rajdipn@iitd.ac.in"
+          href="#contact"
           className="block w-full text-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white"
         >
           Book a Call
