@@ -31,6 +31,7 @@ const members = [
     role: 'PhD Student',
     name: 'Sawan',
     description: 'Gaussian process-based uncertainty-aware neural operators. B.Tech. from Delhi Technological University. (Dec 2022–present)',
+    photoPosition: '50% 20%',
   },
   {
     photo: '/images/team/abhijit-choudhury.jpg',
@@ -38,10 +39,11 @@ const members = [
     role: 'MS Student',
     name: 'Abhijit Choudhury',
     description: 'Multi-fidelity deep learning for structural health monitoring via elastic wave propagation. (Aug 2023–present)',
+    photoPosition: '50% 20%',
   },
 ]
 
-function MemberAvatar({ photo, initials, name }: { photo: string; initials: string; name: string }) {
+function MemberAvatar({ photo, initials, name, photoPosition }: { photo: string; initials: string; name: string; photoPosition?: string }) {
   const [imgFailed, setImgFailed] = useState(false)
 
   if (imgFailed) {
@@ -56,7 +58,8 @@ function MemberAvatar({ photo, initials, name }: { photo: string; initials: stri
     <img
       src={photo}
       alt={name}
-      className="w-full h-full object-cover object-center"
+      className="w-full h-full object-cover"
+      style={{ objectPosition: photoPosition ?? '50% 50%' }}
       onError={() => setImgFailed(true)}
     />
   )
@@ -125,7 +128,7 @@ export function Portfolio() {
               }}
             >
               <div className="h-64 overflow-hidden">
-                <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} />
+                <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} photoPosition={member.photoPosition} />
               </div>
               <div className="p-6">
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">{member.role}</span>
