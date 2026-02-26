@@ -90,8 +90,12 @@ export function About() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-extrabold mx-auto">
-              PI
+            <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-primary/30 mx-auto">
+              <img
+                src="https://lh3.googleusercontent.com/sitesv/APaQ0SQLpcwg_wup_92txfA_LlEBWxCFgx7HbvUn282krNEWugpYFgzmACRKtnTNF4gntpiH0-Nxm123M5Us4XNrU-rmIhBTGZngU-uxdTDnGJUzj8CF5ar1oq6bW7Dno1YoE8bttr8V9HYxObIuLnc26fDSUBwLTnrTrFlD8_-LhL_UN2SZuUQBG8BF4HFp3aOwxWH1w7XJwq8F5AkOBokdb7zJXCTdQDDfcBjsysY=w1280"
+                alt="Dr. Rajdip Nayek"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             <div className="text-center">
               <h3 className="font-display text-2xl font-bold mb-1">Dr. Rajdip Nayek</h3>
