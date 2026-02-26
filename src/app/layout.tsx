@@ -5,13 +5,13 @@ import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
 
 export const metadata: Metadata = {
-  title: '[Lab Name] | [University Name]',
-  description: 'Welcome to [Lab Name] at [University Name]. We conduct cutting-edge research in [Research Area]. Explore our work, team, and publications.',
-  keywords: ['research', 'lab', 'university', 'publications', 'team'],
-  authors: [{ name: '[Advisor Name]' }],
+  title: 'SMICR Lab | IIT Delhi',
+  description: 'Welcome to the SMICR Lab at IIT Delhi. We develop probabilistic machine learning algorithms for structural vibration, digital twins, and structural health monitoring.',
+  keywords: ['SMICR Lab', 'IIT Delhi', 'structural health monitoring', 'digital twins', 'probabilistic machine learning', 'Rajdip Nayek'],
+  authors: [{ name: 'Dr. Rajdip Nayek' }],
   openGraph: {
-    title: '[Lab Name] | [University Name]',
-    description: 'Welcome to [Lab Name] at [University Name]. We conduct cutting-edge research in [Research Area].',
+    title: 'SMICR Lab | IIT Delhi',
+    description: 'Probabilistic machine learning for structural vibration, digital twins, and structural health monitoring — Applied Mechanics, IIT Delhi.',
     type: 'website',
   },
 }

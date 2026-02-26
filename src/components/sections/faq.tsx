@@ -6,20 +6,20 @@ import { useState } from 'react'
 
 const faqs = [
   {
-    question: 'How can I join the lab?',
-    answer: '[Placeholder: Describe the process for prospective students — whether to email the PI directly, apply through the department, what qualifications you look for (GPA, background, research experience), and when openings are typically available.]'
+    question: 'How can I join the SMICR Lab?',
+    answer: 'Prospective PhD and MS students should apply through the Applied Mechanics Department at IIT Delhi. If you are interested in working with us, feel free to email Dr. Rajdip Nayek at rajdipn@iitd.ac.in with your CV, transcripts, and a brief description of your research interests. Strong applicants typically have a background in structural/mechanical engineering, applied mathematics, or machine learning.'
   },
   {
     question: 'What research projects are currently active?',
-    answer: '[Placeholder: Give a brief overview of ongoing projects. E.g., "We are currently working on [Project 1], [Project 2], and [Project 3]. Each project is at a different stage — from early exploration to publication-ready work. Reach out to learn which projects have openings."]'
+    answer: 'Our active projects span three main areas: (1) digital twin development using Bayesian filtering and neural operators, (2) structural health monitoring via multi-fidelity deep learning and elastic wave propagation, and (3) physics-informed machine learning for inverse problems in mechanics. Contact us to learn which projects currently have openings.'
   },
   {
-    question: 'Do you accept undergraduate researchers?',
-    answer: '[Placeholder: Explain whether you take undergrads, what commitment you expect (hours per week, credit vs. paid, duration), and what skills or coursework would make a strong applicant.]'
+    question: 'What background is helpful to work in this lab?',
+    answer: 'We look for students with strong foundations in one or more of: structural/civil/mechanical engineering, applied mathematics, probability and statistics, or machine learning. Familiarity with Python and scientific computing is expected. Experience with PyTorch, finite element methods, or Bayesian inference is a plus but not required.'
   },
   {
-    question: 'Are there funded PhD positions available?',
-    answer: '[Placeholder: Describe funding situations — RA, TA, fellowship opportunities. Let prospective students know where and how to apply, and whether to contact the PI before or after applying to the program.]'
+    question: 'Are there funded positions available?',
+    answer: 'PhD positions at IIT Delhi are typically funded through institute fellowships (HTRA) or sponsored research projects. Teaching assistantships and research assistantships are available. Prospective students are encouraged to reach out directly to discuss current funding availability before applying.'
   },
 ]
 

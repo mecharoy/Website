@@ -4,10 +4,10 @@ import { motion } from 'framer-motion'
 import { BookOpen, Users, Award, Lightbulb } from 'lucide-react'
 
 const features = [
-  { icon: BookOpen, title: 'Publications', description: '[Placeholder: Brief note about the lab\'s publication record and venues.]' },
-  { icon: Users, title: 'Collaboration', description: '[Placeholder: Note about industry or academic collaborations.]' },
-  { icon: Award, title: 'Recognition', description: '[Placeholder: Awards, grants, or honors received by the lab.]' },
-  { icon: Lightbulb, title: 'Innovation', description: '[Placeholder: What sets this lab\'s approach apart.]' },
+  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.' },
+  { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
+  { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
+  { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
 ]
 
 export function About() {
@@ -49,10 +49,10 @@ export function About() {
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">
               <p>
-                [Placeholder: First paragraph about the lab — its founding, mission, and core values. E.g., "The [Lab Name] was established in [Year] by [Advisor Name] at [University Name]. Our mission is to..."]
+                The SMICR (Structural Mechanics, Inference, and Computational Research) Lab is led by Dr. Rajdip Nayek at the Department of Applied Mechanics, IIT Delhi. Our mission is to develop principled, scalable machine learning methods that integrate seamlessly with physics-based models for real-world structural engineering applications.
               </p>
               <p>
-                [Placeholder: Second paragraph about research impact, current projects, or unique positioning. E.g., "Our work spans [domain A] and [domain B], with a focus on translating fundamental discoveries into..."]
+                Our work spans structural health monitoring, digital twin development, and physics-informed deep learning — with a focus on uncertainty quantification and interpretable data-driven discovery. We aim to translate fundamental research into robust tools for monitoring and predicting the behavior of complex structural systems.
               </p>
             </div>
 
@@ -90,23 +90,27 @@ export function About() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <div className="w-24 h-24 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-3xl font-extrabold mx-auto">
-              PI
+            <div className="w-28 h-28 rounded-full overflow-hidden ring-4 ring-primary/30 mx-auto">
+              <img
+                src="https://lh3.googleusercontent.com/sitesv/APaQ0SQLpcwg_wup_92txfA_LlEBWxCFgx7HbvUn282krNEWugpYFgzmACRKtnTNF4gntpiH0-Nxm123M5Us4XNrU-rmIhBTGZngU-uxdTDnGJUzj8CF5ar1oq6bW7Dno1YoE8bttr8V9HYxObIuLnc26fDSUBwLTnrTrFlD8_-LhL_UN2SZuUQBG8BF4HFp3aOwxWH1w7XJwq8F5AkOBokdb7zJXCTdQDDfcBjsysY=w1280"
+                alt="Dr. Rajdip Nayek"
+                className="w-full h-full object-cover object-top"
+              />
             </div>
             <div className="text-center">
-              <h3 className="font-display text-2xl font-bold mb-1">[Advisor Name]</h3>
-              <p className="text-primary font-semibold text-sm mb-3">[Title, e.g., Associate Professor]</p>
+              <h3 className="font-display text-2xl font-bold mb-1">Dr. Rajdip Nayek</h3>
+              <p className="text-primary font-semibold text-sm mb-3">Assistant Professor, Applied Mechanics, IIT Delhi</p>
               <p className="text-muted-foreground text-sm leading-relaxed">
-                [Placeholder: Short bio of the PI — research interests, background, and vision for the lab.]
+                Ph.D. from University of Waterloo (2019), M.E. from IISc Bangalore, B.Tech. from NIT Durgapur. Previously a postdoctoral researcher at the Dynamics Research Group. His research focuses on probabilistic machine learning for structural vibration, digital twins, and structural health monitoring.
               </p>
             </div>
             <div className="border-t border-primary/10 pt-6 grid grid-cols-2 gap-4 text-center">
               <div>
-                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">[#]</div>
+                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">30+</div>
                 <div className="text-xs text-muted-foreground mt-1">Publications</div>
               </div>
               <div>
-                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">[#]</div>
+                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">8+</div>
                 <div className="text-xs text-muted-foreground mt-1">Lab Members</div>
               </div>
             </div>

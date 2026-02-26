@@ -47,8 +47,8 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             className="hover:scale-105 transition-transform"
           >
             <span className="font-display text-xl font-extrabold">
-              <span className="text-primary">[Lab</span>
-              <span className="text-foreground"> Name]</span>
+              <span className="text-primary">SMICR</span>
+              <span className="text-foreground"> Lab</span>
             </span>
           </Link>
 

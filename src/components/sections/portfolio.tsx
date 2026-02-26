@@ -1,32 +1,37 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { GraduationCap, FlaskConical } from 'lucide-react'
 
 const members = [
   {
-    icon: GraduationCap,
+    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0ST8GiUI-A__qX4-zg_eogfnro3XvG_1lNbmR-_uFFIWx0U3tXkc_qyMfEeO2TIvZOm1cSobUJtQSs4s2crtqMnnv788_S2NhGXkHDEGLEgisCfxK41YR-_Rrryr-Ki8b6_lnhN4YxBVSD34_lWb9_KKqUzWuYqcimuUiRTFpstsx0epWlXh2zLP8eRsih-dbC3mYOafXmWHlTlSZmICgUT1Jj49GOYgfvBY=w1280',
     role: 'PhD Student',
-    name: '[Student Name 1]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
+    name: 'Sahil Kashyap',
+    description: 'Digital twin modeling and Bayesian filtering with neural operators. M.Tech. from MNNIT Allahabad. (Aug 2022–present)',
   },
   {
-    icon: GraduationCap,
+    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SQHVqmwVn2BsVuUhJmF953XsD4xv9vAmdNIgdLc_SUbn7MjVbgMDEy1Q0StXb3_1JDUuUMZCUjwGAVhy7eGaV5bxYFRYHzLbkYDjTRm8mdk12aDNNDpWRvHL6GMrVxGS7Mc9HSF489CRb6zsCofayyJaDkrJzSLqDMTMBZO3fmXKVcIZVhVTunCY7VD_RPT9FxC5h_0loP-PcIrzlL8kJ5wdXL3tOO8suc0hWA=w1280',
     role: 'PhD Student',
-    name: '[Student Name 2]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
+    name: 'Toiba Noor',
+    description: 'Soil constitutive modeling using deep learning. B.Tech. from NIT Srinagar. (Dec 2022–present)',
   },
   {
-    icon: GraduationCap,
+    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SRGSC8hwm0y7HRREgM1T8AeGekPd6s01goGdQhD2bB0PWXl7L9yt1tRyNBmLwDNKO4Tp9Y6KkMT5nqucHD5P4aT8sT611R0ZvafagNEGxLskaQpJ2oTiRcSZmRnmgYnqkiXq1Bo2qEFiRerTmTB2Lm8R4QobrkB9Tam_lsNXG75BpoTNWydHbq3ff0=w1280',
+    role: 'PhD Student',
+    name: 'Rohan Thorat',
+    description: 'Integration of control, system identification, and reinforcement learning for structural systems. (Aug 2023–present)',
+  },
+  {
+    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SQq6Au7VOmthRXo96RVceT7hmaK-CmcvDrcZgSmZ6ojjcSIkkH03DM2AWqnIehulrccdW6lBo1jnOXEhCJmVAikMLW8kFYGaLdscSJkEd42MJqQvzxOEvXFoO_3bsu31GZ2KZEzf8z6dv6mrhQKJwlQtIJRS4WHVW5ocBSvnCnQDKY5VMsvvNNuiUyon54lZMTx2vIbXgrycITUt2-03dCuEfayqo1hmBLHnI=w1280',
+    role: 'PhD Student',
+    name: 'Sawan',
+    description: 'Gaussian process-based uncertainty-aware neural operators. B.Tech. from Delhi Technological University. (Dec 2022–present)',
+  },
+  {
+    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SSQbXvBjJQ8gF1DWokUjIjQfPCK-2bwxIQ6xubv16n989HdfQ6UPyVjn33ktlY1nZh6Q-YF65cVjvOnU3-YRX0BUyGOaADFwxDqxu67AafZ8-jjJBnBxlQqumsm41cbZ1QyZpdaVYHjFb2YdRfBaGIhKndldhNBfUtG-jlen18Tw9RiJUz3LSfX0lfKgzTdOee-K4AnvKGrQpTP_qw1wVoZgnTxrdzWaQK8ZHs=w1280',
     role: 'MS Student',
-    name: '[Student Name 3]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
-  },
-  {
-    icon: FlaskConical,
-    role: 'Undergraduate Researcher',
-    name: '[Student Name 4]',
-    description: '[Placeholder: Research focus and brief background of this team member.]',
+    name: 'Abhijit Choudhury',
+    description: 'Multi-fidelity deep learning for structural health monitoring via elastic wave propagation. (Aug 2023–present)',
   },
 ]
 
@@ -68,11 +73,11 @@ export function Portfolio() {
             ))}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            [Placeholder: A short line about the team culture or diversity of backgrounds.]
+            A diverse group of researchers from top institutions across India, united by a passion for combining machine learning with structural mechanics.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {members.map((member, index) => (
             <motion.div
               key={member.name}
@@ -92,10 +97,12 @@ export function Portfolio() {
                 }
               }}
             >
-              <div className="h-32 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
-                  <member.icon className="w-8 h-8 text-white" />
-                </div>
+              <div className="h-40 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden">
+                <img
+                  src={member.photo}
+                  alt={member.name}
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
               <div className="p-6">
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">{member.role}</span>

@@ -6,35 +6,35 @@ import { Microscope, Cpu, BrainCircuit, Check } from 'lucide-react'
 const researchAreas = [
   {
     icon: Microscope,
-    title: '[Research Area 1]',
-    description: '[Placeholder: Brief description of the first research area and its significance.]',
+    title: 'Digital Twins',
+    description: 'Creating virtual frameworks that replicate the real-time behavior of structural systems by combining physics-based models with measured data and machine learning.',
     topics: [
-      '[Topic / Sub-area 1]',
-      '[Topic / Sub-area 2]',
-      '[Topic / Sub-area 3]',
-      '[Topic / Sub-area 4]',
+      'Bayesian filtering with neural operators',
+      'Model discrepancy quantification',
+      'Real-time state estimation',
+      'Uncertainty-aware predictions',
     ],
   },
   {
     icon: Cpu,
-    title: '[Research Area 2]',
-    description: '[Placeholder: Brief description of the second research area and its significance.]',
+    title: 'Structural Health Monitoring',
+    description: 'Developing scalable probabilistic methods to detect, localize, and assess damage in structures using vibration data and data-driven inference.',
     topics: [
-      '[Topic / Sub-area 1]',
-      '[Topic / Sub-area 2]',
-      '[Topic / Sub-area 3]',
-      '[Topic / Sub-area 4]',
+      'Vibration-based damage detection',
+      'Elastic wave propagation analysis',
+      'Multi-fidelity deep learning',
+      'Sensor data fusion',
     ],
   },
   {
     icon: BrainCircuit,
-    title: '[Research Area 3]',
-    description: '[Placeholder: Brief description of the third research area and its significance.]',
+    title: 'Physics-Informed Machine Learning',
+    description: 'Integrating deep learning with physical laws and constitutive models to solve inverse problems and discover interpretable data-driven models in mechanics.',
     topics: [
-      '[Topic / Sub-area 1]',
-      '[Topic / Sub-area 2]',
-      '[Topic / Sub-area 3]',
-      '[Topic / Sub-area 4]',
+      'Physics-informed neural networks',
+      'Bayesian sparse regression',
+      'Material constitutive modeling',
+      'Neural operators for PDEs',
     ],
   },
 ]
@@ -77,7 +77,7 @@ export function Services() {
             ))}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            [Placeholder: Short tagline about the lab's research philosophy or interdisciplinary approach.]
+            We bridge traditional computational mechanics with modern machine learning to build scalable, interpretable, and uncertainty-aware models for real-world structural systems.
           </p>
         </motion.div>
 
