@@ -4,6 +4,7 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { prisma } from '@/lib/prisma'
+import { SubmissionStatus } from '@prisma/client'
 import { formatDateTime } from '@/lib/utils'
 import { LogoutButton } from '@/components/admin/logout-button'
 import { UpdateSubmissionStatus } from '@/components/admin/update-submission-status'
@@ -11,13 +12,13 @@ import { SubmissionThread } from '@/components/submission-thread'
 import { TodoChecklist } from '@/components/todo-checklist'
 import { ArrowLeft, Download } from 'lucide-react'
 
-const STATUS_MAP = {
-  pending: 'PENDING',
-  reviewed: 'REVIEWED',
-  acknowledged: 'ACKNOWLEDGED',
-} as const
+const STATUS_MAP: Record<string, SubmissionStatus> = {
+  pending: SubmissionStatus.PENDING,
+  reviewed: SubmissionStatus.REVIEWED,
+  acknowledged: SubmissionStatus.ACKNOWLEDGED,
+}
 
-type StatusSlug = keyof typeof STATUS_MAP
+type StatusSlug = string
 
 async function checkAuth() {
   const cookieStore = await cookies()
@@ -32,7 +33,7 @@ const typeLabels: Record<string, string> = {
   MESSAGE: 'Message',
 }
 
-async function fetchSubmissions(status: string, userEmail?: string) {
+async function fetchSubmissions(status: SubmissionStatus, userEmail?: string) {
   return prisma.submission.findMany({
     where: {
       status,
@@ -47,7 +48,7 @@ async function fetchSubmissions(status: string, userEmail?: string) {
   })
 }
 
-async function getUniqueUsers(status: string) {
+async function getUniqueUsers(status: SubmissionStatus) {
   const subs = await prisma.submission.findMany({
     where: { status },
     select: { author: { select: { name: true, email: true } } },
@@ -120,7 +121,7 @@ export default async function StatusPage({
 
   if (!(params.status in STATUS_MAP)) notFound()
 
-  const slug = params.status as StatusSlug
+  const slug = params.status
   const dbStatus = STATUS_MAP[slug]
   const label = slug.charAt(0).toUpperCase() + slug.slice(1)
 
