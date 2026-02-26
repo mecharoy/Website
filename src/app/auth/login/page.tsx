@@ -35,7 +35,7 @@ export default function LoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        router.push('/dashboard')
+        router.push(data.mustChangePassword ? '/dashboard/change-password' : '/dashboard')
         router.refresh()
         return
       }

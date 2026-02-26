@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { LogoutButton } from '@/components/admin/logout-button'
-import { Send } from 'lucide-react'
+import { Send, Users } from 'lucide-react'
 
 async function checkAuth() {
   const cookieStore = await cookies()
@@ -39,6 +39,13 @@ export default async function AdminPage() {
           >
             <Send className="w-4 h-4 text-primary" />
             View Member Submissions
+          </Link>
+          <Link
+            href="/admin/users"
+            className="flex items-center gap-2 bg-card border border-primary/10 hover:border-primary/30 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors"
+          >
+            <Users className="w-4 h-4 text-primary" />
+            Manage Users
           </Link>
         </div>
       </main>
