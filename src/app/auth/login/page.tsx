@@ -63,8 +63,8 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-block hover:opacity-80 transition-opacity">
             <h1 className="font-display text-3xl font-bold">
-              <span className="text-primary">[Lab</span>
-              <span className="text-foreground"> Name]</span>
+              <span className="text-primary">SMICR</span>
+              <span className="text-foreground"> Lab</span>
             </h1>
           </Link>
           <p className="text-muted-foreground mt-2">Sign in to your account</p>

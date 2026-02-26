@@ -40,8 +40,8 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="font-display text-3xl font-bold mb-2">
-            <span className="text-primary">[Lab</span>
-            <span className="text-foreground"> Name]</span>
+            <span className="text-primary">SMICR</span>
+            <span className="text-foreground"> Lab</span>
             <span className="text-muted-foreground text-2xl ml-2">Admin</span>
           </h1>
           <p className="text-muted-foreground">Enter your password to continue</p>

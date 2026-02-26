@@ -26,8 +26,8 @@ export default async function EditPostPage({ params }: { params: { id: string } 
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <h1 className="font-display text-xl font-bold">
-            <span className="text-primary">[Lab</span>
-            <span className="text-foreground"> Name]</span>
+            <span className="text-primary">SMICR</span>
+            <span className="text-foreground"> Lab</span>
             <span className="text-muted-foreground text-base ml-2">Edit Post</span>
           </h1>
         </div>
