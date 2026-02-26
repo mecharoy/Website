@@ -14,9 +14,10 @@ interface TodoChecklistProps {
   submissionId: string
   isAdmin: boolean
   initialTodos: TodoItem[]
+  threadClosed?: boolean
 }
 
-export function TodoChecklist({ submissionId, isAdmin, initialTodos }: TodoChecklistProps) {
+export function TodoChecklist({ submissionId, isAdmin, initialTodos, threadClosed = false }: TodoChecklistProps) {
   const [todos, setTodos] = useState<TodoItem[]>(initialTodos)
   const [newText, setNewText] = useState('')
   const [adding, setAdding] = useState(false)
@@ -116,7 +117,7 @@ export function TodoChecklist({ submissionId, isAdmin, initialTodos }: TodoCheck
         </ul>
       )}
 
-      {isAdmin && (
+      {isAdmin && !threadClosed && (
         <div className="flex gap-2">
           <input
             type="text"
@@ -135,6 +136,9 @@ export function TodoChecklist({ submissionId, isAdmin, initialTodos }: TodoCheck
             Add
           </button>
         </div>
+      )}
+      {isAdmin && threadClosed && (
+        <p className="text-xs text-muted-foreground italic">Thread is closed — reopen to add items.</p>
       )}
       {error && <p className="text-xs text-red-500 mt-1">{error}</p>}
     </div>

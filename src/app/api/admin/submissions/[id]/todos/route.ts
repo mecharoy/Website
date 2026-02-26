@@ -26,6 +26,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
 
   const submission = await prisma.submission.findUnique({ where: { id: params.id } })
   if (!submission) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+  if (submission.threadClosed) return NextResponse.json({ error: 'Thread is closed' }, { status: 403 })
 
   const body = await req.json()
   const { text } = body

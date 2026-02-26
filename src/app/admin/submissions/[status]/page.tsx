@@ -96,6 +96,7 @@ function SubmissionCard({ sub }: { sub: Submission }) {
             submissionId={sub.id}
             isAdmin={true}
             initialTodos={sub.todoItems}
+            threadClosed={sub.threadClosed}
           />
         )}
 
