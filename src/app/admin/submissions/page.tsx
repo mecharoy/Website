@@ -7,6 +7,7 @@ import { LogoutButton } from '@/components/admin/logout-button'
 import { UpdateSubmissionStatus } from '@/components/admin/update-submission-status'
 import { SubmissionThread } from '@/components/submission-thread'
 import { TodoChecklist } from '@/components/todo-checklist'
+import { UserFilterMenu } from '@/components/admin/user-filter-menu'
 import { ArrowLeft, Download, Tag, Users } from 'lucide-react'
 
 async function checkAuth() {
@@ -99,26 +100,42 @@ function EmptySection() {
 export default async function AdminSubmissionsPage({
   searchParams,
 }: {
-  searchParams: { view?: string }
+  searchParams: Promise<{ view?: string; user?: string }>
 }) {
   await checkAuth()
 
+  const params = await searchParams
   const submissions = await fetchSubmissions()
-  const view = searchParams.view === 'user' ? 'user' : 'status'
+  const view = params.view === 'user' ? 'user' : 'status'
+  const selectedUser = params.user ?? ''
 
-  const pending = submissions.filter((s) => s.status === 'PENDING')
-  const reviewed = submissions.filter((s) => s.status === 'REVIEWED')
-  const acknowledged = submissions.filter((s) => s.status === 'ACKNOWLEDGED')
+  // Unique users for the filter menu
+  const userMap = new Map<string, { name: string; email: string }>()
+  for (const sub of submissions) {
+    if (!userMap.has(sub.author.email)) {
+      userMap.set(sub.author.email, { name: sub.author.name, email: sub.author.email })
+    }
+  }
+  const users = Array.from(userMap.values())
+
+  // Apply user filter
+  const filtered = selectedUser
+    ? submissions.filter((s) => s.author.email === selectedUser)
+    : submissions
+
+  const pending = filtered.filter((s) => s.status === 'PENDING')
+  const reviewed = filtered.filter((s) => s.status === 'REVIEWED')
+  const acknowledged = filtered.filter((s) => s.status === 'ACKNOWLEDGED')
 
   const stats = {
-    total: submissions.length,
+    total: filtered.length,
     pending: pending.length,
     reviewed: reviewed.length,
     acknowledged: acknowledged.length,
   }
 
-  // Group by user when view === 'user'
-  const userGroups = submissions.reduce<
+  // Group by user for user view
+  const userGroups = filtered.reduce<
     Record<string, { name: string; email: string; submissions: Submission[] }>
   >((acc, sub) => {
     const key = sub.author.email
@@ -166,10 +183,10 @@ export default async function AdminSubmissionsPage({
           </div>
         </div>
 
-        {/* View toggle */}
-        <div className="flex items-center gap-2 mb-8">
+        {/* View toggle + user filter */}
+        <div className="flex items-center gap-2 mb-8 flex-wrap">
           <Link
-            href="/admin/submissions?view=status"
+            href={`/admin/submissions?view=status${selectedUser ? `&user=${encodeURIComponent(selectedUser)}` : ''}`}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
               view === 'status'
                 ? 'bg-primary/10 text-primary border-primary/30'
@@ -180,7 +197,7 @@ export default async function AdminSubmissionsPage({
             By Status
           </Link>
           <Link
-            href="/admin/submissions?view=user"
+            href={`/admin/submissions?view=user${selectedUser ? `&user=${encodeURIComponent(selectedUser)}` : ''}`}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
               view === 'user'
                 ? 'bg-primary/10 text-primary border-primary/30'
@@ -190,15 +207,16 @@ export default async function AdminSubmissionsPage({
             <Users className="w-3.5 h-3.5" />
             By User
           </Link>
+          <UserFilterMenu users={users} selectedEmail={selectedUser} />
         </div>
 
-        {submissions.length === 0 && (
+        {filtered.length === 0 && (
           <div className="bg-card border border-primary/10 rounded-lg px-6 py-12 text-center text-muted-foreground">
-            No submissions yet.
+            {selectedUser ? 'No submissions from this user.' : 'No submissions yet.'}
           </div>
         )}
 
-        {view === 'status' && submissions.length > 0 && (
+        {view === 'status' && filtered.length > 0 && (
           <>
             {/* Pending Section */}
             <section className="mb-10">
@@ -262,7 +280,7 @@ export default async function AdminSubmissionsPage({
           </>
         )}
 
-        {view === 'user' && submissions.length > 0 && (
+        {view === 'user' && filtered.length > 0 && (
           <>
             {Object.values(userGroups).map((group) => (
               <section key={group.email} className="mb-10">
