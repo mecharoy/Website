@@ -30,6 +30,12 @@ export async function NavigationServer() {
           <span className="hidden lg:inline">{user.name.split(' ')[0]}</span>
           <LayoutDashboard className="w-3.5 h-3.5 text-muted-foreground" />
         </Link>
+        <a
+          href="#contact"
+          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-0.5"
+        >
+          Book a Call
+        </a>
       </div>
     )
 
@@ -42,6 +48,12 @@ export async function NavigationServer() {
           <LayoutDashboard className="w-4 h-4 text-primary" />
           My Dashboard
         </Link>
+        <a
+          href="#contact"
+          className="block w-full text-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white"
+        >
+          Book a Call
+        </a>
       </div>
     )
   } else {

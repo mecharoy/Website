@@ -2,11 +2,22 @@
 
 import { motion } from 'framer-motion'
 import { FlaskConical } from 'lucide-react'
+import Image from 'next/image'
 
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 overflow-hidden">
-      <div className="container mx-auto max-w-5xl">
+      <div className="absolute inset-0 w-full h-full">
+        <Image
+          src="/images/Gemini_Generated_Image_tbcgkotbcgkotbcg.png"
+          alt="SMICR Lab hero background"
+          fill
+          className="object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-background/70" />
+      </div>
+      <div className="relative z-10 container mx-auto max-w-5xl">
         <div className="text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

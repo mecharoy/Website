@@ -43,7 +43,7 @@ export default async function AdminPage() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="font-display text-2xl font-bold">
             <span className="text-primary">SMICR</span>
-            <span className="text-foreground"> Lab</span>
+            <span className="text-foreground">lab</span>
             <span className="text-muted-foreground text-lg ml-2">Admin</span>
           </h1>
           <LogoutButton />

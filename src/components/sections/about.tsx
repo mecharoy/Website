@@ -26,7 +26,7 @@ function PIAvatar() {
 }
 
 const features = [
-  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.' },
+  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: '#research', float: true },
   { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
   { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
   { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
@@ -89,12 +89,13 @@ export function About() {
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  className="bg-card border-2 border-primary/20 rounded-xl p-6 hover:border-primary hover:-translate-y-1 transition-all shadow-lg dark:shadow-sm"
+                  className={`bg-card border-2 border-primary/20 rounded-xl p-6 hover:border-primary hover:-translate-y-1 transition-all shadow-lg dark:shadow-sm${feature.float ? ' animate-float cursor-pointer' : ''}`}
                   style={{ opacity: 0 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.15 }}
                   viewport={{ once: true, amount: 0.3, margin: "0px 0px -100px 0px" }}
+                  {...(feature.href ? { onClick: () => { window.location.href = feature.href! } } : {})}
                 >
                   <feature.icon className="w-10 h-10 text-primary mb-3" />
                   <h4 className="font-display text-lg font-bold mb-2 text-primary">{feature.title}</h4>

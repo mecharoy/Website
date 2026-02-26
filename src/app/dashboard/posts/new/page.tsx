@@ -19,8 +19,8 @@ export default async function NewPostPage() {
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <h1 className="font-display text-xl font-bold">
-            <span className="text-primary">[Lab</span>
-            <span className="text-foreground"> Name]</span>
+            <span className="text-primary">SMICR</span>
+            <span className="text-foreground">lab</span>
             <span className="text-muted-foreground text-base ml-2">New Post</span>
           </h1>
         </div>
