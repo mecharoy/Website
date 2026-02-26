@@ -1,3 +1,5 @@
+import { Mail, Linkedin } from 'lucide-react'
+
 export function Footer() {
   const currentYear = new Date().getFullYear()
 
@@ -63,7 +65,25 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-primary/10 pt-8 text-center">
+        <div className="border-t border-primary/10 pt-8 flex flex-col items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-6">
+            <a
+              href="mailto:rajdipn@iitd.ac.in"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Mail className="w-4 h-4" />
+              rajdipn@iitd.ac.in
+            </a>
+            <a
+              href="https://www.linkedin.com/in/rajdipnayek1989/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <Linkedin className="w-4 h-4" />
+              LinkedIn
+            </a>
+          </div>
           <p className="text-sm text-muted-foreground">
             © {currentYear} SMICR Lab, IIT Delhi. All rights reserved.
           </p>

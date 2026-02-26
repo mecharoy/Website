@@ -26,10 +26,10 @@ function PIAvatar() {
 }
 
 const features = [
-  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.' },
-  { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
-  { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
-  { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
+  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: 'https://scholar.google.com/citations?user=dd5LoV4AAAAJ&hl=en' },
+  { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.', href: undefined },
+  { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.', href: undefined },
+  { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.', href: undefined },
 ]
 
 export function About() {
@@ -89,13 +89,16 @@ export function About() {
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  className="bg-card border-2 border-primary/20 rounded-xl p-6 hover:border-primary hover:-translate-y-1 transition-all shadow-lg dark:shadow-sm"
+                  className="bg-card border-2 border-primary/20 rounded-xl p-6 hover:border-primary hover:-translate-y-1 transition-all shadow-lg dark:shadow-sm relative"
                   style={{ opacity: 0 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.15 }}
                   viewport={{ once: true, amount: 0.3, margin: "0px 0px -100px 0px" }}
                 >
+                  {feature.href && (
+                    <a href={feature.href} target="_blank" rel="noopener noreferrer" aria-label={`View ${feature.title}`} className="absolute inset-0 rounded-xl" />
+                  )}
                   <feature.icon className="w-10 h-10 text-primary mb-3" />
                   <h4 className="font-display text-lg font-bold mb-2 text-primary">{feature.title}</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
@@ -123,10 +126,15 @@ export function About() {
               </p>
             </div>
             <div className="border-t border-primary/10 pt-6 grid grid-cols-2 gap-4 text-center">
-              <div>
+              <a
+                href="https://scholar.google.com/citations?user=dd5LoV4AAAAJ&hl=en"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group hover:-translate-y-1 transition-transform block"
+              >
                 <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">30+</div>
-                <div className="text-xs text-muted-foreground mt-1">Publications</div>
-              </div>
+                <div className="text-xs text-muted-foreground mt-1 group-hover:text-primary transition-colors">Publications</div>
+              </a>
               <div>
                 <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">8+</div>
                 <div className="text-xs text-muted-foreground mt-1">Lab Members</div>
