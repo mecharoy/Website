@@ -12,27 +12,35 @@ export function Contact() {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    const form = e.currentTarget
     setIsSubmitting(true)
 
-    const form = e.currentTarget
-    const formData = new FormData(form)
-    const result = await submitContactForm(formData)
+    try {
+      const formData = new FormData(form)
+      const result = await submitContactForm(formData)
 
-    if (result.success) {
-      toast({
-        title: 'Message sent!',
-        description: 'We\'ll get back to you shortly.',
-      })
-      form.reset()
-    } else {
+      if (result.success) {
+        toast({
+          title: 'Message sent!',
+          description: 'We\'ll get back to you shortly.',
+        })
+        form.reset()
+      } else {
+        toast({
+          title: 'Error',
+          description: result.error || 'Something went wrong. Please try again.',
+          variant: 'destructive',
+        })
+      }
+    } catch {
       toast({
         title: 'Error',
-        description: result.error || 'Something went wrong. Please try again.',
+        description: 'Could not connect. Please try again later.',
         variant: 'destructive',
       })
+    } finally {
+      setIsSubmitting(false)
     }
-
-    setIsSubmitting(false)
   }
 
   return (
