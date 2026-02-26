@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { Send, Loader2, Lock, MessageSquare } from 'lucide-react'
+import { Send, Loader2, Lock, Unlock, MessageSquare } from 'lucide-react'
 import { formatDateTime } from '@/lib/utils'
 
 interface Message {
@@ -94,13 +94,21 @@ export function SubmissionThread({
           <MessageSquare className="w-3.5 h-3.5" />
           Thread
         </p>
-        {isAdmin && !threadClosed && (
+        {isAdmin && (
           <button
             onClick={toggleThread}
             disabled={togglingThread}
-            className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-colors bg-red-500/10 text-red-600 border-red-500/20 hover:bg-red-500/20"
+            className={`flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-full border transition-colors ${
+              threadClosed
+                ? 'bg-green-500/10 text-green-600 border-green-500/20 hover:bg-green-500/20'
+                : 'bg-red-500/10 text-red-600 border-red-500/20 hover:bg-red-500/20'
+            }`}
           >
-            <Lock className="w-3 h-3" /> End Thread
+            {threadClosed ? (
+              <><Unlock className="w-3 h-3" /> Reopen Thread</>
+            ) : (
+              <><Lock className="w-3 h-3" /> End Thread</>
+            )}
           </button>
         )}
       </div>
