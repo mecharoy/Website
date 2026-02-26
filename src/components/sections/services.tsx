@@ -120,13 +120,6 @@ export function Services() {
                   ))}
                 </ul>
 
-                <a
-                  href="#contact"
-                  className="inline-flex items-center text-primary font-semibold text-sm group-hover:gap-3 gap-2 transition-all"
-                >
-                  Learn More
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </a>
               </div>
             </motion.div>
           ))}

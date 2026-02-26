@@ -11,7 +11,7 @@ const navLinks = [
   { href: '/blog', label: 'Blog' },
   { href: '#team', label: 'Team' },
   { href: '#about', label: 'About' },
-  { href: '#contact', label: 'Contact' },
+  { href: 'mailto:rajdipn@iitd.ac.in', label: 'Contact' },
 ]
 
 interface NavigationProps {
@@ -71,7 +71,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             <ThemeToggle />
             {authSlot ?? (
               <a
-                href="#contact"
+                href="mailto:rajdipn@iitd.ac.in"
                 className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-0.5"
               >
                 Get in Touch
@@ -110,7 +110,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
               <li>
                 {authMobileSlot ?? (
                   <a
-                    href="#contact"
+                    href="mailto:rajdipn@iitd.ac.in"
                     className="block w-full text-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
