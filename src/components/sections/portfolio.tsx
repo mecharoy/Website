@@ -1,39 +1,66 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 
 const members = [
   {
-    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0ST8GiUI-A__qX4-zg_eogfnro3XvG_1lNbmR-_uFFIWx0U3tXkc_qyMfEeO2TIvZOm1cSobUJtQSs4s2crtqMnnv788_S2NhGXkHDEGLEgisCfxK41YR-_Rrryr-Ki8b6_lnhN4YxBVSD34_lWb9_KKqUzWuYqcimuUiRTFpstsx0epWlXh2zLP8eRsih-dbC3mYOafXmWHlTlSZmICgUT1Jj49GOYgfvBY=w1280',
+    photo: '/images/team/sahil-kashyap.jpg',
+    initials: 'SK',
     role: 'PhD Student',
     name: 'Sahil Kashyap',
     description: 'Digital twin modeling and Bayesian filtering with neural operators. M.Tech. from MNNIT Allahabad. (Aug 2022–present)',
   },
   {
-    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SQHVqmwVn2BsVuUhJmF953XsD4xv9vAmdNIgdLc_SUbn7MjVbgMDEy1Q0StXb3_1JDUuUMZCUjwGAVhy7eGaV5bxYFRYHzLbkYDjTRm8mdk12aDNNDpWRvHL6GMrVxGS7Mc9HSF489CRb6zsCofayyJaDkrJzSLqDMTMBZO3fmXKVcIZVhVTunCY7VD_RPT9FxC5h_0loP-PcIrzlL8kJ5wdXL3tOO8suc0hWA=w1280',
+    photo: '/images/team/toiba-noor.jpg',
+    initials: 'TN',
     role: 'PhD Student',
     name: 'Toiba Noor',
     description: 'Soil constitutive modeling using deep learning. B.Tech. from NIT Srinagar. (Dec 2022–present)',
   },
   {
-    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SRGSC8hwm0y7HRREgM1T8AeGekPd6s01goGdQhD2bB0PWXl7L9yt1tRyNBmLwDNKO4Tp9Y6KkMT5nqucHD5P4aT8sT611R0ZvafagNEGxLskaQpJ2oTiRcSZmRnmgYnqkiXq1Bo2qEFiRerTmTB2Lm8R4QobrkB9Tam_lsNXG75BpoTNWydHbq3ff0=w1280',
+    photo: '/images/team/rohan-thorat.jpg',
+    initials: 'RT',
     role: 'PhD Student',
     name: 'Rohan Thorat',
     description: 'Integration of control, system identification, and reinforcement learning for structural systems. (Aug 2023–present)',
   },
   {
-    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SQq6Au7VOmthRXo96RVceT7hmaK-CmcvDrcZgSmZ6ojjcSIkkH03DM2AWqnIehulrccdW6lBo1jnOXEhCJmVAikMLW8kFYGaLdscSJkEd42MJqQvzxOEvXFoO_3bsu31GZ2KZEzf8z6dv6mrhQKJwlQtIJRS4WHVW5ocBSvnCnQDKY5VMsvvNNuiUyon54lZMTx2vIbXgrycITUt2-03dCuEfayqo1hmBLHnI=w1280',
+    photo: '/images/team/sawan.jpg',
+    initials: 'S',
     role: 'PhD Student',
     name: 'Sawan',
     description: 'Gaussian process-based uncertainty-aware neural operators. B.Tech. from Delhi Technological University. (Dec 2022–present)',
   },
   {
-    photo: 'https://lh3.googleusercontent.com/sitesv/APaQ0SSQbXvBjJQ8gF1DWokUjIjQfPCK-2bwxIQ6xubv16n989HdfQ6UPyVjn33ktlY1nZh6Q-YF65cVjvOnU3-YRX0BUyGOaADFwxDqxu67AafZ8-jjJBnBxlQqumsm41cbZ1QyZpdaVYHjFb2YdRfBaGIhKndldhNBfUtG-jlen18Tw9RiJUz3LSfX0lfKgzTdOee-K4AnvKGrQpTP_qw1wVoZgnTxrdzWaQK8ZHs=w1280',
+    photo: '/images/team/abhijit-choudhury.jpg',
+    initials: 'AC',
     role: 'MS Student',
     name: 'Abhijit Choudhury',
     description: 'Multi-fidelity deep learning for structural health monitoring via elastic wave propagation. (Aug 2023–present)',
   },
 ]
+
+function MemberAvatar({ photo, initials, name }: { photo: string; initials: string; name: string }) {
+  const [imgFailed, setImgFailed] = useState(false)
+
+  if (imgFailed) {
+    return (
+      <div className="w-full h-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center">
+        <span className="text-white text-3xl font-extrabold font-display">{initials}</span>
+      </div>
+    )
+  }
+
+  return (
+    <img
+      src={photo}
+      alt={name}
+      className="w-full h-full object-cover object-top"
+      onError={() => setImgFailed(true)}
+    />
+  )
+}
 
 export function Portfolio() {
   return (
@@ -97,12 +124,8 @@ export function Portfolio() {
                 }
               }}
             >
-              <div className="h-40 bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center overflow-hidden">
-                <img
-                  src={member.photo}
-                  alt={member.name}
-                  className="w-full h-full object-cover object-top"
-                />
+              <div className="h-40 overflow-hidden">
+                <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} />
               </div>
               <div className="p-6">
                 <span className="text-xs font-bold uppercase tracking-wider text-primary">{member.role}</span>
