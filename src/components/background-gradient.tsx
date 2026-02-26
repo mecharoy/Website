@@ -59,6 +59,37 @@ const EDGES_ML = [
   [3, 4], [3, 7], [4, 7], [5, 6], [6, 8], [7, 8],
 ]
 
+// Scientific / structural-dynamics equations scattered across the background
+// xKey: 0 = drifts left with scroll, 1 = drifts right
+const EQUATIONS = [
+  // Top band
+  { x: 318,  y: 138,  text: 'ω² = φᵀKφ / φᵀMφ',          size: 9,  yKey: 0, xKey: 0 },
+  { x: 625,  y: 72,   text: 'σ = E · ε',                   size: 12, yKey: 0, xKey: 1 },
+  { x: 1030, y: 112,  text: 'Kφ = ω²Mφ',                  size: 11, yKey: 0, xKey: 1 },
+
+  // Upper-mid
+  { x: 172,  y: 258,  text: 'M·ẍ + C·ẋ + K·x = F(t)',     size: 10, yKey: 1, xKey: 0 },
+  { x: 28,   y: 308,  text: 'τ = 2π / ωₙ',                 size: 9,  yKey: 1, xKey: 0 },
+  { x: 855,  y: 222,  text: 'ρ Ä = ∇·σ + f',              size: 9,  yKey: 1, xKey: 1 },
+
+  // Mid band
+  { x: 1165, y: 357,  text: 'H(ω) = 1/(K − ω²M + iωC)',   size: 9,  yKey: 2, xKey: 1 },
+  { x: 748,  y: 455,  text: 'Sₓ(ω) = |H(ω)|² · Sf(ω)',    size: 9,  yKey: 2, xKey: 0 },
+  { x: 1370, y: 468,  text: 'ε = ΔL / L₀',                 size: 9,  yKey: 2, xKey: 1 },
+  { x: 400,  y: 410,  text: 'λ = E·ν/((1+ν)(1−2ν))',      size: 8,  yKey: 2, xKey: 0 },
+
+  // Lower-mid
+  { x: 60,   y: 570,  text: '∇²u = (1/c²) ∂²u/∂t²',       size: 10, yKey: 3, xKey: 0 },
+  { x: 428,  y: 648,  text: '[K − ω²M]{φ} = 0',            size: 11, yKey: 3, xKey: 1 },
+  { x: 920,  y: 548,  text: 'G = E / (2(1+ν))',            size: 9,  yKey: 3, xKey: 1 },
+  { x: 1255, y: 578,  text: 'fₛ > 2 · fₘₐₓ',              size: 9,  yKey: 3, xKey: 1 },
+
+  // Bottom band
+  { x: 83,   y: 728,  text: 'ζ = c / (2√km)',               size: 9,  yKey: 2, xKey: 0 },
+  { x: 652,  y: 762,  text: 'F(ω) = ∫ f(t) e⁻ⁱωt dt',     size: 10, yKey: 3, xKey: 0 },
+  { x: 1078, y: 690,  text: 'fₙ = (1/2π)√(k/m)',           size: 10, yKey: 3, xKey: 1 },
+]
+
 export function BackgroundGradient() {
   const { theme } = useTheme()
   const { scrollY } = useScroll()
@@ -74,9 +105,11 @@ export function BackgroundGradient() {
   const xRight = useTransform(scrollY, [0, 6000], [0, 38])
   const xLeft  = useTransform(scrollY, [0, 6000], [0, -26])
   const xKeys  = [xLeft, xRight, xLeft, xRight]
+  const xArr   = [xLeft, xRight]
 
   const primary      = isDark ? 'hsl(178,68%,52%)' : 'hsl(178,65%,24%)'
   const waveBase     = isDark ? 0.095 : 0.068
+  const eqOpacity    = isDark ? 0.20 : 0.18
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -100,7 +133,7 @@ export function BackgroundGradient() {
         />
       </motion.div>
 
-      {/* SVG artifacts: waveforms + mesh networks */}
+      {/* SVG artifacts: waveforms + mesh networks + equations */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
         viewBox="0 0 1540 800"
@@ -164,6 +197,23 @@ export function BackgroundGradient() {
             />
           ))}
         </motion.g>
+
+        {/* Scientific equations — scattered across the background */}
+        {EQUATIONS.map((eq, i) => (
+          <motion.text
+            key={i}
+            style={{ y: y[eq.yKey], x: xArr[eq.xKey] }}
+            x={eq.x}
+            y={eq.y}
+            fontSize={eq.size}
+            fontFamily="'Courier New', 'Consolas', monospace"
+            fill={primary}
+            fillOpacity={eqOpacity}
+            letterSpacing="0.04em"
+          >
+            {eq.text}
+          </motion.text>
+        ))}
       </svg>
     </div>
   )
