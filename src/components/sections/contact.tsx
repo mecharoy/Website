@@ -14,7 +14,8 @@ export function Contact() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    const formData = new FormData(e.currentTarget)
+    const form = e.currentTarget
+    const formData = new FormData(form)
     const result = await submitContactForm(formData)
 
     if (result.success) {
@@ -22,7 +23,7 @@ export function Contact() {
         title: 'Message sent!',
         description: 'We\'ll get back to you shortly.',
       })
-      e.currentTarget.reset()
+      form.reset()
     } else {
       toast({
         title: 'Error',
