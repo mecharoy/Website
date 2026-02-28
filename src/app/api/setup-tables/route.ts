@@ -1,10 +1,50 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import crypto from 'crypto'
 
-// Visit this endpoint ONCE to create all database tables
-// URL: https://your-app.vercel.app/api/setup-tables
-export async function GET() {
+const ADMIN_AUTH_SECRET = process.env.ADMIN_AUTH_SECRET || 'default-admin-secret-change-in-production'
+
+function verifyAdminToken(token: string): boolean {
+  const parts = token.split('.')
+  if (parts.length !== 2) return false
+
+  const [timestamp, signature] = parts
+  const expectedSignature = crypto
+    .createHmac('sha256', ADMIN_AUTH_SECRET)
+    .update(timestamp)
+    .digest('hex')
+
   try {
+    if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature))) {
+      return false
+    }
+  } catch {
+    return false
+  }
+
+  // Verify token is not too old (7 days)
+  const tokenAge = Date.now() - parseInt(timestamp, 10)
+  const maxAge = 60 * 60 * 24 * 7 * 1000 // 7 days in milliseconds
+  if (tokenAge > maxAge) {
+    return false
+  }
+
+  return true
+}
+
+// This endpoint is protected and requires authentication
+// Only authenticated admins can set up database tables
+export async function POST(request: NextRequest) {
+  try {
+    // Verify admin authentication
+    const adminCookie = request.cookies.get('admin_auth')?.value
+    if (!adminCookie || !verifyAdminToken(adminCookie)) {
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
     // Create LeadStatus enum type first
     await prisma.$executeRawUnsafe(`
       DO $$ BEGIN
@@ -118,4 +158,12 @@ export async function GET() {
       solution: 'Make sure DATABASE_URL is set in Vercel environment variables'
     }, { status: 500 })
   }
+}
+
+// Only POST is allowed (not GET) to prevent CSRF and accidental database modifications
+export async function GET() {
+  return NextResponse.json(
+    { success: false, error: 'Method not allowed. Use POST request with admin authentication.' },
+    { status: 405 }
+  )
 }

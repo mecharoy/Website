@@ -2,15 +2,13 @@ export const dynamic = 'force-dynamic'
 
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { cookies } from 'next/headers'
+import { verifyAdminSession } from '@/lib/auth'
 import { LogoutButton } from '@/components/admin/logout-button'
 import { Send, Users } from 'lucide-react'
 
 async function checkAuth() {
-  const cookieStore = await cookies()
-  const auth = cookieStore.get('admin_auth')
-
-  if (!auth || auth.value !== 'authenticated') {
+  const isValid = await verifyAdminSession()
+  if (!isValid) {
     redirect('/admin/login')
   }
 }
