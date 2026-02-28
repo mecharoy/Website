@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { getSessionUser } from '@/lib/auth'
 import { Navigation } from './navigation'
-import { LayoutDashboard, LogIn, UserPlus } from 'lucide-react'
+import { LayoutDashboard, LogIn } from 'lucide-react'
 
 export async function NavigationServer() {
   const user = await getSessionUser()
@@ -30,12 +30,6 @@ export async function NavigationServer() {
           <span className="hidden lg:inline">{user.name.split(' ')[0]}</span>
           <LayoutDashboard className="w-3.5 h-3.5 text-muted-foreground" />
         </Link>
-        <a
-          href="#contact"
-          className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-0.5"
-        >
-          Book a Call
-        </a>
       </div>
     )
 
@@ -48,12 +42,6 @@ export async function NavigationServer() {
           <LayoutDashboard className="w-4 h-4 text-primary" />
           My Dashboard
         </Link>
-        <a
-          href="#contact"
-          className="block w-full text-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white"
-        >
-          Book a Call
-        </a>
       </div>
     )
   } else {
@@ -67,13 +55,6 @@ export async function NavigationServer() {
           <LogIn className="w-4 h-4" />
           Sign In
         </Link>
-        <Link
-          href="/auth/register"
-          className="inline-flex items-center gap-1.5 justify-center rounded-full bg-gradient-to-r from-primary to-secondary px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-0.5"
-        >
-          <UserPlus className="w-4 h-4" />
-          Get Started
-        </Link>
       </div>
     )
 
@@ -85,12 +66,6 @@ export async function NavigationServer() {
         >
           <LogIn className="w-4 h-4 text-primary" />
           Sign In
-        </Link>
-        <Link
-          href="/auth/register"
-          className="block w-full text-center rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-semibold text-white"
-        >
-          Get Started
         </Link>
       </div>
     )

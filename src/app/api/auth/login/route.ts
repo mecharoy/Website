@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     await createSession(user.id)
-    return NextResponse.json({ success: true })
+    return NextResponse.json({ success: true, mustChangePassword: user.mustChangePassword })
   } catch (error) {
     console.error('[login]', error)
     return NextResponse.json({ success: false, message: 'Internal server error' }, { status: 500 })

@@ -39,6 +39,9 @@ export default async function DashboardPage() {
   if (!user) {
     redirect('/auth/login')
   }
+  if (user.mustChangePassword) {
+    redirect('/dashboard/change-password')
+  }
 
   const leads = await getUserLeads(user.email)
 

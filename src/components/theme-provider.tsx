@@ -21,22 +21,22 @@ const ThemeProviderContext = React.createContext<ThemeProviderState | undefined>
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'light',
+  defaultTheme = 'dark',
 }: ThemeProviderProps) {
   const [theme, setThemeState] = React.useState<Theme>(defaultTheme)
   const [mounted, setMounted] = React.useState(false)
 
   React.useEffect(() => {
     setMounted(true)
-    // Get theme from localStorage on mount, default to light if not set
+    // Get theme from localStorage on mount, default to dark if not set
     const savedTheme = localStorage.getItem('theme') as Theme | null
     if (savedTheme) {
       setThemeState(savedTheme)
       document.documentElement.classList.toggle('dark', savedTheme === 'dark')
     } else {
-      // Default to light mode
-      setThemeState('light')
-      document.documentElement.classList.remove('dark')
+      // Default to dark mode
+      setThemeState('dark')
+      document.documentElement.classList.add('dark')
     }
   }, [])
 
