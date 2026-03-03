@@ -8,7 +8,7 @@ async function verifyAdminToken(token: string): Promise<boolean> {
   const parts = token.split('.')
   if (parts.length !== 2) return false
 
-  const [timestamp, signature] = parts
+  const [payload, signature] = parts
 
   try {
     // Use Web Crypto API (compatible with Edge Runtime)
@@ -21,20 +21,13 @@ async function verifyAdminToken(token: string): Promise<boolean> {
       ['sign']
     )
 
-    const expectedSignatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(timestamp))
+    const expectedSignatureBuffer = await crypto.subtle.sign('HMAC', key, encoder.encode(payload))
     const expectedSignature = Array.from(new Uint8Array(expectedSignatureBuffer))
       .map(b => b.toString(16).padStart(2, '0'))
       .join('')
 
     // Use constant-time comparison to prevent timing attacks
     if (signature !== expectedSignature) {
-      return false
-    }
-
-    // Verify token is not too old (7 days)
-    const tokenAge = Date.now() - parseInt(timestamp, 10)
-    const maxAge = 60 * 60 * 24 * 7 * 1000 // 7 days in milliseconds
-    if (tokenAge > maxAge) {
       return false
     }
 

@@ -8,10 +8,10 @@ function verifyAdminToken(token: string): boolean {
   const parts = token.split('.')
   if (parts.length !== 2) return false
 
-  const [timestamp, signature] = parts
+  const [payload, signature] = parts
   const expectedSignature = crypto
     .createHmac('sha256', ADMIN_AUTH_SECRET)
-    .update(timestamp)
+    .update(payload)
     .digest('hex')
 
   try {
@@ -19,13 +19,6 @@ function verifyAdminToken(token: string): boolean {
       return false
     }
   } catch {
-    return false
-  }
-
-  // Verify token is not too old (7 days)
-  const tokenAge = Date.now() - parseInt(timestamp, 10)
-  const maxAge = 60 * 60 * 24 * 7 * 1000 // 7 days in milliseconds
-  if (tokenAge > maxAge) {
     return false
   }
 

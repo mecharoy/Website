@@ -87,34 +87,28 @@ const ADMIN_COOKIE = 'admin_auth'
 const ADMIN_AUTH_SECRET = process.env.ADMIN_AUTH_SECRET || 'default-admin-secret-change-in-production'
 
 function signAdminToken(): string {
-  // Create a token with a timestamp to prevent long-term reuse
-  const timestamp = Date.now().toString()
+  // Create a fixed payload and sign it
+  // Expiration is handled by cookie maxAge, not token validation
+  const payload = 'admin_auth_token'
   const signature = crypto
     .createHmac('sha256', ADMIN_AUTH_SECRET)
-    .update(timestamp)
+    .update(payload)
     .digest('hex')
-  return `${timestamp}.${signature}`
+  return `${payload}.${signature}`
 }
 
 function verifyAdminToken(token: string): boolean {
   const parts = token.split('.')
   if (parts.length !== 2) return false
 
-  const [timestamp, signature] = parts
+  const [payload, signature] = parts
   const expectedSignature = crypto
     .createHmac('sha256', ADMIN_AUTH_SECRET)
-    .update(timestamp)
+    .update(payload)
     .digest('hex')
 
   // Use constant-time comparison to prevent timing attacks
   if (!crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature))) {
-    return false
-  }
-
-  // Optional: Verify token is not too old (7 days)
-  const tokenAge = Date.now() - parseInt(timestamp, 10)
-  const maxAge = 60 * 60 * 24 * 7 * 1000 // 7 days in milliseconds
-  if (tokenAge > maxAge) {
     return false
   }
 
