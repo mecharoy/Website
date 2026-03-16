@@ -56,16 +56,19 @@ model Service {
 }
 
 model User {
-  id                 String   @id @default(cuid())
-  name               String
-  email              String   @unique
-  password           String
-  role               UserRole @default(USER)
-  mustChangePassword Boolean  @default(false)
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  posts              Post[]
-  submissions        Submission[]
+  id                   String   @id @default(cuid())
+  name                 String
+  email                String   @unique
+  password             String
+  role                 UserRole @default(USER)
+  mustChangePassword   Boolean  @default(false)
+  publicKey            String?
+  encryptedPrivateKey  String?  @db.Text
+  keySalt              String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  posts                Post[]
+  submissions          Submission[]
 
   @@index([email])
 }
@@ -87,23 +90,26 @@ model Post {
 }
 
 model Submission {
-  id             String           @id @default(cuid())
-  title          String
-  type           SubmissionType
-  content        String           @db.Text
-  attachmentUrl  String?
-  attachmentName String?
-  status         SubmissionStatus @default(PENDING)
-  adminReply     String?          @db.Text
-  threadClosed   Boolean          @default(false)
-  authorId       String
-  author         User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  messages       SubmissionMessage[]
-  todoItems      TodoItem[]
-  history        SubmissionHistory[]
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  expiresAt      DateTime?
+  id                   String           @id @default(cuid())
+  title                String
+  type                 SubmissionType
+  content              String           @db.Text
+  attachmentUrl        String?
+  attachmentName       String?
+  status               SubmissionStatus @default(PENDING)
+  adminReply           String?          @db.Text
+  threadClosed         Boolean          @default(false)
+  encryptedKeyForUser  String?          @db.Text
+  encryptedKeyForAdmin String?          @db.Text
+  isEncrypted          Boolean          @default(false)
+  authorId             String
+  author               User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  messages             SubmissionMessage[]
+  todoItems            TodoItem[]
+  history              SubmissionHistory[]
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+  expiresAt            DateTime?
 
   @@index([authorId])
   @@index([status])
@@ -132,6 +138,7 @@ model SubmissionMessage {
   submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
   content      String     @db.Text
   isAdmin      Boolean    @default(false)
+  isEncrypted  Boolean    @default(false)
   createdAt    DateTime   @default(now())
 
   @@index([submissionId])
@@ -143,11 +150,19 @@ model TodoItem {
   submission   Submission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
   text         String
   completed    Boolean    @default(false)
+  isEncrypted  Boolean    @default(false)
   order        Int        @default(0)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 
   @@index([submissionId])
+}
+
+model AdminKeys {
+  id                  String @id @default("singleton")
+  publicKey           String @db.Text
+  encryptedPrivateKey String @db.Text
+  salt                String
 }
 
 enum LeadStatus {

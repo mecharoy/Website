@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Plus, Loader2, CheckSquare } from 'lucide-react'
+import { encryptText } from '@/lib/crypto'
 
 interface TodoItem {
   id: string
@@ -15,9 +16,10 @@ interface TodoChecklistProps {
   isAdmin: boolean
   initialTodos: TodoItem[]
   threadClosed?: boolean
+  submissionKey?: CryptoKey
 }
 
-export function TodoChecklist({ submissionId, isAdmin, initialTodos, threadClosed = false }: TodoChecklistProps) {
+export function TodoChecklist({ submissionId, isAdmin, initialTodos, threadClosed = false, submissionKey }: TodoChecklistProps) {
   const [todos, setTodos] = useState<TodoItem[]>(initialTodos)
   const [newText, setNewText] = useState('')
   const [adding, setAdding] = useState(false)
@@ -47,10 +49,17 @@ export function TodoChecklist({ submissionId, isAdmin, initialTodos, threadClose
     setAdding(true)
     setError('')
     try {
+      let text = newText
+      let isEncrypted = false
+      if (submissionKey) {
+        text = await encryptText(newText, submissionKey)
+        isEncrypted = true
+      }
+
       const res = await fetch(`/api/admin/submissions/${submissionId}/todos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: newText }),
+        body: JSON.stringify({ text, isEncrypted }),
       })
       if (!res.ok) {
         const data = await res.json()
@@ -58,7 +67,9 @@ export function TodoChecklist({ submissionId, isAdmin, initialTodos, threadClose
         return
       }
       const todo = await res.json()
-      setTodos((prev) => [...prev, todo])
+      // Display the original plaintext locally (not the ciphertext from the server)
+      const displayTodo = isEncrypted ? { ...todo, text: newText } : todo
+      setTodos((prev) => [...prev, displayTodo])
       setNewText('')
     } catch {
       setError('Something went wrong.')

@@ -4,6 +4,14 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Loader2, Eye, EyeOff, CheckCircle2, XCircle } from 'lucide-react'
+import {
+  generateKeyPair,
+  generateSalt,
+  deriveWrappingKey,
+  wrapPrivateKey,
+  exportPublicKey,
+} from '@/lib/crypto'
+import { keySession } from '@/lib/keySession'
 
 function PasswordStrengthItem({ met, label }: { met: boolean; label: string }) {
   return (
@@ -56,6 +64,26 @@ export default function RegisterPage() {
       const data = await res.json()
 
       if (data.success) {
+        // Generate an encryption key pair and store it while we have the password
+        try {
+          const pair = await generateKeyPair()
+          const salt = generateSalt()
+          const wrappingKey = await deriveWrappingKey(form.password, salt)
+          const encryptedPrivateKey = await wrapPrivateKey(pair.privateKey, wrappingKey)
+          const publicKeyB64 = await exportPublicKey(pair.publicKey)
+          const keySalt = btoa(String.fromCharCode(...salt))
+
+          await fetch('/api/user/keys', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ publicKey: publicKeyB64, encryptedPrivateKey, keySalt }),
+          })
+
+          keySession.setUserKeys(pair.publicKey, pair.privateKey)
+        } catch {
+          // Non-fatal — keys can be generated on first login
+        }
+
         router.push('/dashboard')
         router.refresh()
         return

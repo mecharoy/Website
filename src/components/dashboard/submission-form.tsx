@@ -1,8 +1,16 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { FileText, CheckSquare, Megaphone, MessageCircle, Send, Loader2, Plus, X, Upload, Paperclip } from 'lucide-react'
+import { FileText, CheckSquare, Megaphone, MessageCircle, Send, Loader2, Plus, X, Upload, Paperclip, Lock } from 'lucide-react'
+import {
+  generateAesKey,
+  encryptText,
+  encryptFile,
+  encryptAesKey,
+  importPublicKey,
+} from '@/lib/crypto'
+import { keySession } from '@/lib/keySession'
 
 const TYPES = [
   { value: 'DOCUMENT', label: 'Document', icon: <FileText className="w-4 h-4" />, desc: 'Upload a file or report' },
@@ -26,11 +34,38 @@ export function SubmissionForm() {
   // File upload state
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [uploadedFileUrl, setUploadedFileUrl] = useState('')
-  const [uploadedFileName, setUploadedFileName] = useState('')
+  const [originalFileName, setOriginalFileName] = useState('')
   const [uploading, setUploading] = useState(false)
 
   const [sending, setSending] = useState(false)
   const [error, setError] = useState('')
+
+  // E2EE state
+  const [submissionKey, setSubmissionKey] = useState<CryptoKey | null>(null)
+  const [adminPublicKey, setAdminPublicKey] = useState<CryptoKey | null>(null)
+  const [e2eeReady, setE2eeReady] = useState(false)
+
+  useEffect(() => {
+    async function initE2EE() {
+      try {
+        // Fetch admin's public key
+        const res = await fetch('/api/admin/public-key')
+        if (!res.ok) return
+        const { publicKey: pubB64 } = await res.json()
+        const pub = await importPublicKey(pubB64)
+        setAdminPublicKey(pub)
+
+        // Generate a fresh AES key for this submission
+        const key = await generateAesKey()
+        setSubmissionKey(key)
+
+        setE2eeReady(true)
+      } catch {
+        // E2EE unavailable — fall back to plaintext
+      }
+    }
+    initE2EE()
+  }, [])
 
   const addTodoItem = () => {
     const text = todoInput.trim()
@@ -56,13 +91,24 @@ export function SubmissionForm() {
 
     setSelectedFile(file)
     setUploadedFileUrl('')
-    setUploadedFileName('')
+    setOriginalFileName('')
     setError('')
     setUploading(true)
 
     try {
       const form = new FormData()
-      form.append('file', file)
+
+      if (e2eeReady && submissionKey) {
+        // Encrypt the file before upload
+        const arrayBuffer = await file.arrayBuffer()
+        const encryptedBytes = await encryptFile(arrayBuffer, submissionKey)
+        const encBlob = new Blob([encryptedBytes], { type: 'application/octet-stream' })
+        form.append('file', encBlob, file.name + '.enc')
+        form.append('encrypted', 'true')
+      } else {
+        form.append('file', file)
+      }
+
       const res = await fetch('/api/upload/document', { method: 'POST', body: form })
       const data = await res.json()
       if (!res.ok) {
@@ -71,7 +117,7 @@ export function SubmissionForm() {
         return
       }
       setUploadedFileUrl(data.url)
-      setUploadedFileName(data.fileName)
+      setOriginalFileName(file.name) // keep original name for display and encryption
     } catch {
       setError('File upload failed. Please try again.')
       setSelectedFile(null)
@@ -83,7 +129,7 @@ export function SubmissionForm() {
   const clearFile = () => {
     setSelectedFile(null)
     setUploadedFileUrl('')
-    setUploadedFileName('')
+    setOriginalFileName('')
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
 
@@ -110,14 +156,68 @@ export function SubmissionForm() {
 
     setSending(true)
     try {
+      const userPublicKey = keySession.getUserPublicKey()
+      const canEncrypt = e2eeReady && submissionKey && adminPublicKey && userPublicKey
+
       let body: Record<string, unknown>
 
-      if (type === 'TODO_LIST') {
-        body = { title, type, content: todoItems.join('\n'), items: todoItems }
-      } else if (type === 'DOCUMENT') {
-        body = { title, type, content: uploadedFileName, attachmentUrl: uploadedFileUrl, attachmentName: uploadedFileName }
+      if (canEncrypt) {
+        // Encrypt all content with the submission AES key
+        const encTitle = await encryptText(title, submissionKey)
+
+        if (type === 'TODO_LIST') {
+          const encItems = await Promise.all(todoItems.map((t) => encryptText(t, submissionKey)))
+          const encContent = await encryptText(todoItems.join('\n'), submissionKey)
+          const encKeyForUser = await encryptAesKey(submissionKey, userPublicKey)
+          const encKeyForAdmin = await encryptAesKey(submissionKey, adminPublicKey)
+
+          body = {
+            title: encTitle,
+            type,
+            content: encContent,
+            items: encItems,
+            encryptedKeyForUser: encKeyForUser,
+            encryptedKeyForAdmin: encKeyForAdmin,
+            isEncrypted: true,
+          }
+        } else if (type === 'DOCUMENT') {
+          const encFileName = await encryptText(originalFileName, submissionKey)
+          const encKeyForUser = await encryptAesKey(submissionKey, userPublicKey)
+          const encKeyForAdmin = await encryptAesKey(submissionKey, adminPublicKey)
+
+          body = {
+            title: encTitle,
+            type,
+            content: encFileName,
+            attachmentUrl: uploadedFileUrl,
+            attachmentName: encFileName,
+            encryptedKeyForUser: encKeyForUser,
+            encryptedKeyForAdmin: encKeyForAdmin,
+            isEncrypted: true,
+          }
+        } else {
+          const encContent = await encryptText(content, submissionKey)
+          const encKeyForUser = await encryptAesKey(submissionKey, userPublicKey)
+          const encKeyForAdmin = await encryptAesKey(submissionKey, adminPublicKey)
+
+          body = {
+            title: encTitle,
+            type,
+            content: encContent,
+            encryptedKeyForUser: encKeyForUser,
+            encryptedKeyForAdmin: encKeyForAdmin,
+            isEncrypted: true,
+          }
+        }
       } else {
-        body = { title, type, content }
+        // Fallback: plaintext (admin keys not yet set up)
+        if (type === 'TODO_LIST') {
+          body = { title, type, content: todoItems.join('\n'), items: todoItems }
+        } else if (type === 'DOCUMENT') {
+          body = { title, type, content: originalFileName, attachmentUrl: uploadedFileUrl, attachmentName: originalFileName }
+        } else {
+          body = { title, type, content }
+        }
       }
 
       const res = await fetch('/api/submissions', {
@@ -141,6 +241,13 @@ export function SubmissionForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {e2eeReady && (
+        <div className="flex items-center gap-1.5 text-xs text-green-600 font-medium">
+          <Lock className="w-3.5 h-3.5" />
+          End-to-end encrypted
+        </div>
+      )}
+
       {/* Type selector */}
       <div>
         <label className="block text-sm font-medium mb-2">Type</label>
@@ -200,7 +307,9 @@ export function SubmissionForm() {
               <span className="text-sm flex-1 truncate">{selectedFile.name}</span>
               {uploading && <Loader2 className="w-4 h-4 animate-spin text-primary shrink-0" />}
               {!uploading && uploadedFileUrl && (
-                <span className="text-xs text-green-600 font-medium shrink-0">Uploaded</span>
+                <span className="text-xs text-green-600 font-medium shrink-0">
+                  {e2eeReady ? 'Encrypted & uploaded' : 'Uploaded'}
+                </span>
               )}
               <button
                 type="button"

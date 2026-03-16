@@ -30,14 +30,15 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   if (submission.threadClosed) return NextResponse.json({ error: 'Thread is closed' }, { status: 403 })
 
   const body = await req.json()
-  const { content } = body
+  const { content, isEncrypted = false } = body
   if (!content?.trim()) return NextResponse.json({ error: 'Content is required' }, { status: 400 })
 
   const message = await prisma.submissionMessage.create({
     data: {
       submissionId: params.id,
-      content: content.trim(),
+      content: isEncrypted ? content : content.trim(),
       isAdmin: true,
+      isEncrypted,
     },
   })
 

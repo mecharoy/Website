@@ -3,6 +3,16 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
+import {
+  generateKeyPair,
+  generateSalt,
+  deriveWrappingKey,
+  wrapPrivateKey,
+  exportPublicKey,
+  unwrapPrivateKey,
+  importPublicKey,
+} from '@/lib/crypto'
+import { keySession } from '@/lib/keySession'
 
 export default function LoginPage() {
   const [password, setPassword] = useState('')
@@ -23,6 +33,38 @@ export default function LoginPage() {
       })
 
       if (res.ok) {
+        // Set up or unlock the admin encryption key pair
+        try {
+          const keysRes = await fetch('/api/admin/keys')
+          if (keysRes.status === 404) {
+            // First time: generate admin key pair
+            const pair = await generateKeyPair()
+            const salt = generateSalt()
+            const wrappingKey = await deriveWrappingKey(password, salt)
+            const encryptedPrivateKey = await wrapPrivateKey(pair.privateKey, wrappingKey)
+            const publicKeyB64 = await exportPublicKey(pair.publicKey)
+            const saltB64 = btoa(String.fromCharCode(...salt))
+
+            await fetch('/api/admin/keys', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ publicKey: publicKeyB64, encryptedPrivateKey, salt: saltB64 }),
+            })
+
+            keySession.setAdminPrivateKey(pair.privateKey)
+            keySession.setAdminPublicKey(pair.publicKey)
+          } else if (keysRes.ok) {
+            const keysData = await keysRes.json()
+            const wrappingKey = await deriveWrappingKey(password, keysData.salt)
+            const privateKey = await unwrapPrivateKey(keysData.encryptedPrivateKey, wrappingKey)
+            const publicKey = await importPublicKey(keysData.publicKey)
+            keySession.setAdminPrivateKey(privateKey)
+            keySession.setAdminPublicKey(publicKey)
+          }
+        } catch {
+          // Non-fatal — decryption will be unavailable
+        }
+
         router.push('/admin')
         router.refresh()
       } else {

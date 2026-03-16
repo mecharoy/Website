@@ -4,6 +4,47 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Loader2, Eye, EyeOff } from 'lucide-react'
+import {
+  deriveWrappingKey,
+  unwrapPrivateKey,
+  importPublicKey,
+  generateKeyPair,
+  generateSalt,
+  wrapPrivateKey,
+  exportPublicKey,
+} from '@/lib/crypto'
+import { keySession } from '@/lib/keySession'
+
+async function loadOrInitUserKeys(password: string) {
+  const res = await fetch('/api/user/keys')
+  if (!res.ok) return
+
+  const data = await res.json()
+
+  if (!data.publicKey || !data.encryptedPrivateKey || !data.keySalt) {
+    // Pre-E2EE account — generate and store a key pair now
+    const pair = await generateKeyPair()
+    const salt = generateSalt()
+    const wrappingKey = await deriveWrappingKey(password, salt)
+    const encryptedPrivateKey = await wrapPrivateKey(pair.privateKey, wrappingKey)
+    const publicKeyB64 = await exportPublicKey(pair.publicKey)
+    const keySalt = btoa(String.fromCharCode(...salt))
+
+    await fetch('/api/user/keys', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ publicKey: publicKeyB64, encryptedPrivateKey, keySalt }),
+    })
+
+    keySession.setUserKeys(pair.publicKey, pair.privateKey)
+    return
+  }
+
+  const wrappingKey = await deriveWrappingKey(password, data.keySalt)
+  const privateKey = await unwrapPrivateKey(data.encryptedPrivateKey, wrappingKey)
+  const publicKey = await importPublicKey(data.publicKey)
+  keySession.setUserKeys(publicKey, privateKey)
+}
 
 export default function LoginPage() {
   const [form, setForm] = useState({ email: '', password: '' })
@@ -35,6 +76,10 @@ export default function LoginPage() {
       const data = await res.json()
 
       if (data.success) {
+        // Unlock the private key while we still have the plaintext password
+        await loadOrInitUserKeys(form.password).catch(() => {
+          // Non-fatal — encryption will be unavailable until the user logs in again
+        })
         router.push(data.mustChangePassword ? '/dashboard/change-password' : '/dashboard')
         router.refresh()
         return
@@ -152,7 +197,6 @@ export default function LoginPage() {
             </button>
           </form>
         </div>
-
       </div>
     </div>
   )

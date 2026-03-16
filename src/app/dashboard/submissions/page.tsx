@@ -2,38 +2,10 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { getSessionUser } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { formatDate } from '@/lib/utils'
-import { SubmissionThread } from '@/components/submission-thread'
-import { TodoChecklist } from '@/components/todo-checklist'
-import { Send, Plus, ArrowLeft, FileText, CheckSquare, Megaphone, MessageCircle, Download } from 'lucide-react'
+import { Send, Plus, ArrowLeft } from 'lucide-react'
+import { SubmissionCard } from '@/components/submission-card'
 
 export const dynamic = 'force-dynamic'
-
-const typeIcons: Record<string, React.ReactNode> = {
-  DOCUMENT: <FileText className="w-4 h-4" />,
-  TODO_LIST: <CheckSquare className="w-4 h-4" />,
-  UPDATE: <Megaphone className="w-4 h-4" />,
-  MESSAGE: <MessageCircle className="w-4 h-4" />,
-}
-
-const typeLabels: Record<string, string> = {
-  DOCUMENT: 'Document',
-  TODO_LIST: 'To-Do List',
-  UPDATE: 'Update',
-  MESSAGE: 'Message',
-}
-
-const statusColors: Record<string, string> = {
-  PENDING: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/20',
-  REVIEWED: 'bg-blue-500/10 text-blue-600 border-blue-500/20',
-  ACKNOWLEDGED: 'bg-green-500/10 text-green-600 border-green-500/20',
-}
-
-const statusLabels: Record<string, string> = {
-  PENDING: 'Pending',
-  REVIEWED: 'Reviewed',
-  ACKNOWLEDGED: 'Acknowledged',
-}
 
 export default async function SubmissionsPage() {
   const user = await getSessionUser()
@@ -89,64 +61,7 @@ export default async function SubmissionsPage() {
         ) : (
           <div className="space-y-4">
             {submissions.map((sub) => (
-              <div
-                key={sub.id}
-                className="bg-card border border-primary/10 rounded-xl overflow-hidden"
-              >
-                {/* Card header */}
-                <div className="flex items-start justify-between gap-3 px-5 py-4 border-b border-primary/10">
-                  <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-muted-foreground shrink-0">
-                      {typeIcons[sub.type] ?? <FileText className="w-4 h-4" />}
-                    </span>
-                    <span className="text-xs font-medium text-muted-foreground shrink-0">
-                      {typeLabels[sub.type] ?? sub.type}
-                    </span>
-                    <span className="font-semibold truncate">{sub.title}</span>
-                  </div>
-                  <span
-                    className={`shrink-0 text-xs font-medium px-2.5 py-0.5 rounded-full border ${
-                      statusColors[sub.status] ?? statusColors['PENDING']
-                    }`}
-                  >
-                    {statusLabels[sub.status] ?? sub.status}
-                  </span>
-                </div>
-
-                {/* Card body */}
-                <div className="px-5 py-4">
-                  {sub.type === 'DOCUMENT' && sub.attachmentUrl ? (
-                    <a
-                      href={sub.attachmentUrl}
-                      download={sub.attachmentName ?? true}
-                      className="inline-flex items-center gap-2 text-sm font-medium text-primary border border-primary/20 bg-primary/5 hover:bg-primary/10 rounded-lg px-4 py-2 transition-colors mb-2"
-                    >
-                      <Download className="w-4 h-4" />
-                      {sub.attachmentName ?? 'Download file'}
-                    </a>
-                  ) : sub.type !== 'TODO_LIST' ? (
-                    <p className="text-sm text-muted-foreground whitespace-pre-wrap mb-1">{sub.content}</p>
-                  ) : null}
-                  <p className="text-xs text-muted-foreground">{formatDate(sub.createdAt)}</p>
-
-                  {/* Todo checklist (only for TODO_LIST type) */}
-                  {sub.type === 'TODO_LIST' && (
-                    <TodoChecklist
-                      submissionId={sub.id}
-                      isAdmin={false}
-                      initialTodos={sub.todoItems}
-                    />
-                  )}
-
-                  {/* Thread */}
-                  <SubmissionThread
-                    submissionId={sub.id}
-                    isAdmin={false}
-                    initialMessages={sub.messages}
-                    initialThreadClosed={sub.threadClosed}
-                  />
-                </div>
-              </div>
+              <SubmissionCard key={sub.id} sub={sub} />
             ))}
           </div>
         )}

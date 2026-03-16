@@ -30,7 +30,7 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   if (submission.threadClosed) return NextResponse.json({ error: 'Thread is closed' }, { status: 403 })
 
   const body = await req.json()
-  const { text } = body
+  const { text, isEncrypted = false } = body
   if (!text?.trim()) return NextResponse.json({ error: 'Text is required' }, { status: 400 })
 
   const count = await prisma.todoItem.count({ where: { submissionId: params.id } })
@@ -38,7 +38,8 @@ export async function POST(req: Request, { params }: { params: { id: string } })
   const todo = await prisma.todoItem.create({
     data: {
       submissionId: params.id,
-      text: text.trim(),
+      text: isEncrypted ? text : text.trim(),
+      isEncrypted,
       order: count,
     },
   })

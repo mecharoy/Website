@@ -4,6 +4,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Loader2, Eye, EyeOff, KeyRound } from 'lucide-react'
+import {
+  deriveWrappingKey,
+  unwrapPrivateKey,
+  wrapPrivateKey,
+  generateSalt,
+} from '@/lib/crypto'
+import { keySession } from '@/lib/keySession'
 
 export default function ChangePasswordPage() {
   const [form, setForm] = useState({
@@ -40,6 +47,35 @@ export default function ChangePasswordPage() {
       const data = await res.json()
 
       if (data.success) {
+        // Re-wrap the private key under the new password
+        try {
+          const keysRes = await fetch('/api/user/keys')
+          if (keysRes.ok) {
+            const keysData = await keysRes.json()
+            if (keysData.encryptedPrivateKey && keysData.keySalt) {
+              const oldWrappingKey = await deriveWrappingKey(form.currentPassword, keysData.keySalt)
+              const privateKey = await unwrapPrivateKey(keysData.encryptedPrivateKey, oldWrappingKey)
+
+              const newSalt = generateSalt()
+              const newWrappingKey = await deriveWrappingKey(form.newPassword, newSalt)
+              const newEncryptedPrivateKey = await wrapPrivateKey(privateKey, newWrappingKey)
+              const newKeySalt = btoa(String.fromCharCode(...newSalt))
+
+              await fetch('/api/user/keys', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ encryptedPrivateKey: newEncryptedPrivateKey, keySalt: newKeySalt }),
+              })
+
+              // Update the in-memory session key
+              const currentPub = keySession.getUserPublicKey()
+              if (currentPub) keySession.setUserKeys(currentPub, privateKey)
+            }
+          }
+        } catch {
+          // Non-fatal — user will need to log in again to re-unlock keys
+        }
+
         router.push('/dashboard')
         router.refresh()
         return

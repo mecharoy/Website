@@ -24,7 +24,17 @@ export async function POST(req: Request) {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const body = await req.json()
-  const { title, type, content, items, attachmentUrl, attachmentName } = body
+  const {
+    title,
+    type,
+    content,
+    items,
+    attachmentUrl,
+    attachmentName,
+    encryptedKeyForUser,
+    encryptedKeyForAdmin,
+    isEncrypted = false,
+  } = body
 
   if (!title?.trim() || !type) {
     return NextResponse.json({ error: 'Title and type are required' }, { status: 400 })
@@ -43,15 +53,23 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'At least one to-do item is required' }, { status: 400 })
     }
 
+    const encryptedItems: string[] = Array.isArray(items) ? items : []
     const submission = await prisma.submission.create({
       data: {
-        title: title.trim(),
+        title: isEncrypted ? title : title.trim(),
         type,
-        content: todoItems.join('\n'),
+        content: isEncrypted ? content : todoItems.join('\n'),
         authorId: user.id,
         expiresAt,
+        encryptedKeyForUser: encryptedKeyForUser ?? null,
+        encryptedKeyForAdmin: encryptedKeyForAdmin ?? null,
+        isEncrypted,
         todoItems: {
-          create: todoItems.map((text, i) => ({ text: text.trim(), order: i })),
+          create: (isEncrypted ? encryptedItems : todoItems).map((text, i) => ({
+            text: isEncrypted ? text : (text as string).trim(),
+            isEncrypted,
+            order: i,
+          })),
         },
       },
       include: { todoItems: true },
@@ -75,13 +93,16 @@ export async function POST(req: Request) {
 
     const submission = await prisma.submission.create({
       data: {
-        title: title.trim(),
+        title: isEncrypted ? title : title.trim(),
         type,
-        content: attachmentName,
+        content: isEncrypted ? content : attachmentName,
         attachmentUrl: attachmentUrl.trim(),
-        attachmentName: attachmentName.trim(),
+        attachmentName: isEncrypted ? attachmentName : attachmentName.trim(),
         authorId: user.id,
         expiresAt,
+        encryptedKeyForUser: encryptedKeyForUser ?? null,
+        encryptedKeyForAdmin: encryptedKeyForAdmin ?? null,
+        isEncrypted,
       },
     })
 
@@ -102,11 +123,14 @@ export async function POST(req: Request) {
 
   const submission = await prisma.submission.create({
     data: {
-      title: title.trim(),
+      title: isEncrypted ? title : title.trim(),
       type,
-      content: content.trim(),
+      content: isEncrypted ? content : content.trim(),
       authorId: user.id,
       expiresAt,
+      encryptedKeyForUser: encryptedKeyForUser ?? null,
+      encryptedKeyForAdmin: encryptedKeyForAdmin ?? null,
+      isEncrypted,
     },
   })
 

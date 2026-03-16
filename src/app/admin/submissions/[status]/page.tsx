@@ -5,13 +5,10 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { prisma } from '@/lib/prisma'
 import { SubmissionStatus } from '@prisma/client'
-import { formatDateTime } from '@/lib/utils'
 import { LogoutButton } from '@/components/admin/logout-button'
-import { UpdateSubmissionStatus } from '@/components/admin/update-submission-status'
-import { SubmissionThread } from '@/components/submission-thread'
-import { TodoChecklist } from '@/components/todo-checklist'
-import { SubmissionHistoryTimeline } from '@/components/admin/submission-history-timeline'
-import { ArrowLeft, Download } from 'lucide-react'
+import { AdminSubmissionCard } from '@/components/admin/admin-submission-card'
+import { KeyUnlocker } from '@/components/key-unlocker'
+import { ArrowLeft } from 'lucide-react'
 
 const STATUS_MAP: Record<string, SubmissionStatus> = {
   pending: SubmissionStatus.PENDING,
@@ -19,19 +16,10 @@ const STATUS_MAP: Record<string, SubmissionStatus> = {
   acknowledged: SubmissionStatus.ACKNOWLEDGED,
 }
 
-type StatusSlug = string
-
 async function checkAuth() {
   const cookieStore = await cookies()
   const auth = cookieStore.get('admin_auth')
   if (!auth || auth.value !== 'authenticated') redirect('/admin/login')
-}
-
-const typeLabels: Record<string, string> = {
-  DOCUMENT: 'Document',
-  TODO_LIST: 'To-Do',
-  UPDATE: 'Update',
-  MESSAGE: 'Message',
 }
 
 async function fetchSubmissions(status: SubmissionStatus, userEmail?: string) {
@@ -58,62 +46,6 @@ async function getUniqueUsers(status: SubmissionStatus) {
   return subs.map((s) => s.author).sort((a, b) => a.name.localeCompare(b.name))
 }
 
-type Submission = Awaited<ReturnType<typeof fetchSubmissions>>[number]
-
-function SubmissionCard({ sub }: { sub: Submission }) {
-  return (
-    <div className="bg-card border border-primary/10 rounded-xl overflow-hidden">
-      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-b border-primary/10 bg-muted/30">
-        <div className="flex items-center gap-3 min-w-0">
-          <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground bg-muted px-2 py-0.5 rounded">
-            {typeLabels[sub.type] ?? sub.type}
-          </span>
-          <span className="font-semibold truncate">{sub.title}</span>
-        </div>
-        <div className="flex items-center gap-3 shrink-0 flex-wrap">
-          <span className="text-xs text-muted-foreground">{sub.author.name} · {sub.author.email}</span>
-          <span className="text-xs text-muted-foreground">{formatDateTime(sub.createdAt)}</span>
-          <UpdateSubmissionStatus submissionId={sub.id} currentStatus={sub.status} />
-        </div>
-      </div>
-      <div className="px-5 py-4">
-        {sub.type === 'DOCUMENT' && sub.attachmentUrl ? (
-          <a
-            href={sub.attachmentUrl}
-            download={sub.attachmentName ?? true}
-            className="inline-flex items-center gap-2 text-sm font-medium text-primary border border-primary/20 bg-primary/5 hover:bg-primary/10 rounded-lg px-4 py-2 transition-colors mb-3"
-          >
-            <Download className="w-4 h-4" />
-            {sub.attachmentName ?? 'Download file'}
-          </a>
-        ) : sub.type !== 'TODO_LIST' ? (
-          <pre className="whitespace-pre-wrap text-sm text-muted-foreground font-sans leading-relaxed max-h-48 overflow-y-auto">
-            {sub.content}
-          </pre>
-        ) : null}
-
-        {sub.type === 'TODO_LIST' && (
-          <TodoChecklist
-            submissionId={sub.id}
-            isAdmin={true}
-            initialTodos={sub.todoItems}
-            threadClosed={sub.threadClosed}
-          />
-        )}
-
-        <SubmissionThread
-          submissionId={sub.id}
-          isAdmin={true}
-          initialMessages={sub.messages}
-          initialThreadClosed={sub.threadClosed}
-        />
-
-        <SubmissionHistoryTimeline submissionId={sub.id} />
-      </div>
-    </div>
-  )
-}
-
 export default async function StatusPage({
   params,
   searchParams,
@@ -136,6 +68,8 @@ export default async function StatusPage({
 
   return (
     <div className="min-h-screen bg-background">
+      <KeyUnlocker isAdmin />
+
       <header className="border-b border-primary/10 bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -196,7 +130,7 @@ export default async function StatusPage({
         ) : (
           <div className="space-y-4">
             {submissions.map((sub) => (
-              <SubmissionCard key={sub.id} sub={sub} />
+              <AdminSubmissionCard key={sub.id} sub={sub} />
             ))}
           </div>
         )}

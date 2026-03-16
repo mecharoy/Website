@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Send, Loader2, Lock, Unlock, MessageSquare } from 'lucide-react'
 import { formatDateTime } from '@/lib/utils'
+import { encryptText } from '@/lib/crypto'
 
 interface Message {
   id: string
@@ -16,6 +17,7 @@ interface SubmissionThreadProps {
   isAdmin: boolean
   initialMessages: Message[]
   initialThreadClosed: boolean
+  submissionKey?: CryptoKey
 }
 
 export function SubmissionThread({
@@ -23,6 +25,7 @@ export function SubmissionThread({
   isAdmin,
   initialMessages,
   initialThreadClosed,
+  submissionKey,
 }: SubmissionThreadProps) {
   const [messages, setMessages] = useState<Message[]>(initialMessages)
   const [threadClosed, setThreadClosed] = useState(initialThreadClosed)
@@ -44,10 +47,18 @@ export function SubmissionThread({
       const endpoint = isAdmin
         ? `/api/admin/submissions/${submissionId}/messages`
         : `/api/submissions/${submissionId}/messages`
+
+      let messageContent = input
+      let isEncrypted = false
+      if (submissionKey) {
+        messageContent = await encryptText(input, submissionKey)
+        isEncrypted = true
+      }
+
       const res = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ content: input }),
+        body: JSON.stringify({ content: messageContent, isEncrypted }),
       })
       if (!res.ok) {
         const data = await res.json()
@@ -55,7 +66,9 @@ export function SubmissionThread({
         return
       }
       const msg = await res.json()
-      setMessages((prev) => [...prev, msg])
+      // Display the original plaintext locally (not the ciphertext from the server)
+      const displayMsg = isEncrypted ? { ...msg, content: input } : msg
+      setMessages((prev) => [...prev, displayMsg])
       setInput('')
     } catch {
       setError('Something went wrong.')
