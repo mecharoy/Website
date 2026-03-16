@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getSessionUser } from '@/lib/auth'
+import { logSubmissionEvent } from '@/lib/history'
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000
 
@@ -56,6 +57,14 @@ export async function POST(req: Request) {
       include: { todoItems: true },
     })
 
+    logSubmissionEvent({
+      submissionId: submission.id,
+      action: 'CREATED',
+      actorType: 'USER',
+      actorName: user.name,
+      newValue: { title: submission.title, type: submission.type },
+    })
+
     return NextResponse.json(submission, { status: 201 })
   }
 
@@ -76,6 +85,14 @@ export async function POST(req: Request) {
       },
     })
 
+    logSubmissionEvent({
+      submissionId: submission.id,
+      action: 'CREATED',
+      actorType: 'USER',
+      actorName: user.name,
+      newValue: { title: submission.title, type: submission.type, file: attachmentName },
+    })
+
     return NextResponse.json(submission, { status: 201 })
   }
 
@@ -91,6 +108,14 @@ export async function POST(req: Request) {
       authorId: user.id,
       expiresAt,
     },
+  })
+
+  logSubmissionEvent({
+    submissionId: submission.id,
+    action: 'CREATED',
+    actorType: 'USER',
+    actorName: user.name,
+    newValue: { title: submission.title, type: submission.type },
   })
 
   return NextResponse.json(submission, { status: 201 })

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { prisma } from '@/lib/prisma'
+import { logSubmissionEvent } from '@/lib/history'
 
 async function checkAdmin() {
   const cookieStore = await cookies()
@@ -26,6 +27,14 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     data: { adminReply: adminReply.trim() || null },
   })
 
+  logSubmissionEvent({
+    submissionId: params.id,
+    action: 'ADMIN_REPLY_UPDATED',
+    actorType: 'ADMIN',
+    actorName: 'Admin',
+    newValue: { reply: adminReply.trim() || null },
+  })
+
   return NextResponse.json(updated)
 }
 
@@ -43,6 +52,14 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
       where: { id: params.id },
       data: { threadClosed },
     })
+
+    logSubmissionEvent({
+      submissionId: params.id,
+      action: threadClosed ? 'THREAD_CLOSED' : 'THREAD_OPENED',
+      actorType: 'ADMIN',
+      actorName: 'Admin',
+    })
+
     return NextResponse.json(updated)
   }
 
@@ -51,9 +68,23 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     return NextResponse.json({ error: 'Invalid status' }, { status: 400 })
   }
 
+  const current = await prisma.submission.findUnique({
+    where: { id: params.id },
+    select: { status: true },
+  })
+
   const updated = await prisma.submission.update({
     where: { id: params.id },
     data: { status },
+  })
+
+  logSubmissionEvent({
+    submissionId: params.id,
+    action: 'STATUS_CHANGED',
+    actorType: 'ADMIN',
+    actorName: 'Admin',
+    oldValue: { status: current?.status },
+    newValue: { status },
   })
 
   return NextResponse.json(updated)
