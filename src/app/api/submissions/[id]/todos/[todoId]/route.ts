@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getSessionUser } from '@/lib/auth'
+import { logSubmissionEvent } from '@/lib/history'
 
 // PATCH /api/submissions/[id]/todos/[todoId] — user toggles a todo item
 export async function PATCH(
@@ -24,6 +25,14 @@ export async function PATCH(
   const todo = await prisma.todoItem.update({
     where: { id: params.todoId, submissionId: params.id },
     data: { completed },
+  })
+
+  logSubmissionEvent({
+    submissionId: params.id,
+    action: completed ? 'TODO_COMPLETED' : 'TODO_UNCOMPLETED',
+    actorType: 'USER',
+    actorName: user.name,
+    newValue: { todoText: todo.text, completed },
   })
 
   return NextResponse.json(todo)

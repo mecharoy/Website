@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getSessionUser } from '@/lib/auth'
+import { logSubmissionEvent } from '@/lib/history'
 
 // GET /api/submissions/[id]/messages — get thread messages
 export async function GET(_req: Request, { params }: { params: { id: string } }) {
@@ -41,6 +42,13 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       content: content.trim(),
       isAdmin: false,
     },
+  })
+
+  logSubmissionEvent({
+    submissionId: params.id,
+    action: 'MESSAGE_SENT',
+    actorType: 'USER',
+    actorName: user.name,
   })
 
   return NextResponse.json(message, { status: 201 })

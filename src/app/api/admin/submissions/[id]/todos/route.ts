@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
 import { prisma } from '@/lib/prisma'
+import { logSubmissionEvent } from '@/lib/history'
 
 async function checkAdmin() {
   const cookieStore = await cookies()
@@ -40,6 +41,14 @@ export async function POST(req: Request, { params }: { params: { id: string } })
       text: text.trim(),
       order: count,
     },
+  })
+
+  logSubmissionEvent({
+    submissionId: params.id,
+    action: 'TODO_ADDED',
+    actorType: 'ADMIN',
+    actorName: 'Admin',
+    newValue: { text: text.trim() },
   })
 
   return NextResponse.json(todo, { status: 201 })

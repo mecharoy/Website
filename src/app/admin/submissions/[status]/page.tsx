@@ -10,6 +10,7 @@ import { LogoutButton } from '@/components/admin/logout-button'
 import { UpdateSubmissionStatus } from '@/components/admin/update-submission-status'
 import { SubmissionThread } from '@/components/submission-thread'
 import { TodoChecklist } from '@/components/todo-checklist'
+import { SubmissionHistoryTimeline } from '@/components/admin/submission-history-timeline'
 import { ArrowLeft, Download } from 'lucide-react'
 
 const STATUS_MAP: Record<string, SubmissionStatus> = {
@@ -106,6 +107,8 @@ function SubmissionCard({ sub }: { sub: Submission }) {
           initialMessages={sub.messages}
           initialThreadClosed={sub.threadClosed}
         />
+
+        <SubmissionHistoryTimeline submissionId={sub.id} />
       </div>
     </div>
   )
