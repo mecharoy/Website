@@ -35,11 +35,11 @@ export async function Blog() {
       <div className="container mx-auto px-4 max-w-6xl relative z-10">
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
-          <BookOpen className="w-5 h-5 text-primary" />
-          <span className="text-sm font-medium text-primary uppercase tracking-wide">Blog</span>
+          <BookOpen className="w-5 h-5 text-warm" />
+          <span className="text-sm font-bold text-warm uppercase tracking-widest">Blog</span>
         </div>
         <div className="mb-12 max-w-2xl">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
+          <h2 className="font-display text-3xl md:text-4xl font-extrabold mb-4">
             Latest from the Lab
           </h2>
           <p className="text-muted-foreground text-lg">

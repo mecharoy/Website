@@ -28,6 +28,9 @@
     --accent: 165 60% 30%;
     --accent-foreground: 0 0% 100%;
 
+    --warm: 38 92% 50%;
+    --warm-foreground: 30 20% 12%;
+
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
@@ -59,6 +62,9 @@
 
     --accent: 165 62% 50%;
     --accent-foreground: 200 22% 8%;
+
+    --warm: 42 92% 56%;
+    --warm-foreground: 200 22% 8%;
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
@@ -94,6 +100,37 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Section number decorations */
+.section-number {
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px hsl(var(--primary) / 0.12);
+  user-select: none;
+  pointer-events: none;
+}
+.dark .section-number {
+  -webkit-text-stroke: 1.5px hsl(var(--primary) / 0.15);
+}
+
+/* Diagonal section divider */
+.section-divider-slant {
+  position: relative;
+}
+.section-divider-slant::before {
+  content: '';
+  position: absolute;
+  top: -3rem;
+  left: 0;
+  right: 0;
+  height: 6rem;
+  background: inherit;
+  clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
+  z-index: 1;
 }
 
 /* Custom scrollbar */

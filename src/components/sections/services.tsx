@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Microscope, Cpu, BrainCircuit, Check } from 'lucide-react'
+import { Microscope, Cpu, BrainCircuit, ArrowRight } from 'lucide-react'
 
 const researchAreas = [
   {
@@ -14,6 +14,7 @@ const researchAreas = [
       'Real-time state estimation',
       'Uncertainty-aware predictions',
     ],
+    color: 'from-primary to-secondary',
   },
   {
     icon: Cpu,
@@ -25,10 +26,11 @@ const researchAreas = [
       'Multi-fidelity deep learning',
       'Sensor data fusion',
     ],
+    color: 'from-secondary to-accent',
   },
   {
     icon: BrainCircuit,
-    title: 'Physics-Informed Machine Learning',
+    title: 'Physics-Informed ML',
     description: 'Integrating deep learning with physical laws and constitutive models to solve inverse problems and discover interpretable data-driven models in mechanics.',
     topics: [
       'Physics-informed neural networks',
@@ -36,6 +38,7 @@ const researchAreas = [
       'Material constitutive modeling',
       'Neural operators for PDEs',
     ],
+    color: 'from-accent to-primary',
   },
 ]
 
@@ -44,82 +47,70 @@ export function Services() {
     <section id="research" className="py-20 sm:py-32 px-4">
       <div className="container mx-auto">
         <motion.div
-          className="text-center mb-16"
+          className="flex items-end gap-6 mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="text-primary text-sm font-bold uppercase tracking-wider mb-4">
-            What We Study
+          <div>
+            <div className="text-warm text-sm font-bold uppercase tracking-widest mb-3">
+              What We Study
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl font-extrabold">
+              Research Areas
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mt-4 leading-relaxed">
+              We bridge traditional computational mechanics with modern machine learning to build scalable, interpretable, and uncertainty-aware models for real-world structural systems.
+            </p>
           </div>
-          <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-4">
-            {'Research Areas'.split(' ').map((word, wordIndex) => (
-              <span key={`word-${wordIndex}`} className="inline-flex">
-                {word.split('').map((char, charIndex) => (
-                  <motion.span
-                    key={`char-${wordIndex}-${charIndex}`}
-                    className="inline-block"
-                    whileHover={{
-                      y: -15,
-                      transition: {
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 10
-                      }
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-                {wordIndex < 'Research Areas'.split(' ').length - 1 && '\u00A0'}
-              </span>
-            ))}
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We bridge traditional computational mechanics with modern machine learning to build scalable, interpretable, and uncertainty-aware models for real-world structural systems.
-          </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="space-y-6">
           {researchAreas.map((area, index) => (
             <motion.div
               key={area.title}
-              className="group relative bg-card border-2 border-primary/20 rounded-2xl p-8 transition-all hover:border-primary hover:shadow-xl hover:shadow-primary/20 cursor-pointer shadow-lg dark:shadow-sm"
+              className="group relative grid grid-cols-1 lg:grid-cols-[5rem_1fr] gap-6 items-start"
               style={{ opacity: 0 }}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              viewport={{ once: true, amount: 0.2, margin: "0px 0px -100px 0px" }}
-              whileHover={{
-                y: -15,
-                scale: 1.05,
-                transition: {
-                  type: "spring",
-                  stiffness: 500,
-                  damping: 12
-                }
-              }}
+              initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl" />
+              {/* Large number */}
+              <div className="section-number hidden lg:block" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </div>
 
-              <div className="relative z-10">
-                <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform">
-                  <area.icon className="w-8 h-8 text-white" />
+              {/* Card */}
+              <div className="relative bg-card rounded-2xl overflow-hidden border border-primary/10 hover:border-primary/30 transition-all duration-300 hover:shadow-lg group">
+                {/* Top gradient bar */}
+                <div className={`h-1 bg-gradient-to-r ${area.color}`} />
+
+                <div className="p-8 sm:p-10">
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-6">
+                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${area.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
+                      <area.icon className="w-7 h-7 text-white" />
+                    </div>
+
+                    <div className="flex-1">
+                      <h3 className="font-display text-2xl font-bold mb-3">{area.title}</h3>
+                      <p className="text-muted-foreground leading-relaxed mb-6">{area.description}</p>
+
+                      <div className="flex flex-wrap gap-2">
+                        {area.topics.map((topic) => (
+                          <span
+                            key={topic}
+                            className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-primary/8 text-primary border border-primary/15"
+                          >
+                            <ArrowRight className="w-3 h-3" />
+                            {topic}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-                <h3 className="font-display text-2xl font-bold mb-3">{area.title}</h3>
-                <p className="text-muted-foreground mb-6 leading-relaxed">{area.description}</p>
-
-                <ul className="space-y-3 mb-6">
-                  {area.topics.map((topic) => (
-                    <li key={topic} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <Check className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                      <span>{topic}</span>
-                    </li>
-                  ))}
-                </ul>
-
               </div>
             </motion.div>
           ))}

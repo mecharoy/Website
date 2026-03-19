@@ -24,7 +24,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-semibold mb-8 animate-float">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-warm/10 border border-warm/30 text-warm text-sm font-semibold mb-8">
               <FlaskConical className="w-4 h-4" />
               IIT Delhi — Applied Mechanics Department
             </div>
@@ -105,7 +105,7 @@ export function Hero() {
             </a>
             <a
               href="#team"
-              className="inline-flex items-center justify-center rounded-full border-2 border-primary px-8 py-4 text-base font-semibold text-primary transition-all hover:bg-primary/10 hover:-translate-y-1"
+              className="inline-flex items-center justify-center rounded-full border-2 border-warm/60 px-8 py-4 text-base font-semibold text-warm transition-all hover:bg-warm/10 hover:-translate-y-1"
             >
               Meet the Team
             </a>
