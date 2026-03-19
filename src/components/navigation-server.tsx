@@ -19,18 +19,15 @@ export async function NavigationServer() {
       .slice(0, 2)
 
     authSlot = (
-      <div className="flex items-center gap-2">
-        <Link
-          href="/dashboard"
-          className="flex items-center gap-2 px-4 py-2 rounded-full border border-primary/20 text-sm font-medium hover:bg-primary/5 transition-colors"
-        >
-          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-[10px] font-bold">
-            {initials}
-          </div>
-          <span className="hidden lg:inline">{user.name.split(' ')[0]}</span>
-          <LayoutDashboard className="w-3.5 h-3.5 text-muted-foreground" />
-        </Link>
-      </div>
+      <Link
+        href="/dashboard"
+        className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+      >
+        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-[8px] font-bold flex-shrink-0">
+          {initials}
+        </div>
+        <LayoutDashboard className="w-3.5 h-3.5 flex-shrink-0" />
+      </Link>
     )
 
     authMobileSlot = (
@@ -47,15 +44,13 @@ export async function NavigationServer() {
   } else {
     // Logged-out: show Sign In + Register
     authSlot = (
-      <div className="flex items-center gap-2">
-        <Link
-          href="/auth/login"
-          className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-        >
-          <LogIn className="w-4 h-4" />
-          Sign In
-        </Link>
-      </div>
+      <Link
+        href="/auth/login"
+        className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+      >
+        <LogIn className="w-4 h-4 flex-shrink-0" />
+        Sign In
+      </Link>
     )
 
     authMobileSlot = (

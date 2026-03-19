@@ -35,36 +35,45 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
     <>
       {/* Fixed left sidebar — desktop only */}
       <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-28 flex-col items-start px-3 justify-between py-6 bg-background/90 backdrop-blur-lg border-r border-primary/10">
-        {/* Top: Theme toggle */}
-        <div>
-          <ThemeToggle />
-        </div>
-
-        {/* Middle: Nav links stacked vertically */}
-        <nav className="flex flex-col gap-6">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-muted-foreground hover:text-foreground text-base font-semibold transition-colors relative group"
-            >
-              {link.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-warm transition-all group-hover:w-full" />
-            </a>
-          ))}
-        </nav>
-
-        {/* Bottom: Contact button */}
-        <div>
+        {/* Top: Auth slot (Sign In / Dashboard) */}
+        <div className="w-full">
           {authSlot ?? (
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 rounded-full bg-warm px-5 py-2.5 text-sm font-semibold text-warm-foreground transition-all hover:opacity-90 hover:scale-105"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              <Mail className="w-4 h-4" />
+              <Mail className="w-4 h-4 flex-shrink-0" />
               Contact
             </a>
           )}
+        </div>
+
+        {/* Middle: Nav links + Theme toggle centered */}
+        <div className="flex flex-col gap-8">
+          <nav className="flex flex-col gap-5">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-muted-foreground hover:text-foreground text-base font-semibold transition-colors relative group"
+              >
+                {link.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-warm transition-all group-hover:w-full" />
+              </a>
+            ))}
+          </nav>
+          <ThemeToggle />
+        </div>
+
+        {/* Bottom: Contact button */}
+        <div>
+          <a
+            href="#contact"
+            className="inline-flex items-center gap-1.5 rounded-full bg-warm px-4 py-2 text-xs font-semibold text-warm-foreground transition-all hover:opacity-90 hover:scale-105 whitespace-nowrap"
+          >
+            <Mail className="w-3.5 h-3.5 flex-shrink-0" />
+            Contact
+          </a>
         </div>
       </div>
 
