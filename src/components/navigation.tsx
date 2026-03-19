@@ -34,7 +34,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
   return (
     <>
       {/* Fixed left sidebar — desktop only */}
-      <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-20 flex-col items-start px-2 justify-between py-6 bg-transparent border-r border-primary/5">
+      <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-20 flex-col items-start px-2 justify-between py-6">
         {/* Top: Auth slot (Sign In / Dashboard) or Contact */}
         <div>
           {authSlot ?? (
@@ -54,7 +54,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             <a
               key={link.href}
               href={link.href}
-              className="text-muted-foreground hover:text-foreground text-base font-semibold transition-colors relative group"
+              className="text-foreground hover:text-foreground text-base font-semibold transition-colors relative group drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-warm transition-all group-hover:w-full" />
