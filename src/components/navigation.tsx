@@ -42,18 +42,32 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="hover:scale-105 transition-transform"
-          >
-            <span className="font-display text-xl font-extrabold">
-              <span className="text-primary">SMICR</span>
-              <span className="text-warm ml-0.5">.</span>
-              <span className="text-foreground">Lab</span>
-            </span>
-          </Link>
+          {/* Left side: Theme toggle + Contact button + Logo */}
+          <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
+            {authSlot ?? (
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center rounded-full bg-warm px-6 py-2.5 text-sm font-semibold text-warm-foreground transition-all hover:opacity-90 hover:-translate-y-0.5"
+              >
+                Get in Touch
+              </a>
+            )}
+          </div>
 
-          {/* Desktop Navigation */}
+          {/* Mobile: Theme toggle + hamburger on left */}
+          <div className="md:hidden flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              className="p-2 text-foreground"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+
+          {/* Center: Nav links (desktop) */}
           <ul className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <li key={link.href}>
@@ -68,29 +82,17 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             ))}
           </ul>
 
-          <div className="hidden md:flex items-center gap-4">
-            <ThemeToggle />
-            {authSlot ?? (
-              <a
-                href="#contact"
-                className="inline-flex items-center justify-center rounded-full bg-warm px-6 py-2.5 text-sm font-semibold text-warm-foreground transition-all hover:opacity-90 hover:-translate-y-0.5"
-              >
-                Get in Touch
-              </a>
-            )}
-          </div>
-
-          {/* Mobile Menu Toggle */}
-          <div className="md:hidden flex items-center gap-2">
-            <ThemeToggle />
-            <button
-              className="p-2 text-foreground"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          {/* Right side: Logo */}
+          <Link
+            href="/"
+            className="hover:scale-105 transition-transform"
+          >
+            <span className="font-display text-xl font-extrabold">
+              <span className="text-primary">SMICR</span>
+              <span className="text-warm ml-0.5">.</span>
+              <span className="text-foreground">Lab</span>
+            </span>
+          </Link>
         </div>
 
         {/* Mobile Menu */}

@@ -26,7 +26,7 @@ export function Hero() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-warm/10 border border-warm/30 text-warm text-sm font-semibold mb-8">
               <FlaskConical className="w-4 h-4" />
-              IIT Delhi — Applied Mechanics Department
+              Structural Mechanics, Inference &amp; Computational Research
             </div>
           </motion.div>
 

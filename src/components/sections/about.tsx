@@ -81,22 +81,26 @@ export function About() {
             </div>
           </motion.div>
 
-          {/* Advisor card — right side */}
+          {/* Advisor card — right side — Grand layout with clear photo */}
           <motion.div
-            className="relative bg-card border border-primary/10 rounded-2xl overflow-hidden shadow-lg"
+            className="relative"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            {/* Photo with gradient overlay */}
-            <div className="relative h-72 overflow-hidden">
-              <PIAvatar />
-              <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+            {/* Large photo with decorative frame */}
+            <div className="relative mb-6">
+              {/* Decorative gradient border behind the image */}
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary via-warm to-secondary rounded-2xl opacity-30 blur-sm" />
+              <div className="relative h-[420px] sm:h-[480px] rounded-2xl overflow-hidden border-2 border-primary/20">
+                <PIAvatar />
+              </div>
             </div>
 
-            <div className="relative -mt-16 px-8 pb-8 z-10">
-              <h3 className="font-display text-2xl font-bold mb-1">Dr. Rajdip Nayek</h3>
+            {/* Info card below the photo */}
+            <div className="bg-card border border-primary/10 rounded-2xl p-8 shadow-lg">
+              <h3 className="font-display text-3xl font-bold mb-1">Dr. Rajdip Nayek</h3>
               <p className="text-warm font-semibold text-sm mb-4">Assistant Professor, Applied Mechanics, IIT Delhi</p>
               <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                 Ph.D. from University of Waterloo (2019), M.E. from IISc Bangalore, B.Tech. from NIT Durgapur. Previously a postdoctoral researcher at the Dynamics Research Group. His research focuses on probabilistic machine learning for structural vibration, digital twins, and structural health monitoring.
