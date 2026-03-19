@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FlaskConical } from 'lucide-react'
 import Image from 'next/image'
 
 export function Hero() {
@@ -19,17 +18,6 @@ export function Hero() {
       </div>
       <div className="relative z-10 container mx-auto max-w-5xl">
         <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-warm/10 border border-warm/30 text-warm text-sm font-semibold mb-8">
-              <FlaskConical className="w-4 h-4" />
-              Structural Mechanics, Inference &amp; Computational Research
-            </div>
-          </motion.div>
-
           <motion.h1
             className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight"
             initial={{ opacity: 0, y: 20 }}

@@ -70,7 +70,7 @@ export function Services() {
           {researchAreas.map((area, index) => (
             <motion.div
               key={area.title}
-              className="group relative grid grid-cols-1 lg:grid-cols-[5rem_1fr] gap-6 items-start"
+              className="group relative grid grid-cols-1 lg:grid-cols-[9rem_1fr] gap-4 items-start"
               style={{ opacity: 0 }}
               initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -78,7 +78,7 @@ export function Services() {
               viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
             >
               {/* Large number */}
-              <div className="section-number hidden lg:block" aria-hidden="true">
+              <div className="section-number hidden lg:block text-left" aria-hidden="true">
                 {String(index + 1).padStart(2, '0')}
               </div>
 
