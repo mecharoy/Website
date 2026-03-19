@@ -124,13 +124,15 @@ export function Portfolio() {
               transition={{ duration: 0.5, delay: (index + 2) * 0.12 }}
               viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
             >
-              <div className="h-56 overflow-hidden">
-                <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} photoPosition={member.photoPosition} />
-              </div>
-              <div className="p-6">
-                <span className="text-xs font-bold uppercase tracking-widest text-warm mb-1 block">{member.role}</span>
-                <h3 className="font-display text-lg font-bold mb-2">{member.name}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
+              <div className="flex flex-col sm:flex-row">
+                <div className="sm:w-40 h-48 sm:h-auto overflow-hidden flex-shrink-0">
+                  <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} photoPosition={member.photoPosition} />
+                </div>
+                <div className="p-5 flex flex-col justify-center">
+                  <span className="text-xs font-bold uppercase tracking-widest text-warm mb-1">{member.role}</span>
+                  <h3 className="font-display text-lg font-bold mb-2">{member.name}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
+                </div>
               </div>
             </motion.div>
           ))}
