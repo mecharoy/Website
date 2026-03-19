@@ -7,7 +7,7 @@
     --font-outfit: 'Outfit', sans-serif;
     --font-dm-sans: 'DM Sans', sans-serif;
 
-    --background: 196 22% 97%;
+    --background: 200 20% 95%;
     --foreground: 200 30% 12%;
 
     --card: 0 0% 100%;
@@ -16,17 +16,20 @@
     --popover: 0 0% 100%;
     --popover-foreground: 200 30% 12%;
 
-    --primary: 178 65% 24%;
+    --primary: 178 75% 28%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 192 60% 29%;
+    --secondary: 192 70% 32%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 196 15% 91%;
-    --muted-foreground: 200 12% 46%;
+    --muted: 196 15% 89%;
+    --muted-foreground: 200 15% 38%;
 
     --accent: 165 60% 30%;
     --accent-foreground: 0 0% 100%;
+
+    --warm: 38 92% 50%;
+    --warm-foreground: 30 20% 12%;
 
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
@@ -59,6 +62,9 @@
 
     --accent: 165 62% 50%;
     --accent-foreground: 200 22% 8%;
+
+    --warm: 42 92% 56%;
+    --warm-foreground: 200 22% 8%;
 
     --destructive: 0 70% 55%;
     --destructive-foreground: 0 0% 100%;
@@ -94,6 +100,38 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Section number decorations */
+.section-number {
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  color: hsl(var(--primary) / 0.12);
+  -webkit-text-stroke: 2.5px hsl(var(--primary) / 0.5);
+  user-select: none;
+  pointer-events: none;
+}
+.dark .section-number {
+  color: hsl(var(--primary) / 0.06);
+  -webkit-text-stroke: 2px hsl(var(--primary) / 0.4);
+}
+
+/* Diagonal section divider */
+.section-divider-slant {
+  position: relative;
+}
+.section-divider-slant::before {
+  content: '';
+  position: absolute;
+  top: -3rem;
+  left: 0;
+  right: 0;
+  height: 6rem;
+  background: inherit;
+  clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
+  z-index: 1;
 }
 
 /* Custom scrollbar */

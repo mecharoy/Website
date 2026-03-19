@@ -70,69 +70,66 @@ export function Portfolio() {
     <section id="team" className="py-20 sm:py-32 px-4">
       <div className="container mx-auto">
         <motion.div
-          className="text-center mb-16"
+          className="mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="text-primary text-sm font-bold uppercase tracking-wider mb-4">
+          <div className="text-warm text-sm font-bold uppercase tracking-widest mb-3">
             Our People
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-4">
-            {'Meet the Team'.split(' ').map((word, wordIndex) => (
-              <span key={`word-${wordIndex}`} className="inline-flex">
-                {word.split('').map((char, charIndex) => (
-                  <motion.span
-                    key={`char-${wordIndex}-${charIndex}`}
-                    className="inline-block"
-                    whileHover={{
-                      y: -15,
-                      transition: {
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 10
-                      }
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
-                {wordIndex < 'Meet the Team'.split(' ').length - 1 && '\u00A0'}
-              </span>
-            ))}
+            Meet the Team
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
             A diverse group of researchers from top institutions across India, united by a passion for combining machine learning with structural mechanics.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {members.map((member, index) => (
+        {/* Staggered masonry-like layout: first row 2 cols, second row 3 cols */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+          {members.slice(0, 2).map((member, index) => (
             <motion.div
               key={member.name}
-              className="group bg-card border-2 border-primary/20 rounded-2xl overflow-hidden text-center hover:border-primary hover:shadow-xl hover:shadow-primary/20 transition-all cursor-pointer shadow-lg dark:shadow-sm"
+              className="group relative bg-card border border-primary/10 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg"
               style={{ opacity: 0 }}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: index * 0.15 }}
-              viewport={{ once: true, amount: 0.2, margin: "0px 0px -100px 0px" }}
-              whileHover={{
-                y: -10,
-                scale: 1.04,
-                transition: {
-                  type: "spring",
-                  stiffness: 500,
-                  damping: 12
-                }
-              }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.12 }}
+              viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
             >
-              <div className="h-64 overflow-hidden">
+              <div className="flex flex-col sm:flex-row">
+                <div className="sm:w-48 h-52 sm:h-auto overflow-hidden flex-shrink-0">
+                  <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} photoPosition={member.photoPosition} />
+                </div>
+                <div className="p-6 flex flex-col justify-center">
+                  <span className="text-xs font-bold uppercase tracking-widest text-warm mb-1">{member.role}</span>
+                  <h3 className="font-display text-xl font-bold mb-2">{member.name}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {members.slice(2).map((member, index) => (
+            <motion.div
+              key={member.name}
+              className="group bg-card border border-primary/10 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 hover:shadow-lg"
+              style={{ opacity: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: (index + 2) * 0.12 }}
+              viewport={{ once: true, amount: 0.2, margin: "0px 0px -80px 0px" }}
+            >
+              <div className="h-56 overflow-hidden">
                 <MemberAvatar photo={member.photo} initials={member.initials} name={member.name} photoPosition={member.photoPosition} />
               </div>
               <div className="p-6">
-                <span className="text-xs font-bold uppercase tracking-wider text-primary">{member.role}</span>
-                <h3 className="font-display text-lg font-bold mt-1 mb-2">{member.name}</h3>
+                <span className="text-xs font-bold uppercase tracking-widest text-warm mb-1 block">{member.role}</span>
+                <h3 className="font-display text-lg font-bold mb-2">{member.name}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{member.description}</p>
               </div>
             </motion.div>

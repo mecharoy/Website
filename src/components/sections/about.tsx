@@ -26,7 +26,7 @@ function PIAvatar() {
 }
 
 const features = [
-  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: '#research', float: true },
+  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: '#research' },
   { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
   { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
   { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
@@ -34,7 +34,7 @@ const features = [
 
 export function About() {
   return (
-    <section id="about" className="py-20 sm:py-32 px-4 bg-card/30">
+    <section id="about" className="relative py-20 sm:py-32 px-4 bg-card/40">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <motion.div
@@ -43,31 +43,11 @@ export function About() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <div className="text-primary text-sm font-bold uppercase tracking-wider mb-4">
+            <div className="text-warm text-sm font-bold uppercase tracking-widest mb-3">
               Who We Are
             </div>
             <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-6">
-              {'About the Lab'.split(' ').map((word, wordIndex) => (
-                <span key={`word-${wordIndex}`} className="inline-flex">
-                  {word.split('').map((char, charIndex) => (
-                    <motion.span
-                      key={`char-${wordIndex}-${charIndex}`}
-                      className="inline-block"
-                      whileHover={{
-                        y: -15,
-                        transition: {
-                          type: "spring",
-                          stiffness: 500,
-                          damping: 10
-                        }
-                      }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                  {wordIndex < 'About the Lab'.split(' ').length - 1 && '\u00A0'}
-                </span>
-              ))}
+              About the Lab
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">
               <p>
@@ -78,59 +58,64 @@ export function About() {
               </p>
             </div>
 
-            {/* Feature Cards */}
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 gap-6"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true, amount: 0.3 }}
-            >
+            {/* Feature Cards — alternating left-border accent */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  className={`bg-card border-2 border-primary/20 rounded-xl p-6 hover:border-primary hover:-translate-y-1 transition-all shadow-lg dark:shadow-sm${feature.float ? ' animate-float cursor-pointer' : ''}`}
+                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''}`}
                   style={{ opacity: 0 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.15 }}
-                  viewport={{ once: true, amount: 0.3, margin: "0px 0px -100px 0px" }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  viewport={{ once: true, amount: 0.3, margin: "0px 0px -80px 0px" }}
                   {...(feature.href ? { onClick: () => { window.location.href = feature.href! } } : {})}
                 >
-                  <feature.icon className="w-10 h-10 text-primary mb-3" />
-                  <h4 className="font-display text-lg font-bold mb-2 text-primary">{feature.title}</h4>
+                  {/* Colored left accent bar */}
+                  <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-full ${index % 2 === 0 ? 'bg-primary' : 'bg-warm'}`} />
+                  <feature.icon className={`w-8 h-8 mb-2 ${index % 2 === 0 ? 'text-primary' : 'text-warm'}`} />
+                  <h4 className="font-display text-base font-bold mb-1">{feature.title}</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
                 </motion.div>
               ))}
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Advisor / Lab Highlight - Right Side */}
+          {/* Advisor card — right side — Grand layout with clear photo */}
           <motion.div
-            className="relative bg-card border-2 border-primary/20 rounded-3xl p-10 shadow-2xl flex flex-col gap-6"
+            className="relative"
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <div className="w-52 h-52 rounded-full overflow-hidden ring-4 ring-primary/30 mx-auto">
-              <PIAvatar />
+            {/* Large photo with decorative frame */}
+            <div className="relative mb-6">
+              {/* Decorative gradient border behind the image */}
+              <div className="absolute -inset-1 bg-gradient-to-br from-primary via-warm to-secondary rounded-2xl opacity-30 blur-sm" />
+              <div className="relative h-[420px] sm:h-[480px] rounded-2xl overflow-hidden border-2 border-primary/20">
+                <PIAvatar />
+              </div>
             </div>
-            <div className="text-center">
-              <h3 className="font-display text-2xl font-bold mb-1">Dr. Rajdip Nayek</h3>
-              <p className="text-primary font-semibold text-sm mb-3">Assistant Professor, Applied Mechanics, IIT Delhi</p>
-              <p className="text-muted-foreground text-sm leading-relaxed">
+
+            {/* Info card below the photo */}
+            <div className="bg-card border border-primary/10 rounded-2xl p-8 shadow-lg">
+              <h3 className="font-display text-3xl font-bold mb-1">Dr. Rajdip Nayek</h3>
+              <p className="text-warm font-semibold text-sm mb-4">Assistant Professor, Applied Mechanics, IIT Delhi</p>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">
                 Ph.D. from University of Waterloo (2019), M.E. from IISc Bangalore, B.Tech. from NIT Durgapur. Previously a postdoctoral researcher at the Dynamics Research Group. His research focuses on probabilistic machine learning for structural vibration, digital twins, and structural health monitoring.
               </p>
-            </div>
-            <div className="border-t border-primary/10 pt-6 grid grid-cols-2 gap-4 text-center">
-              <div>
-                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">30+</div>
-                <div className="text-xs text-muted-foreground mt-1">Publications</div>
-              </div>
-              <div>
-                <div className="font-display text-3xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">8+</div>
-                <div className="text-xs text-muted-foreground mt-1">Lab Members</div>
+
+              {/* Stats with warm accent */}
+              <div className="flex gap-8 pt-5 border-t border-primary/10">
+                <div>
+                  <div className="font-display text-3xl font-extrabold text-warm">30+</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">Publications</div>
+                </div>
+                <div>
+                  <div className="font-display text-3xl font-extrabold text-primary">8+</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">Lab Members</div>
+                </div>
               </div>
             </div>
           </motion.div>

@@ -30,60 +30,73 @@ export function FAQ() {
     <section id="faq" className="py-20 sm:py-32 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.div
-          className="text-center mb-16"
+          className="mb-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="text-primary text-sm font-bold uppercase tracking-wider mb-4">
+          <div className="text-warm text-sm font-bold uppercase tracking-widest mb-3">
             FAQ
           </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-4">
             Frequently Asked Questions
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl">
             Common questions about joining the lab, ongoing research, and collaborations.
           </p>
         </motion.div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              className="bg-card border-2 border-primary/20 rounded-2xl overflow-hidden shadow-lg dark:shadow-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              viewport={{ once: true, amount: 0.2 }}
-            >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full px-6 sm:px-8 py-6 flex items-center justify-between text-left hover:bg-primary/5 transition-colors"
+        <div className="space-y-3">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index
+            return (
+              <motion.div
+                key={index}
+                className="group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.08 }}
+                viewport={{ once: true, amount: 0.2 }}
               >
-                <h3 className="font-display text-lg sm:text-xl font-bold pr-4">
-                  {faq.question}
-                </h3>
-                <ChevronDown
-                  className={`w-6 h-6 text-primary flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? 'rotate-180' : ''
+                <button
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className={`w-full flex items-start gap-4 text-left px-6 py-5 rounded-xl transition-all duration-200 ${
+                    isOpen
+                      ? 'bg-primary/8 border border-primary/20'
+                      : 'bg-card border border-primary/8 hover:border-primary/20 hover:bg-card/80'
                   }`}
-                />
-              </button>
+                >
+                  {/* Number */}
+                  <span className={`font-display text-sm font-bold mt-0.5 flex-shrink-0 ${isOpen ? 'text-warm' : 'text-muted-foreground'}`}>
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
 
-              <div
-                className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index ? 'max-h-96' : 'max-h-0'
-                }`}
-              >
-                <div className="px-6 sm:px-8 pb-6">
-                  <p className="text-muted-foreground leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-display text-base sm:text-lg font-bold pr-4">
+                      {faq.question}
+                    </h3>
+
+                    <div
+                      className={`overflow-hidden transition-all duration-300 ${
+                        isOpen ? 'max-h-96 mt-3 opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <p className="text-muted-foreground leading-relaxed text-sm sm:text-base">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </div>
+
+                  <ChevronDown
+                    className={`w-5 h-5 flex-shrink-0 mt-1 transition-transform duration-300 ${
+                      isOpen ? 'rotate-180 text-primary' : 'text-muted-foreground'
+                    }`}
+                  />
+                </button>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
     </section>

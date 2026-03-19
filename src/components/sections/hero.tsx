@@ -1,7 +1,6 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { FlaskConical } from 'lucide-react'
 import Image from 'next/image'
 
 export function Hero() {
@@ -15,21 +14,10 @@ export function Hero() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-background/70" />
+        <div className="absolute inset-0 bg-background/40 dark:bg-background/70" />
       </div>
       <div className="relative z-10 container mx-auto max-w-5xl">
         <div className="text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-sm font-semibold mb-8 animate-float">
-              <FlaskConical className="w-4 h-4" />
-              IIT Delhi — Applied Mechanics Department
-            </div>
-          </motion.div>
-
           <motion.h1
             className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight"
             initial={{ opacity: 0, y: 20 }}
@@ -105,7 +93,7 @@ export function Hero() {
             </a>
             <a
               href="#team"
-              className="inline-flex items-center justify-center rounded-full border-2 border-primary px-8 py-4 text-base font-semibold text-primary transition-all hover:bg-primary/10 hover:-translate-y-1"
+              className="inline-flex items-center justify-center rounded-full border-2 border-warm/60 px-8 py-4 text-base font-semibold text-warm transition-all hover:bg-warm/10 hover:-translate-y-1"
             >
               Meet the Team
             </a>
