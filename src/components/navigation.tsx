@@ -35,7 +35,20 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
     <>
       {/* Fixed left sidebar — desktop only */}
       <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-28 flex-col items-start px-3 justify-between py-6 bg-background/90 backdrop-blur-lg border-r border-primary/10">
-        {/* Top: Nav links */}
+        {/* Top: Auth slot (Sign In / Dashboard) or Contact */}
+        <div>
+          {authSlot ?? (
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-1.5 rounded-full bg-warm px-4 py-2 text-xs font-semibold text-warm-foreground transition-all hover:opacity-90 hover:scale-105 whitespace-nowrap"
+            >
+              <Mail className="w-3.5 h-3.5 flex-shrink-0" />
+              Contact
+            </a>
+          )}
+        </div>
+
+        {/* Middle: Nav links */}
         <nav className="flex flex-col gap-5">
           {navLinks.map((link) => (
             <a
@@ -49,21 +62,8 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
           ))}
         </nav>
 
-        {/* Middle: Theme toggle — truly centered */}
+        {/* Bottom: Theme toggle */}
         <ThemeToggle />
-
-        {/* Bottom: Auth slot (Sign In / Dashboard) or Contact */}
-        <div>
-          {authSlot ?? (
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-1.5 rounded-full bg-warm px-4 py-2 text-xs font-semibold text-warm-foreground transition-all hover:opacity-90 hover:scale-105 whitespace-nowrap"
-            >
-              <Mail className="w-3.5 h-3.5 flex-shrink-0" />
-              Contact
-            </a>
-          )}
-        </div>
       </div>
 
       {/* Top bar — logo centered */}
