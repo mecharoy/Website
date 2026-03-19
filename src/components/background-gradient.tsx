@@ -116,37 +116,25 @@ export function BackgroundGradient() {
       {/* Base */}
       <div className="absolute inset-0 bg-background" />
 
-      {/* Light mode: GP.png wave image */}
-      {!isDark && (
+      {/* Gradient orbs — drift slowly on scroll */}
+      <motion.div style={{ y: y[1] }} className="absolute inset-0 pointer-events-none">
         <div
-          className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: 'url(/images/GP.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-            opacity: 0.6,
+            position: 'absolute',
+            inset: 0,
+            background: isDark
+              ? `radial-gradient(ellipse 65% 55% at 12% 42%, hsl(178 68% 52% / 0.18) 0%, transparent 62%),
+                 radial-gradient(ellipse 55% 48% at 88% 20%, hsl(192 62% 47% / 0.15) 0%, transparent 60%),
+                 radial-gradient(ellipse 48% 44% at 52% 90%, hsl(165 62% 50% / 0.12) 0%, transparent 56%)`
+              : `radial-gradient(ellipse 65% 55% at 12% 42%, hsl(178 65% 24% / 0.08) 0%, transparent 62%),
+                 radial-gradient(ellipse 55% 48% at 88% 20%, hsl(192 60% 29% / 0.06) 0%, transparent 60%),
+                 radial-gradient(ellipse 48% 44% at 52% 90%, hsl(165 60% 30% / 0.06) 0%, transparent 56%)`,
           }}
         />
-      )}
+      </motion.div>
 
-      {/* Gradient orbs — dark mode only */}
-      {isDark && (
-        <motion.div style={{ y: y[1] }} className="absolute inset-0 pointer-events-none">
-          <div
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: `radial-gradient(ellipse 65% 55% at 12% 42%, hsl(178 68% 52% / 0.18) 0%, transparent 62%),
-                 radial-gradient(ellipse 55% 48% at 88% 20%, hsl(192 62% 47% / 0.15) 0%, transparent 60%),
-                 radial-gradient(ellipse 48% 44% at 52% 90%, hsl(165 62% 50% / 0.12) 0%, transparent 56%)`,
-            }}
-          />
-        </motion.div>
-      )}
-
-      {/* SVG artifacts: waveforms + mesh networks + equations — dark mode only */}
-      {isDark && <svg
+      {/* SVG artifacts: waveforms + mesh networks + equations */}
+      <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
         viewBox="0 0 1540 800"
         preserveAspectRatio="xMidYMid slice"
@@ -226,7 +214,7 @@ export function BackgroundGradient() {
             {eq.text}
           </motion.text>
         ))}
-      </svg>}
+      </svg>
     </div>
   )
 }
