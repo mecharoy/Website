@@ -23,10 +23,10 @@ export async function NavigationServer() {
         href="/dashboard"
         className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
       >
-        <div className="w-5 h-5 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-[8px] font-bold flex-shrink-0">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
           {initials}
         </div>
-        <LayoutDashboard className="w-3.5 h-3.5 flex-shrink-0" />
+        <LayoutDashboard className="w-4 h-4 flex-shrink-0" />
       </Link>
     )
 

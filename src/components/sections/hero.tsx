@@ -14,7 +14,7 @@ export function Hero() {
           className="object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-background/40 dark:bg-background/70" />
+        <div className="absolute inset-0 bg-background/10 dark:bg-background/40" />
       </div>
       <div className="relative z-10 container mx-auto max-w-5xl">
         <div className="text-center">
@@ -71,7 +71,7 @@ export function Hero() {
           </motion.h1>
 
           <motion.p
-            className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed"
+            className="text-lg sm:text-xl text-foreground/80 dark:text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow-sm"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -93,7 +93,7 @@ export function Hero() {
             </a>
             <a
               href="#team"
-              className="inline-flex items-center justify-center rounded-full border-2 border-warm/60 px-8 py-4 text-base font-semibold text-warm transition-all hover:bg-warm/10 hover:-translate-y-1"
+              className="inline-flex items-center justify-center rounded-full border-2 border-foreground/60 px-8 py-4 text-base font-semibold text-foreground transition-all hover:bg-foreground/10 hover:-translate-y-1"
             >
               Meet the Team
             </a>
