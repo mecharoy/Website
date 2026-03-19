@@ -34,7 +34,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
   return (
     <>
       {/* Fixed left sidebar — desktop only */}
-      <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-36 flex-col items-start px-4 justify-between py-6 bg-background/90 backdrop-blur-lg border-r border-primary/10">
+      <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-28 flex-col items-start px-3 justify-between py-6 bg-background/90 backdrop-blur-lg border-r border-primary/10">
         {/* Top: Theme toggle */}
         <div>
           <ThemeToggle />
