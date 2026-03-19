@@ -34,7 +34,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
   return (
     <>
       {/* Fixed left sidebar — desktop only */}
-      <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-20 flex-col items-start px-2 justify-between py-6 bg-background/20 backdrop-blur-sm border-r border-primary/5">
+      <div className="hidden md:flex fixed left-0 top-0 bottom-0 z-50 w-20 flex-col items-start px-2 justify-between py-6 bg-background/20 backdrop-blur-sm">
         {/* Top: Auth slot (Sign In / Dashboard) or Contact */}
         <div>
           {authSlot ?? (
