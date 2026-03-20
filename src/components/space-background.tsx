@@ -123,7 +123,7 @@ export function SpaceBackground() {
         const lightness = theme === 'dark'
           ? 60 + scrollProgress * 10 // Brighter in dark mode
           : 35 + scrollProgress * 5 // Darker/more saturated in light mode for visibility
-        const opacityMultiplier = theme === 'dark' ? 1.3 : 1.2 // Strong visibility in both modes
+        const opacityMultiplier = theme === 'dark' ? 1.3 : 1.8 // Strong visibility in both modes
 
         gradient.addColorStop(0, `hsla(${hue}, ${saturation}%, ${lightness + 10}%, ${particle.opacity * pulse * 0.7 * opacityMultiplier})`)
         gradient.addColorStop(0.5, `hsla(${hue}, ${saturation}%, ${lightness}%, ${particle.opacity * pulse * 0.5 * opacityMultiplier})`)
@@ -150,7 +150,7 @@ export function SpaceBackground() {
 
           if (distance < 150) {
             const baseOpacity = (1 - distance / 150) * 0.2
-            const opacity = theme === 'dark' ? baseOpacity * 1.5 : baseOpacity * 1.3
+            const opacity = theme === 'dark' ? baseOpacity * 1.5 : baseOpacity * 2.0
             // Average hue between connected particles
             const avgHue = (particle.hue + otherParticle.hue) / 2
             const lightness = theme === 'dark' ? 60 : 40
