@@ -83,7 +83,7 @@ const config: Config = {
         },
         float: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-8px)" },
+          "50%": { transform: "translateY(-5px)" },
         },
       },
       animation: {
@@ -91,7 +91,7 @@ const config: Config = {
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-in": "fade-in 0.6s ease-out",
         "slide-in": "slide-in 0.3s ease-out",
-        "float": "float 6s ease-in-out infinite",
+        "float": "float 12s cubic-bezier(0.45,0.05,0.55,0.95) infinite",
       },
     },
   },
