@@ -108,8 +108,8 @@ export function BackgroundGradient() {
   const xArr   = [xLeft, xRight]
 
   const primary      = isDark ? 'hsl(178,68%,52%)' : 'hsl(178,65%,24%)'
-  const waveBase     = isDark ? 0.095 : 0.068
-  const eqOpacity    = isDark ? 0.20 : 0.18
+  const waveBase     = isDark ? 0.095 : 0.14
+  const eqOpacity    = isDark ? 0.20 : 0.32
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -126,9 +126,9 @@ export function BackgroundGradient() {
               ? `radial-gradient(ellipse 65% 55% at 12% 42%, hsl(178 68% 52% / 0.18) 0%, transparent 62%),
                  radial-gradient(ellipse 55% 48% at 88% 20%, hsl(192 62% 47% / 0.15) 0%, transparent 60%),
                  radial-gradient(ellipse 48% 44% at 52% 90%, hsl(165 62% 50% / 0.12) 0%, transparent 56%)`
-              : `radial-gradient(ellipse 65% 55% at 12% 42%, hsl(178 65% 24% / 0.08) 0%, transparent 62%),
-                 radial-gradient(ellipse 55% 48% at 88% 20%, hsl(192 60% 29% / 0.06) 0%, transparent 60%),
-                 radial-gradient(ellipse 48% 44% at 52% 90%, hsl(165 60% 30% / 0.06) 0%, transparent 56%)`,
+              : `radial-gradient(ellipse 65% 55% at 12% 42%, hsl(178 65% 24% / 0.14) 0%, transparent 62%),
+                 radial-gradient(ellipse 55% 48% at 88% 20%, hsl(192 60% 29% / 0.10) 0%, transparent 60%),
+                 radial-gradient(ellipse 48% 44% at 52% 90%, hsl(165 60% 30% / 0.10) 0%, transparent 56%)`,
           }}
         />
       </motion.div>
@@ -162,7 +162,7 @@ export function BackgroundGradient() {
               x1={NODES_TR[a][0]} y1={NODES_TR[a][1]}
               x2={NODES_TR[b][0]} y2={NODES_TR[b][1]}
               stroke={primary}
-              strokeOpacity={isDark ? 0.10 : 0.07}
+              strokeOpacity={isDark ? 0.10 : 0.14}
               strokeWidth="0.85"
             />
           ))}
@@ -171,7 +171,7 @@ export function BackgroundGradient() {
               key={i}
               cx={cx} cy={cy} r="2.6"
               fill={primary}
-              fillOpacity={isDark ? 0.20 : 0.14}
+              fillOpacity={isDark ? 0.20 : 0.26}
             />
           ))}
         </motion.g>
@@ -184,7 +184,7 @@ export function BackgroundGradient() {
               x1={NODES_ML[a][0]} y1={NODES_ML[a][1]}
               x2={NODES_ML[b][0]} y2={NODES_ML[b][1]}
               stroke={primary}
-              strokeOpacity={isDark ? 0.09 : 0.06}
+              strokeOpacity={isDark ? 0.09 : 0.12}
               strokeWidth="0.85"
             />
           ))}
@@ -193,7 +193,7 @@ export function BackgroundGradient() {
               key={i}
               cx={cx} cy={cy} r="2.6"
               fill={primary}
-              fillOpacity={isDark ? 0.16 : 0.11}
+              fillOpacity={isDark ? 0.16 : 0.22}
             />
           ))}
         </motion.g>
