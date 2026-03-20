@@ -34,7 +34,7 @@ const features = [
 
 export function About() {
   return (
-    <section id="about" className="relative py-20 sm:py-32 px-4 bg-card/40">
+    <section id="about" className="relative py-20 sm:py-32 px-4">
       <div className="container mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <motion.div
