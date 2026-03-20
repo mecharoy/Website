@@ -2,17 +2,12 @@
 
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { useTheme } from '../theme-provider'
-
 export function Hero() {
-  const { theme } = useTheme()
-  const isDark = theme === 'dark'
-
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 overflow-hidden">
       <div className="absolute inset-0 w-full h-full">
         <Image
-          src={isDark ? "/images/Gemini_Generated_Image_tbcgkotbcgkotbcg.png" : "/images/GP.png"}
+          src="/images/GPII.png"
           alt="SMICR Lab hero background"
           fill
           className="object-cover"
