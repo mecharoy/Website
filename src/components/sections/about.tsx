@@ -26,7 +26,7 @@ function PIAvatar() {
 }
 
 const features = [
-  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: '#research' },
+  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: '#research', float: true },
   { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
   { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
   { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
@@ -63,7 +63,7 @@ export function About() {
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''}`}
+                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''} ${feature.float ? 'animate-float' : ''}`}
                   style={{ opacity: 0 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
