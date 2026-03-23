@@ -177,7 +177,7 @@ export function Hero() {
           Positioned so its bottom extends 4px past section bottom to seal the seam. */}
       <motion.div
         className="absolute left-0 w-full z-20 pointer-events-none"
-        style={{ bottom: '-4px' }}
+        style={{ bottom: '-90px' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: waveVisible ? 1 : 0 }}
         transition={{ duration: 0.5 }}

@@ -92,7 +92,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             {/* Center: Logo */}
             <Link
               href="/"
-              className="hover:scale-105 transition-transform"
+              className="hover:scale-105 transition-transform no-underline"
             >
               <span className="font-display text-3xl font-extrabold">
                 <span className="text-primary">SMICR</span>

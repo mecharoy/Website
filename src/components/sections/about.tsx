@@ -26,7 +26,7 @@ function PIAvatar() {
 }
 
 const features = [
-  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: '#research', float: true },
+  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: 'https://scholar.google.com/citations?user=dd5LoV4AAAAJ&hl=en', float: true },
   { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
   { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
   { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
@@ -69,7 +69,7 @@ export function About() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.3, margin: "0px 0px -80px 0px" }}
-                  {...(feature.href ? { onClick: () => { window.location.href = feature.href! } } : {})}
+                  {...(feature.href ? { onClick: () => { window.open(feature.href!, '_blank', 'noopener,noreferrer') } } : {})}
                 >
                   {/* Colored left accent bar */}
                   <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-full ${index % 2 === 0 ? 'bg-primary' : 'bg-warm'}`} />
