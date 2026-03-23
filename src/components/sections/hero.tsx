@@ -5,8 +5,10 @@ import { motion } from 'framer-motion'
 
 export function Hero() {
   const [phase, setPhase] = useState<'title' | 'tagline'>('title')
+  const [waveVisible, setWaveVisible] = useState(false)
   const scrollCount = useRef(0)
   const transitioned = useRef(false)
+  const waveTransitioned = useRef(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -59,6 +61,36 @@ export function Hero() {
     if (phase === 'tagline') {
       const t = setTimeout(() => { document.body.style.overflow = '' }, 600)
       return () => clearTimeout(t)
+    }
+  }, [phase])
+
+  // After tagline appears, one more scroll reveals the wave
+  useEffect(() => {
+    if (phase !== 'tagline') return
+
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY > 0 && !waveTransitioned.current) {
+        waveTransitioned.current = true
+        setWaveVisible(true)
+      }
+    }
+
+    let touchStartY = 0
+    const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY }
+    const onTouchEnd = (e: TouchEvent) => {
+      if (touchStartY - e.changedTouches[0].clientY > 30 && !waveTransitioned.current) {
+        waveTransitioned.current = true
+        setWaveVisible(true)
+      }
+    }
+
+    window.addEventListener('wheel', onWheel, { passive: true })
+    window.addEventListener('touchstart', onTouchStart, { passive: true })
+    window.addEventListener('touchend', onTouchEnd, { passive: true })
+    return () => {
+      window.removeEventListener('wheel', onWheel)
+      window.removeEventListener('touchstart', onTouchStart)
+      window.removeEventListener('touchend', onTouchEnd)
     }
   }, [phase])
 
@@ -147,7 +179,7 @@ export function Hero() {
         className="absolute left-0 w-full z-20 pointer-events-none"
         style={{ bottom: '-4px' }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: phase === 'tagline' ? 1 : 0 }}
+        animate={{ opacity: waveVisible ? 1 : 0 }}
         transition={{ duration: 0.5 }}
       >
         <svg
