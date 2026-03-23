@@ -26,7 +26,7 @@ function PIAvatar() {
 }
 
 const features = [
-  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: '#research', float: true },
+  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: 'https://scholar.google.com/citations?user=dd5LoV4AAAAJ&hl=en', float: true },
   { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
   { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
   { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
@@ -61,15 +61,15 @@ export function About() {
             {/* Feature Cards — alternating left-border accent */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {features.map((feature, index) => (
+                <div key={feature.title} className={feature.float ? 'animate-float' : ''}>
                 <motion.div
-                  key={feature.title}
-                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''} ${feature.float ? 'animate-float' : ''}`}
+                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''}`}
                   style={{ opacity: 0 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.3, margin: "0px 0px -80px 0px" }}
-                  {...(feature.href ? { onClick: () => { window.location.href = feature.href! } } : {})}
+                  {...(feature.href ? { onClick: () => { window.open(feature.href!, '_blank', 'noopener,noreferrer') } } : {})}
                 >
                   {/* Colored left accent bar */}
                   <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-full ${index % 2 === 0 ? 'bg-primary' : 'bg-warm'}`} />
@@ -77,6 +77,7 @@ export function About() {
                   <h4 className="font-display text-base font-bold mb-1">{feature.title}</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
                 </motion.div>
+                </div>
               ))}
             </div>
           </motion.div>
