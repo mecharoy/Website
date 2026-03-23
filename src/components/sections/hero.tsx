@@ -164,7 +164,7 @@ export function Hero() {
             }}
             transition={{ duration: 0.6, ease: 'easeInOut' }}
           >
-            <p className="text-lg sm:text-xl font-bold text-white max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl font-bold text-white max-w-3xl mx-auto leading-relaxed px-6 py-4 rounded-xl bg-black/50 backdrop-blur-sm">
               We develop probabilistic machine learning algorithms for structural vibration
               analysis, digital twin modeling, and structural health monitoring — bridging
               the gap between physics-based models and real-world measurements at IIT Delhi.
