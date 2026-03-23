@@ -61,9 +61,9 @@ export function About() {
             {/* Feature Cards — alternating left-border accent */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {features.map((feature, index) => (
+                <div key={feature.title} className={feature.float ? 'animate-float' : ''}>
                 <motion.div
-                  key={feature.title}
-                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''} ${feature.float ? 'animate-float' : ''}`}
+                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''}`}
                   style={{ opacity: 0 }}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -77,6 +77,7 @@ export function About() {
                   <h4 className="font-display text-base font-bold mb-1">{feature.title}</h4>
                   <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
                 </motion.div>
+                </div>
               ))}
             </div>
           </motion.div>
