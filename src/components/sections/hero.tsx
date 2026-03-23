@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-end justify-center px-4 pb-12 overflow-hidden">
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <video
           autoPlay
@@ -72,34 +72,6 @@ export function Hero() {
             </span>
           </motion.h1>
 
-          <motion.p
-            className="text-lg sm:text-xl font-bold text-foreground/80 dark:text-white mb-10 max-w-3xl mx-auto leading-relaxed drop-shadow-sm"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            We develop probabilistic machine learning algorithms for structural vibration analysis, digital twin modeling, and structural health monitoring — bridging the gap between physics-based models and real-world measurements at IIT Delhi.
-          </motion.p>
-
-          <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-          >
-            <a
-              href="#research"
-              className="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-primary to-secondary px-8 py-4 text-base font-semibold text-white shadow-lg shadow-primary/30 transition-all hover:shadow-xl hover:shadow-primary/50 hover:-translate-y-1"
-            >
-              Explore Our Research
-            </a>
-            <a
-              href="#team"
-              className="inline-flex items-center justify-center rounded-full border-2 border-foreground/60 px-8 py-4 text-base font-semibold text-foreground transition-all hover:bg-foreground/10 hover:-translate-y-1"
-            >
-              Meet the Team
-            </a>
-          </motion.div>
         </div>
       </div>
     </section>
