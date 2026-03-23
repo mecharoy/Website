@@ -97,7 +97,7 @@ export function Hero() {
   return (
     <section className="relative min-h-screen flex items-end justify-center px-4 pb-28 sm:pb-32 bg-background">
       {/* Video background */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
+      <div className="absolute inset-0 w-full h-full overflow-hidden z-10">
         <video
           ref={videoRef}
           autoPlay
@@ -176,8 +176,8 @@ export function Hero() {
       {/* Wavy bottom edge — hidden on landing, fades in after scroll.
           Flat edge sits at the video/hero bottom; wave dips down into the next section. */}
       <motion.div
-        className="absolute left-0 w-full z-20 pointer-events-none"
-        style={{ bottom: '-80px' }}
+        className="absolute left-0 w-full pointer-events-none"
+        style={{ bottom: '-80px', zIndex: 5 }}
         initial={{ opacity: 0 }}
         animate={{ opacity: waveVisible ? 1 : 0 }}
         transition={{ duration: 0.5 }}
@@ -186,7 +186,7 @@ export function Hero() {
           viewBox="0 0 1440 60"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
-          className="block w-full h-32 sm:h-36 opacity-50"
+          className="block w-full h-32 sm:h-36 opacity-40"
         >
           <path
             d="M0,0 L1440,0 L1440,35 C1417.5,47 1372.5,23 1350,35 C1327.5,47 1282.5,23 1260,35 C1237.5,47 1192.5,23 1170,35 C1147.5,47 1102.5,23 1080,35 C1057.5,47 1012.5,23 990,35 C967.5,47 922.5,23 900,35 C877.5,47 832.5,23 810,35 C787.5,47 742.5,23 720,35 C697.5,47 652.5,23 630,35 C607.5,47 562.5,23 540,35 C517.5,47 472.5,23 450,35 C427.5,47 382.5,23 360,35 C337.5,47 292.5,23 270,35 C247.5,47 202.5,23 180,35 C157.5,47 112.5,23 90,35 C67.5,47 22.5,23 0,35 Z"
