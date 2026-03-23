@@ -174,10 +174,10 @@ export function Hero() {
       </div>
 
       {/* Wavy bottom edge — hidden on landing, fades in after scroll.
-          Positioned so its bottom extends 4px past section bottom to seal the seam. */}
+          Flat edge sits at the video/hero bottom; wave dips down into the next section. */}
       <motion.div
         className="absolute left-0 w-full z-20 pointer-events-none"
-        style={{ bottom: '-90px' }}
+        style={{ bottom: '-80px' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: waveVisible ? 1 : 0 }}
         transition={{ duration: 0.5 }}
@@ -189,7 +189,7 @@ export function Hero() {
           className="block w-full h-20 sm:h-24"
         >
           <path
-            d="M0,25 C22.5,37 67.5,13 90,25 C112.5,37 157.5,13 180,25 C202.5,37 247.5,13 270,25 C292.5,37 337.5,13 360,25 C382.5,37 427.5,13 450,25 C472.5,37 517.5,13 540,25 C562.5,37 607.5,13 630,25 C652.5,37 697.5,13 720,25 C742.5,37 787.5,13 810,25 C832.5,37 877.5,13 900,25 C922.5,37 967.5,13 990,25 C1012.5,37 1057.5,13 1080,25 C1102.5,37 1147.5,13 1170,25 C1192.5,37 1237.5,13 1260,25 C1282.5,37 1327.5,13 1350,25 C1372.5,37 1417.5,13 1440,25 L1440,60 L0,60 Z"
+            d="M0,0 L1440,0 L1440,35 C1417.5,47 1372.5,23 1350,35 C1327.5,47 1282.5,23 1260,35 C1237.5,47 1192.5,23 1170,35 C1147.5,47 1102.5,23 1080,35 C1057.5,47 1012.5,23 990,35 C967.5,47 922.5,23 900,35 C877.5,47 832.5,23 810,35 C787.5,47 742.5,23 720,35 C697.5,47 652.5,23 630,35 C607.5,47 562.5,23 540,35 C517.5,47 472.5,23 450,35 C427.5,47 382.5,23 360,35 C337.5,47 292.5,23 270,35 C247.5,47 202.5,23 180,35 C157.5,47 112.5,23 90,35 C67.5,47 22.5,23 0,35 Z"
             className="fill-background"
           />
         </svg>
