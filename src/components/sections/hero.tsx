@@ -81,14 +81,13 @@ export function Hero() {
         <div className="absolute inset-0 bg-background/10 dark:bg-background/40" />
       </div>
 
-      {/* Content — z-30 keeps it above the wave (z-20) */}
+      {/* Content — z-30 keeps it above the wave (z-20).
+          Section uses items-end so as the tagline expands below,
+          the title is naturally pushed upward. */}
       <div className="relative z-30 container mx-auto max-w-5xl">
-        <div className="text-center flex flex-col items-center gap-6">
-          {/* Title always stays — shifts upward when tagline appears */}
+        <div className="text-center flex flex-col items-center">
           <motion.h1
             className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight text-white"
-            animate={{ y: phase === 'tagline' ? -20 : 0 }}
-            transition={{ duration: 0.5 }}
           >
             {'Welcome to the '.split(' ').map((word, wordIndex) => (
               <span key={`word-${wordIndex}`} className="inline-flex">
@@ -122,17 +121,23 @@ export function Hero() {
             </span>
           </motion.h1>
 
-          {/* Tagline fades in below after 3 scrolls */}
-          <motion.p
-            className="text-lg sm:text-xl font-bold text-white max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: phase === 'tagline' ? 1 : 0, y: phase === 'tagline' ? 0 : 20 }}
-            transition={{ duration: 0.5 }}
+          {/* Tagline: zero height when hidden so title truly sits at the bottom.
+              Expands downward on transition, pushing title up naturally. */}
+          <motion.div
+            className="overflow-hidden w-full"
+            animate={{
+              maxHeight: phase === 'tagline' ? '200px' : '0px',
+              opacity: phase === 'tagline' ? 1 : 0,
+              marginTop: phase === 'tagline' ? '1.5rem' : '0rem',
+            }}
+            transition={{ duration: 0.6, ease: 'easeInOut' }}
           >
-            We develop probabilistic machine learning algorithms for structural vibration
-            analysis, digital twin modeling, and structural health monitoring — bridging
-            the gap between physics-based models and real-world measurements at IIT Delhi.
-          </motion.p>
+            <p className="text-lg sm:text-xl font-bold text-white max-w-3xl mx-auto leading-relaxed">
+              We develop probabilistic machine learning algorithms for structural vibration
+              analysis, digital twin modeling, and structural health monitoring — bridging
+              the gap between physics-based models and real-world measurements at IIT Delhi.
+            </p>
+          </motion.div>
         </div>
       </div>
 
