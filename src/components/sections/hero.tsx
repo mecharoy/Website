@@ -1,18 +1,21 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import Image from 'next/image'
+
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 pt-20 overflow-hidden">
-      <div className="absolute inset-0 w-full h-full">
-        <Image
-          src="/images/GPII.png"
-          alt="SMICR Lab hero background"
-          fill
-          className="object-cover"
-          priority
-        />
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute top-0 left-0 w-full object-cover object-top"
+          style={{ height: 'calc(100% + 80px)' }}
+        >
+          <source src="/uploads/Lab_Video_Generation_Request.mp4" type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-background/10 dark:bg-background/40" />
       </div>
       <div className="relative z-10 container mx-auto max-w-5xl">
