@@ -138,13 +138,13 @@ export function Hero() {
       {/* Wavy bottom edge */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-20">
         <svg
-          viewBox="0 0 1440 80"
+          viewBox="0 0 1440 40"
           xmlns="http://www.w3.org/2000/svg"
           preserveAspectRatio="none"
           className="w-full h-16 sm:h-20"
         >
           <path
-            d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z"
+            d="M0,15 C22.5,23 67.5,7 90,15 C112.5,23 157.5,7 180,15 C202.5,23 247.5,7 270,15 C292.5,23 337.5,7 360,15 C382.5,23 427.5,7 450,15 C472.5,23 517.5,7 540,15 C562.5,23 607.5,7 630,15 C652.5,23 697.5,7 720,15 C742.5,23 787.5,7 810,15 C832.5,23 877.5,7 900,15 C922.5,23 967.5,7 990,15 C1012.5,23 1057.5,7 1080,15 C1102.5,23 1147.5,7 1170,15 C1192.5,23 1237.5,7 1260,15 C1282.5,23 1327.5,7 1350,15 C1372.5,23 1417.5,7 1440,15 L1440,40 L0,40 Z"
             className="fill-background"
           />
         </svg>
