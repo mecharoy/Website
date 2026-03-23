@@ -177,7 +177,7 @@ export function Hero() {
           Flat edge sits at the video/hero bottom; wave dips down into the next section. */}
       <motion.div
         className="absolute left-0 w-full z-20 pointer-events-none"
-        style={{ bottom: '-40px' }}
+        style={{ bottom: '-80px' }}
         initial={{ opacity: 0 }}
         animate={{ opacity: waveVisible ? 1 : 0 }}
         transition={{ duration: 0.5 }}
