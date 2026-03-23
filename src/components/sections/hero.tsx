@@ -6,6 +6,17 @@ import { motion, AnimatePresence } from 'framer-motion'
 export function Hero() {
   const [phase, setPhase] = useState<'title' | 'tagline'>('title')
   const transitioned = useRef(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+    video.play().catch(() => {
+      // Autoplay blocked; attempt on first user interaction
+      const resume = () => { video.play().catch(() => {}); document.removeEventListener('click', resume) }
+      document.addEventListener('click', resume)
+    })
+  }, [])
 
   useEffect(() => {
     if (phase !== 'title') return
@@ -49,10 +60,12 @@ export function Hero() {
     <section className="relative min-h-screen flex items-end justify-center px-4 pb-12 overflow-hidden">
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
+          preload="auto"
           className="absolute top-0 left-0 w-full object-cover object-top"
           style={{ height: 'calc(100% + 80px)' }}
         >
