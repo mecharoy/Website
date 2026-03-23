@@ -79,6 +79,9 @@
   * {
     @apply border-border;
   }
+  a {
+    text-decoration: none;
+  }
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
