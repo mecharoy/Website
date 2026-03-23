@@ -97,7 +97,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
               <span className="font-display text-3xl font-extrabold">
                 <span className="text-primary">SMICR</span>
                 <span className="text-warm ml-0.5">.</span>
-                <span className="text-foreground">Lab</span>
+                <span className={isScrolled ? 'text-foreground' : 'text-white'}>Lab</span>
               </span>
             </Link>
           </div>

@@ -21,7 +21,7 @@ export function Hero() {
       <div className="relative z-10 container mx-auto max-w-5xl">
         <div className="text-center">
           <motion.h1
-            className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight"
+            className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
