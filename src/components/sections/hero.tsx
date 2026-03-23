@@ -1,10 +1,11 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 export function Hero() {
   const [phase, setPhase] = useState<'title' | 'tagline'>('title')
+  const scrollCount = useRef(0)
   const transitioned = useRef(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -12,7 +13,6 @@ export function Hero() {
     const video = videoRef.current
     if (!video) return
     video.play().catch(() => {
-      // Autoplay blocked; attempt on first user interaction
       const resume = () => { video.play().catch(() => {}); document.removeEventListener('click', resume) }
       document.addEventListener('click', resume)
     })
@@ -24,8 +24,11 @@ export function Hero() {
 
     const onWheel = (e: WheelEvent) => {
       if (e.deltaY > 0 && !transitioned.current) {
-        transitioned.current = true
-        setPhase('tagline')
+        scrollCount.current++
+        if (scrollCount.current >= 3) {
+          transitioned.current = true
+          setPhase('tagline')
+        }
       }
     }
 
@@ -33,8 +36,11 @@ export function Hero() {
     const onTouchStart = (e: TouchEvent) => { touchStartY = e.touches[0].clientY }
     const onTouchEnd = (e: TouchEvent) => {
       if (touchStartY - e.changedTouches[0].clientY > 30 && !transitioned.current) {
-        transitioned.current = true
-        setPhase('tagline')
+        scrollCount.current++
+        if (scrollCount.current >= 3) {
+          transitioned.current = true
+          setPhase('tagline')
+        }
       }
     }
 
@@ -57,7 +63,8 @@ export function Hero() {
   }, [phase])
 
   return (
-    <section className="relative min-h-screen flex items-end justify-center px-4 pb-12 overflow-hidden">
+    <section className="relative min-h-screen flex items-end justify-center px-4 pb-12">
+      {/* Video background — overflow-hidden scoped here so the section edge has no hard clip */}
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <video
           ref={videoRef}
@@ -74,82 +81,69 @@ export function Hero() {
         <div className="absolute inset-0 bg-background/10 dark:bg-background/40" />
       </div>
 
+      {/* Content */}
       <div className="relative z-10 container mx-auto max-w-5xl">
-        <div className="text-center">
-          <AnimatePresence mode="wait">
-            {phase === 'title' ? (
-              <motion.h1
-                key="title"
-                className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-white"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.5 }}
-              >
-                {'Welcome to the '.split(' ').map((word, wordIndex) => (
-                  <span key={`word-${wordIndex}`} className="inline-flex">
-                    {word.split('').map((char, charIndex) => (
-                      <motion.span
-                        key={`char-${wordIndex}-${charIndex}`}
-                        className="inline-block"
-                        whileHover={{
-                          y: -15,
-                          transition: {
-                            type: "spring",
-                            stiffness: 500,
-                            damping: 10
-                          }
-                        }}
-                      >
-                        {char}
-                      </motion.span>
-                    ))}
-                    {wordIndex < 'Welcome to the '.split(' ').length - 1 && '\u00A0'}
-                  </span>
+        <div className="text-center flex flex-col items-center gap-6">
+          {/* Title always stays — shifts upward when tagline appears */}
+          <motion.h1
+            className="font-display text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight text-white"
+            animate={{ y: phase === 'tagline' ? -20 : 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {'Welcome to the '.split(' ').map((word, wordIndex) => (
+              <span key={`word-${wordIndex}`} className="inline-flex">
+                {word.split('').map((char, charIndex) => (
+                  <motion.span
+                    key={`char-${wordIndex}-${charIndex}`}
+                    className="inline-block"
+                    whileHover={{ y: -15, transition: { type: 'spring', stiffness: 500, damping: 10 } }}
+                  >
+                    {char}
+                  </motion.span>
                 ))}
-                <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-                  {'SMICR Lab'.split(' ').map((word, wordIndex) => (
-                    <span key={`gradient-word-${wordIndex}`} className="inline-flex">
-                      {word.split('').map((char, charIndex) => (
-                        <motion.span
-                          key={`gradient-char-${wordIndex}-${charIndex}`}
-                          className="inline-block"
-                          whileHover={{
-                            y: -15,
-                            transition: {
-                              type: "spring",
-                              stiffness: 500,
-                              damping: 10
-                            }
-                          }}
-                        >
-                          {char}
-                        </motion.span>
-                      ))}
-                      {wordIndex < 'SMICR Lab'.split(' ').length - 1 && '\u00A0'}
-                    </span>
+                {wordIndex < 'Welcome to the '.split(' ').length - 1 && '\u00A0'}
+              </span>
+            ))}
+            <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+              {'SMICR Lab'.split(' ').map((word, wordIndex) => (
+                <span key={`gradient-word-${wordIndex}`} className="inline-flex">
+                  {word.split('').map((char, charIndex) => (
+                    <motion.span
+                      key={`gradient-char-${wordIndex}-${charIndex}`}
+                      className="inline-block"
+                      whileHover={{ y: -15, transition: { type: 'spring', stiffness: 500, damping: 10 } }}
+                    >
+                      {char}
+                    </motion.span>
                   ))}
+                  {wordIndex < 'SMICR Lab'.split(' ').length - 1 && '\u00A0'}
                 </span>
-              </motion.h1>
-            ) : (
-              <motion.p
-                key="tagline"
-                className="text-lg sm:text-xl font-bold text-white max-w-3xl mx-auto leading-relaxed mb-20"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                We develop probabilistic machine learning algorithms for structural vibration
-                analysis, digital twin modeling, and structural health monitoring — bridging
-                the gap between physics-based models and real-world measurements at IIT Delhi.
-              </motion.p>
-            )}
-          </AnimatePresence>
+              ))}
+            </span>
+          </motion.h1>
+
+          {/* Tagline fades in below after 3 scrolls */}
+          <motion.p
+            className="text-lg sm:text-xl font-bold text-white max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: phase === 'tagline' ? 1 : 0, y: phase === 'tagline' ? 0 : 20 }}
+            transition={{ duration: 0.5 }}
+          >
+            We develop probabilistic machine learning algorithms for structural vibration
+            analysis, digital twin modeling, and structural health monitoring — bridging
+            the gap between physics-based models and real-world measurements at IIT Delhi.
+          </motion.p>
         </div>
       </div>
 
-      {/* Wavy bottom edge */}
-      <div className="absolute left-0 w-full z-20" style={{ bottom: '-2px' }}>
+      {/* Wavy bottom edge — hidden on landing, fades in after scroll */}
+      <motion.div
+        className="absolute left-0 w-full z-20"
+        style={{ bottom: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: phase === 'tagline' ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <svg
           viewBox="0 0 1440 40"
           xmlns="http://www.w3.org/2000/svg"
@@ -161,7 +155,7 @@ export function Hero() {
             className="fill-background"
           />
         </svg>
-      </div>
+      </motion.div>
     </section>
   )
 }
