@@ -54,7 +54,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             <a
               key={link.href}
               href={link.href}
-              className="text-foreground hover:text-foreground text-base font-semibold transition-colors relative group drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
+              className="no-underline text-foreground hover:text-foreground text-base font-semibold transition-colors relative group drop-shadow-[0_1px_3px_rgba(255,255,255,0.8)] dark:drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-warm transition-all group-hover:w-full" />
@@ -110,7 +110,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      className="block text-muted-foreground hover:text-foreground font-medium"
+                      className="block no-underline text-muted-foreground hover:text-foreground font-medium"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       {link.label}
