@@ -180,8 +180,8 @@ export function Hero() {
         style={{
           bottom: '-80px',
           zIndex: 20,
-          maskImage: 'linear-gradient(to bottom, transparent 0%, black 65%)',
-          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 65%)',
+          maskImage: 'linear-gradient(to bottom, transparent 0%, black 35%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 35%)',
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: waveVisible ? 1 : 0 }}
