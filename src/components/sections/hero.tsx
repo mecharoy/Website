@@ -136,7 +136,7 @@ export function Hero() {
                 {wordIndex < 'Welcome to the '.split(' ').length - 1 && '\u00A0'}
               </span>
             ))}
-            <span className="text-white">
+            <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
               {'SMICR Lab'.split(' ').map((word, wordIndex) => (
                 <span key={`gradient-word-${wordIndex}`} className="inline-flex">
                   {word.split('').map((char, charIndex) => (
