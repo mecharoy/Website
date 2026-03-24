@@ -82,12 +82,12 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
       {/* Top bar — logo centered */}
       <header
         className={cn(
-          'fixed top-0 z-40 w-full transition-all duration-300 bg-black',
-          isScrolled ? 'border-b border-primary/10 py-4' : 'py-6'
+          'fixed top-0 z-40 w-full bg-black h-16 transition-all duration-300',
+          isScrolled && 'border-b border-primary/10'
         )}
       >
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-center">
+        <div className="container mx-auto px-4 h-full">
+          <div className="flex items-center justify-center h-full">
             {/* Mobile: left controls */}
             <div className="md:hidden absolute left-4 flex items-center gap-2">
               <ThemeToggle />
@@ -103,9 +103,9 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
             {/* Center: Animated logo + wordmark */}
             <Link
               href="/"
-              className="flex items-center gap-2 hover:scale-105 transition-transform no-underline"
+              className="flex items-center gap-2 h-full hover:scale-105 transition-transform no-underline py-1"
             >
-              <div className="relative h-12 w-12 flex-shrink-0">
+              <div className="relative h-full w-auto flex-shrink-0 aspect-square">
                 {!animationDone ? (
                   <video
                     ref={videoRef}
@@ -114,15 +114,15 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
                     muted
                     playsInline
                     onEnded={handleVideoEnded}
-                    className="h-full w-full object-contain"
+                    className="h-full w-auto object-contain"
                   />
                 ) : (
                   <Image
-                    src="/images/logowhite.png"
+                    src="/images/logoblack.png"
                     alt="SMICR Lab logo"
-                    width={48}
-                    height={48}
-                    className="h-full w-full object-contain"
+                    width={64}
+                    height={64}
+                    className="h-full w-auto object-contain"
                   />
                 )}
               </div>
