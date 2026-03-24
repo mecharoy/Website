@@ -37,7 +37,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
 
   const handleVideoEnded = () => {
     playCountRef.current += 1
-    if (playCountRef.current < 3) {
+    if (playCountRef.current < 10) {
       videoRef.current?.play()
     } else {
       setAnimationDone(true)
