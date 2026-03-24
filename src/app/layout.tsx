@@ -3,6 +3,7 @@ import './globals.css'
 import 'katex/dist/katex.min.css'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
+import { LoadingScreen } from '@/components/loading-screen'
 
 export const metadata: Metadata = {
   title: 'SMICR Lab | IIT Delhi',
@@ -30,6 +31,7 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <ThemeProvider>
+          <LoadingScreen />
           {children}
           <Toaster />
         </ThemeProvider>

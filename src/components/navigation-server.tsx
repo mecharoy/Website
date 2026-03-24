@@ -21,7 +21,7 @@ export async function NavigationServer() {
     authSlot = (
       <Link
         href="/dashboard"
-        className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+        className="flex items-center gap-1.5 text-sm font-medium text-white hover:text-white/80 transition-colors whitespace-nowrap"
       >
         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-[11px] font-bold flex-shrink-0">
           {initials}
@@ -46,7 +46,7 @@ export async function NavigationServer() {
     authSlot = (
       <Link
         href="/auth/login"
-        className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors whitespace-nowrap"
+        className="flex items-center gap-1.5 text-sm font-medium text-white hover:text-white/80 transition-colors whitespace-nowrap"
       >
         <LogIn className="w-4 h-4 flex-shrink-0" />
         Sign In
