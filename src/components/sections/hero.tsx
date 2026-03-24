@@ -110,8 +110,7 @@ export function Hero() {
         >
           <source src="/uploads/Lab_Video_Generation_Request.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-background/10 dark:bg-background/40" />
-        <div className="hidden dark:block absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        <div className="absolute inset-0 bg-background/10" />
       </div>
 
       {/* Content — z-30 keeps it above the wave (z-20).
@@ -136,7 +135,7 @@ export function Hero() {
                 {wordIndex < 'Welcome to the '.split(' ').length - 1 && '\u00A0'}
               </span>
             ))}
-            <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
+            <span className="bg-gradient-to-r from-[hsl(178,68%,52%)] via-[hsl(192,62%,47%)] to-[hsl(178,68%,52%)] bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
               <span className="inline-flex">
                 {'SMICR'.split('').map((char, charIndex) => (
                   <motion.span
