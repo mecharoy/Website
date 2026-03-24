@@ -118,7 +118,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
                   />
                 ) : (
                   <Image
-                    src="/images/logoblack.png"
+                    src="/images/logowhite.png"
                     alt="SMICR Lab logo"
                     width={48}
                     height={48}
@@ -127,8 +127,8 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
                 )}
               </div>
               <span className="font-display text-3xl font-extrabold">
-                <span className="text-primary">SMICR</span>
-                <span className="text-warm ml-0.5">.</span>
+                <span className="text-[hsl(178_68%_52%)]">SMICR</span>
+                <span className="text-[hsl(42_92%_56%)] ml-0.5">.</span>
                 <span className="text-white">Lab</span>
               </span>
             </Link>
