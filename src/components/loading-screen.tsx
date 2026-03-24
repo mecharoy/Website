@@ -9,7 +9,7 @@ export function LoadingScreen() {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
-    if (videoRef.current) videoRef.current.playbackRate = 2.5
+    if (videoRef.current) videoRef.current.playbackRate = 1.5
     return () => { document.body.style.overflow = '' }
   }, [])
 
