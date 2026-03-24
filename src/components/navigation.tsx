@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { Menu, X, Mail } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -22,6 +23,9 @@ interface NavigationProps {
 export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [animationDone, setAnimationDone] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const playCountRef = useRef(0)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,6 +34,15 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  const handleVideoEnded = () => {
+    playCountRef.current += 1
+    if (playCountRef.current < 3) {
+      videoRef.current?.play()
+    } else {
+      setAnimationDone(true)
+    }
+  }
 
   return (
     <>
@@ -69,10 +82,8 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
       {/* Top bar — logo centered */}
       <header
         className={cn(
-          'fixed top-0 z-40 w-full transition-all duration-300',
-          isScrolled
-            ? 'bg-background/95 backdrop-blur-lg border-b border-primary/10 py-4'
-            : 'bg-transparent py-6'
+          'fixed top-0 z-40 w-full transition-all duration-300 bg-black',
+          isScrolled ? 'border-b border-primary/10 py-4' : 'py-6'
         )}
       >
         <div className="container mx-auto px-4">
@@ -89,15 +100,36 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
               </button>
             </div>
 
-            {/* Center: Logo */}
+            {/* Center: Animated logo + wordmark */}
             <Link
               href="/"
-              className="hover:scale-105 transition-transform no-underline"
+              className="flex items-center gap-2 hover:scale-105 transition-transform no-underline"
             >
+              <div className="relative h-12 w-12 flex-shrink-0">
+                {!animationDone ? (
+                  <video
+                    ref={videoRef}
+                    src="/images/smicranim.webm"
+                    autoPlay
+                    muted
+                    playsInline
+                    onEnded={handleVideoEnded}
+                    className="h-full w-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src="/images/logoblack.png"
+                    alt="SMICR Lab logo"
+                    width={48}
+                    height={48}
+                    className="h-full w-full object-contain"
+                  />
+                )}
+              </div>
               <span className="font-display text-3xl font-extrabold">
                 <span className="text-primary">SMICR</span>
                 <span className="text-warm ml-0.5">.</span>
-                <span className={isScrolled ? 'text-foreground' : 'text-white'}>Lab</span>
+                <span className="text-white">Lab</span>
               </span>
             </Link>
           </div>
