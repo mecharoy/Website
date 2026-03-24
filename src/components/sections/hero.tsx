@@ -137,20 +137,31 @@ export function Hero() {
               </span>
             ))}
             <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent animate-gradient bg-[length:200%_auto]">
-              {'SMICR Lab'.split(' ').map((word, wordIndex) => (
-                <span key={`gradient-word-${wordIndex}`} className="inline-flex">
-                  {word.split('').map((char, charIndex) => (
-                    <motion.span
-                      key={`gradient-char-${wordIndex}-${charIndex}`}
-                      className="inline-block"
-                      whileHover={{ y: -15, transition: { type: 'spring', stiffness: 500, damping: 10 } }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                  {wordIndex < 'SMICR Lab'.split(' ').length - 1 && '\u00A0'}
-                </span>
-              ))}
+              <span className="inline-flex">
+                {'SMICR'.split('').map((char, charIndex) => (
+                  <motion.span
+                    key={`gradient-char-${charIndex}`}
+                    className="inline-block"
+                    whileHover={{ y: -15, transition: { type: 'spring', stiffness: 500, damping: 10 } }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
+            </span>
+            {'\u00A0'}
+            <span className="text-white">
+              <span className="inline-flex">
+                {'Lab'.split('').map((char, charIndex) => (
+                  <motion.span
+                    key={`white-char-${charIndex}`}
+                    className="inline-block"
+                    whileHover={{ y: -15, transition: { type: 'spring', stiffness: 500, damping: 10 } }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </span>
             </span>
           </motion.h1>
 

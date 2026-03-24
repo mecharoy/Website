@@ -82,7 +82,7 @@ export function Navigation({ authSlot, authMobileSlot }: NavigationProps) {
       {/* Top bar — logo centered */}
       <header
         className={cn(
-          'fixed top-0 z-40 w-full bg-black h-16 transition-all duration-300',
+          'fixed top-0 z-40 w-full bg-[#1E1E1E] h-16 transition-all duration-300',
           isScrolled && 'border-b border-primary/10'
         )}
       >
