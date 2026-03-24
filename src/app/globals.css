@@ -7,14 +7,14 @@
     --font-outfit: 'Outfit', sans-serif;
     --font-dm-sans: 'DM Sans', sans-serif;
 
-    --background: 200 20% 95%;
-    --foreground: 200 30% 12%;
+    --background: 0 0% 100%;
+    --foreground: 0 0% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 200 30% 12%;
+    --card-foreground: 0 0% 10%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 200 30% 12%;
+    --popover-foreground: 0 0% 10%;
 
     --primary: 178 75% 28%;
     --primary-foreground: 0 0% 100%;
@@ -22,8 +22,8 @@
     --secondary: 192 70% 32%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 196 15% 89%;
-    --muted-foreground: 200 15% 38%;
+    --muted: 0 0% 93%;
+    --muted-foreground: 0 0% 40%;
 
     --accent: 165 60% 30%;
     --accent-foreground: 0 0% 100%;
@@ -34,8 +34,8 @@
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 196 14% 86%;
-    --input: 196 12% 91%;
+    --border: 0 0% 88%;
+    --input: 0 0% 93%;
     --ring: 178 65% 24%;
 
     --radius: 0.5rem;
