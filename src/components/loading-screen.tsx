@@ -1,13 +1,15 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function LoadingScreen() {
   const [fading, setFading] = useState(false)
   const [gone, setGone] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
+    if (videoRef.current) videoRef.current.playbackRate = 2.5
     return () => { document.body.style.overflow = '' }
   }, [])
 
@@ -23,13 +25,14 @@ export function LoadingScreen() {
 
   return (
     <div
-      className="fixed inset-0 z-[9999] flex items-center justify-center pointer-events-none"
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 pointer-events-none"
       style={{
         opacity: fading ? 0 : 1,
         transition: 'opacity 300ms ease-out',
       }}
     >
       <video
+        ref={videoRef}
         src="/images/smicranim.webm"
         autoPlay
         muted
