@@ -97,19 +97,19 @@ export function BackgroundGradient() {
 
   // Four parallax speeds — slower elements feel further away
   const y = [
-    useTransform(scrollY, [0, 6000], [0, -55]),   // very slow
-    useTransform(scrollY, [0, 6000], [0, -105]),  // slow
-    useTransform(scrollY, [0, 6000], [0, -170]),  // medium
-    useTransform(scrollY, [0, 6000], [0, -240]),  // fast
+    useTransform(scrollY, [0, 6000], [0, -70]),   // very slow
+    useTransform(scrollY, [0, 6000], [0, -140]),  // slow
+    useTransform(scrollY, [0, 6000], [0, -220]),  // medium
+    useTransform(scrollY, [0, 6000], [0, -310]),  // fast
   ]
-  const xRight = useTransform(scrollY, [0, 6000], [0, 38])
-  const xLeft  = useTransform(scrollY, [0, 6000], [0, -26])
+  const xRight = useTransform(scrollY, [0, 6000], [0, 50])
+  const xLeft  = useTransform(scrollY, [0, 6000], [0, -36])
   const xKeys  = [xLeft, xRight, xLeft, xRight]
   const xArr   = [xLeft, xRight]
 
   const primary      = isDark ? 'hsl(178,68%,52%)' : 'hsl(178,65%,24%)'
   const waveBase     = isDark ? 0.095 : 0.14
-  const eqOpacity    = isDark ? 0.20 : 0.32
+  const eqOpacity    = isDark ? 0.27 : 0.42
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">

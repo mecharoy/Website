@@ -55,13 +55,16 @@ function MemberAvatar({ photo, initials, name, photoPosition }: { photo: string;
   }
 
   return (
-    <img
-      src={photo}
-      alt={name}
-      className="w-full h-full object-cover"
-      style={{ objectPosition: photoPosition ?? '50% 50%' }}
-      onError={() => setImgFailed(true)}
-    />
+    <div className="relative w-full h-full">
+      <img
+        src={photo}
+        alt={name}
+        className="w-full h-full object-cover"
+        style={{ objectPosition: photoPosition ?? '50% 50%' }}
+        onError={() => setImgFailed(true)}
+      />
+      <div className="absolute inset-0 bg-primary/8 mix-blend-multiply" />
+    </div>
   )
 }
 
@@ -76,9 +79,6 @@ export function Portfolio() {
           transition={{ duration: 0.6 }}
           viewport={{ once: true, amount: 0.3 }}
         >
-          <div className="text-warm text-sm font-bold uppercase tracking-widest mb-3">
-            Our People
-          </div>
           <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-4">
             Meet the Team
           </h2>

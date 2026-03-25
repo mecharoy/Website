@@ -1,11 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Microscope, Cpu, BrainCircuit, ArrowRight } from 'lucide-react'
 
 const researchAreas = [
   {
-    icon: Microscope,
     title: 'Digital Twins',
     description: 'Creating virtual frameworks that replicate the real-time behavior of structural systems by combining physics-based models with measured data and machine learning.',
     topics: [
@@ -17,7 +15,6 @@ const researchAreas = [
     color: 'from-primary to-secondary',
   },
   {
-    icon: Cpu,
     title: 'Structural Health Monitoring',
     description: 'Developing scalable probabilistic methods to detect, localize, and assess damage in structures using vibration data and data-driven inference.',
     topics: [
@@ -29,7 +26,6 @@ const researchAreas = [
     color: 'from-secondary to-accent',
   },
   {
-    icon: BrainCircuit,
     title: 'Physics-Informed ML',
     description: 'Integrating deep learning with physical laws and constitutive models to solve inverse problems and discover interpretable data-driven models in mechanics.',
     topics: [
@@ -54,9 +50,6 @@ export function Services() {
           viewport={{ once: true, amount: 0.3 }}
         >
           <div>
-            <div className="text-warm text-sm font-bold uppercase tracking-widest mb-3">
-              What We Study
-            </div>
             <h2 className="font-display text-4xl sm:text-5xl font-extrabold">
               Research Areas
             </h2>
@@ -88,27 +81,18 @@ export function Services() {
                 <div className={`h-1 bg-gradient-to-r ${area.color}`} />
 
                 <div className="p-8 sm:p-10">
-                  <div className="flex flex-col sm:flex-row sm:items-start gap-6">
-                    <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${area.color} flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform`}>
-                      <area.icon className="w-7 h-7 text-white" />
-                    </div>
+                  <h3 className="font-display text-2xl font-bold mb-3">{area.title}</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-6">{area.description}</p>
 
-                    <div className="flex-1">
-                      <h3 className="font-display text-2xl font-bold mb-3">{area.title}</h3>
-                      <p className="text-muted-foreground leading-relaxed mb-6">{area.description}</p>
-
-                      <div className="flex flex-wrap gap-2">
-                        {area.topics.map((topic) => (
-                          <span
-                            key={topic}
-                            className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full bg-primary/8 text-primary border border-primary/15"
-                          >
-                            <ArrowRight className="w-3 h-3" />
-                            {topic}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
+                    {area.topics.map((topic) => (
+                      <span
+                        key={topic}
+                        className="text-xs font-medium text-primary/70"
+                      >
+                        {topic}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
