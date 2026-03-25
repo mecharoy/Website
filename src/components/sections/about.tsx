@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { BookOpen, Users, Award, Lightbulb } from 'lucide-react'
 
 function PIAvatar() {
   const [imgFailed, setImgFailed] = useState(false)
@@ -25,13 +24,6 @@ function PIAvatar() {
   )
 }
 
-const features = [
-  { icon: BookOpen, title: 'Publications', description: 'Publishing in top venues across computational mechanics, machine learning, and structural engineering.', href: 'https://scholar.google.com/citations?user=dd5LoV4AAAAJ&hl=en', float: true },
-  { icon: Users, title: 'Collaboration', description: 'Active collaborations with researchers across IIT Delhi, international universities, and industry partners.' },
-  { icon: Award, title: 'Recognition', description: 'Funded research in structural health monitoring, digital twins, and physics-informed machine learning.' },
-  { icon: Lightbulb, title: 'Innovation', description: 'Unique fusion of Bayesian inference, neural operators, and physics-based models for real-world structures.' },
-]
-
 export function About() {
   return (
     <section id="about" className="relative py-20 sm:py-32 px-4">
@@ -43,42 +35,16 @@ export function About() {
             transition={{ duration: 0.6 }}
             viewport={{ once: true, amount: 0.3 }}
           >
-            <div className="text-warm text-sm font-bold uppercase tracking-widest mb-3">
-              Who We Are
-            </div>
             <h2 className="font-display text-4xl sm:text-5xl font-extrabold mb-6">
               About the Lab
             </h2>
-            <div className="space-y-4 text-muted-foreground leading-relaxed mb-8">
+            <div className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
                 The SMICR (Structural Mechanics, Inference, and Computational Research) Lab is led by Dr. Rajdip Nayek at the Department of Applied Mechanics, IIT Delhi. Our mission is to develop principled, scalable machine learning methods that integrate seamlessly with physics-based models for real-world structural engineering applications.
               </p>
               <p>
                 Our work spans structural health monitoring, digital twin development, and physics-informed deep learning — with a focus on uncertainty quantification and interpretable data-driven discovery. We aim to translate fundamental research into robust tools for monitoring and predicting the behavior of complex structural systems.
               </p>
-            </div>
-
-            {/* Feature Cards — alternating left-border accent */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {features.map((feature, index) => (
-                <div key={feature.title} className={feature.float ? 'animate-float' : ''}>
-                <motion.div
-                  className={`relative pl-5 py-4 pr-4 rounded-lg bg-card border border-primary/10 hover:border-primary/25 transition-all duration-200 ${feature.href ? 'cursor-pointer' : ''}`}
-                  style={{ opacity: 0 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true, amount: 0.3, margin: "0px 0px -80px 0px" }}
-                  {...(feature.href ? { onClick: () => { window.open(feature.href!, '_blank', 'noopener,noreferrer') } } : {})}
-                >
-                  {/* Colored left accent bar */}
-                  <div className={`absolute left-0 top-3 bottom-3 w-1 rounded-full ${index % 2 === 0 ? 'bg-primary' : 'bg-warm'}`} />
-                  <feature.icon className={`w-8 h-8 mb-2 ${index % 2 === 0 ? 'text-primary' : 'text-warm'}`} />
-                  <h4 className="font-display text-base font-bold mb-1">{feature.title}</h4>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
-                </motion.div>
-                </div>
-              ))}
             </div>
           </motion.div>
 
