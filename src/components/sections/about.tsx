@@ -46,6 +46,18 @@ export function About() {
                 Our work spans structural health monitoring, digital twin development, and physics-informed deep learning — with a focus on uncertainty quantification and interpretable data-driven discovery. We aim to translate fundamental research into robust tools for monitoring and predicting the behavior of complex structural systems.
               </p>
             </div>
+
+            {/* Lab video placeholder */}
+            <div className="relative mt-8 rounded-2xl overflow-hidden border border-primary/10">
+              <video
+                src="/images/labvideo2.mp4"
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full aspect-video object-cover"
+              />
+            </div>
           </motion.div>
 
           {/* Advisor card — right side — Grand layout with clear photo */}
@@ -75,10 +87,15 @@ export function About() {
 
               {/* Stats with warm accent */}
               <div className="flex gap-8 pt-5 border-t border-primary/10">
-                <div>
-                  <div className="font-display text-3xl font-extrabold text-warm">30+</div>
+                <a
+                  href="https://scholar.google.com/citations?user=dd5LoV4AAAAJ&hl=en"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="animate-float inline-block group/scholar"
+                >
+                  <div className="font-display text-3xl font-extrabold text-warm group-hover/scholar:text-warm/70 transition-colors">30+</div>
                   <div className="text-xs text-muted-foreground mt-0.5">Publications</div>
-                </div>
+                </a>
                 <div>
                   <div className="font-display text-3xl font-extrabold text-primary">8+</div>
                   <div className="text-xs text-muted-foreground mt-0.5">Lab Members</div>

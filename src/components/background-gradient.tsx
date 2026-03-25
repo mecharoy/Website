@@ -109,7 +109,7 @@ export function BackgroundGradient() {
 
   const primary      = isDark ? 'hsl(178,68%,52%)' : 'hsl(178,65%,24%)'
   const waveBase     = isDark ? 0.095 : 0.14
-  const eqOpacity    = isDark ? 0.27 : 0.42
+  const eqOpacity    = isDark ? 0.33 : 0.50
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden">
