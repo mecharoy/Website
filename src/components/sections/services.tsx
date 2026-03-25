@@ -84,7 +84,7 @@ export function Services() {
                   <h3 className="font-display text-2xl font-bold mb-3">{area.title}</h3>
                   <p className="text-muted-foreground leading-relaxed mb-6">{area.description}</p>
 
-                  <div className="flex flex-wrap gap-x-4 gap-y-1">
+                  <div className="flex flex-wrap gap-x-8 gap-y-3">
                     {area.topics.map((topic) => (
                       <span
                         key={topic}
