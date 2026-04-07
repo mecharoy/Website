@@ -4,10 +4,11 @@ import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import {
   Send, Bot, Loader2, RotateCcw, ChevronDown,
-  Zap, Brain, Cpu, ArrowLeft, WifiOff, Sparkles, Copy, Check,
+  Zap, Brain, Cpu, ArrowLeft, WifiOff, Sparkles, Copy, Check, ExternalLink, ShieldAlert,
 } from 'lucide-react'
 
 const OLLAMA_BASE = 'https://10.228.44.149:11435'
+const CERT_TRUST_KEY = 'smicr_cert_trusted'
 
 const MODELS = [
   { id: 'qwen3.5-27b-fast', label: 'Qwen Fast', description: 'Q4 · 14 tok/s · quick tasks', icon: Zap, color: 'text-yellow-500', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
@@ -16,6 +17,61 @@ const MODELS = [
 ]
 
 type Message = { role: 'user' | 'assistant'; content: string; thinking?: string }
+
+function CertTrustModal({ onDone }: { onDone: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm px-4">
+      <div className="bg-card border border-primary/20 rounded-2xl p-6 max-w-md w-full shadow-xl">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center shrink-0">
+            <ShieldAlert className="w-5 h-5 text-yellow-500" />
+          </div>
+          <div>
+            <h2 className="font-display font-bold text-base">One-time setup required</h2>
+            <p className="text-xs text-muted-foreground">Only needed once per browser</p>
+          </div>
+        </div>
+        <p className="text-sm text-muted-foreground mb-4">
+          The IITD AI server uses a self-signed certificate. Your browser needs to trust it before the chat will work.
+        </p>
+        <ol className="space-y-2 mb-5 text-sm">
+          <li className="flex gap-2">
+            <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center shrink-0 mt-0.5 font-bold">1</span>
+            <span>Click the button below to open the server in a new tab</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center shrink-0 mt-0.5 font-bold">2</span>
+            <span>Click <strong>Advanced</strong> → <strong>Proceed to 10.228.44.149</strong> (or &quot;Accept the Risk&quot;)</span>
+          </li>
+          <li className="flex gap-2">
+            <span className="w-5 h-5 rounded-full bg-primary/10 text-primary text-xs flex items-center justify-center shrink-0 mt-0.5 font-bold">3</span>
+            <span>Come back here and click <strong>Done</strong></span>
+          </li>
+        </ol>
+        <div className="flex gap-3">
+          <a
+            href={OLLAMA_BASE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-xl text-sm font-medium transition-colors"
+          >
+            <ExternalLink className="w-4 h-4" />
+            Open Server
+          </a>
+          <button
+            onClick={() => {
+              localStorage.setItem(CERT_TRUST_KEY, '1')
+              onDone()
+            }}
+            className="flex-1 px-4 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl text-sm font-medium transition-colors"
+          >
+            Done
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 function ThinkingBlock({ content }: { content: string }) {
   const [open, setOpen] = useState(false)
@@ -54,10 +110,15 @@ export function ChatInterface({ userName }: { userName: string }) {
   const [streaming, setStreaming] = useState(false)
   const [networkError, setNetworkError] = useState(false)
   const [modelDropdownOpen, setModelDropdownOpen] = useState(false)
+  const [showCertModal, setShowCertModal] = useState(false)
   const abortRef = useRef<AbortController | null>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const model = MODELS.find((m) => m.id === selectedModel) ?? MODELS[0]
+
+  useEffect(() => {
+    if (!localStorage.getItem(CERT_TRUST_KEY)) setShowCertModal(true)
+  }, [])
 
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages, streaming])
   useEffect(() => {
@@ -118,9 +179,12 @@ export function ChatInterface({ userName }: { userName: string }) {
         }
       }
     } catch (err: unknown) {
-      if (!(err instanceof Error && err.name === 'AbortError')) {
+      if (err instanceof Error && err.name === 'AbortError') {
+        // user stopped
+      } else {
         setNetworkError(true)
         setMessages((m) => m.slice(0, -1))
+        if (!localStorage.getItem(CERT_TRUST_KEY)) setShowCertModal(true)
       }
     } finally { setStreaming(false); abortRef.current = null }
   }, [input, messages, selectedModel, streaming])
@@ -134,6 +198,8 @@ export function ChatInterface({ userName }: { userName: string }) {
 
   return (
     <div className="flex flex-col h-screen bg-background">
+      {showCertModal && <CertTrustModal onDone={() => setShowCertModal(false)} />}
+
       <header className="border-b border-primary/10 bg-card/50 backdrop-blur-sm shrink-0">
         <div className="container mx-auto px-4 py-3 flex items-center gap-3">
           <Link href="/dashboard" className="p-1.5 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground">
@@ -223,9 +289,17 @@ export function ChatInterface({ userName }: { userName: string }) {
               </div>
             ))}
             {networkError && (
-              <div className="flex items-center gap-2 px-4 py-3 bg-destructive/10 border border-destructive/20 rounded-xl text-sm text-destructive">
-                <WifiOff className="w-4 h-4 shrink-0" />
-                <span>Could not reach the IITD server. Make sure you&apos;re connected to IITD network (or VPN).</span>
+              <div className="flex items-center justify-between gap-3 px-4 py-3 bg-destructive/10 border border-destructive/20 rounded-xl text-sm text-destructive">
+                <div className="flex items-center gap-2">
+                  <WifiOff className="w-4 h-4 shrink-0" />
+                  <span>Could not reach IITD server. Not on IITD network, or cert not trusted.</span>
+                </div>
+                <button
+                  onClick={() => setShowCertModal(true)}
+                  className="shrink-0 text-xs underline hover:no-underline"
+                >
+                  Fix cert
+                </button>
               </div>
             )}
             <div ref={bottomRef} />
