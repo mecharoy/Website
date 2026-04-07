@@ -7,7 +7,7 @@ import {
   Zap, Brain, Cpu, ArrowLeft, WifiOff, Sparkles, Copy, Check,
 } from 'lucide-react'
 
-const OLLAMA_BASE = 'http://10.228.44.149:11434'
+const OLLAMA_BASE = 'https://10.228.44.149:11435'
 
 const MODELS = [
   { id: 'qwen3.5-27b-fast', label: 'Qwen Fast', description: 'Q4 · 14 tok/s · quick tasks', icon: Zap, color: 'text-yellow-500', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
