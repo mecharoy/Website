@@ -15,6 +15,7 @@ import {
   PenSquare,
   Send,
   BookOpen,
+  Bot,
 } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
@@ -98,7 +99,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Feature cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <Link
             href="/dashboard/posts"
             className="group flex items-center gap-4 bg-card border border-primary/10 hover:border-primary/30 rounded-2xl p-5 transition-all hover:shadow-md"
@@ -137,6 +138,20 @@ export default async function DashboardPage() {
             <div className="min-w-0">
               <p className="font-semibold text-sm">Blog</p>
               <p className="text-xs text-muted-foreground">View all published posts</p>
+            </div>
+            <ArrowRight className="w-4 h-4 text-muted-foreground ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+          </Link>
+
+          <Link
+            href="/dashboard/chat"
+            className="group flex items-center gap-4 bg-card border border-primary/10 hover:border-primary/30 rounded-2xl p-5 transition-all hover:shadow-md"
+          >
+            <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center shrink-0 group-hover:bg-green-500/20 transition-colors">
+              <Bot className="w-5 h-5 text-green-500" />
+            </div>
+            <div className="min-w-0">
+              <p className="font-semibold text-sm">AI Chat</p>
+              <p className="text-xs text-muted-foreground">IITD models · research &amp; code</p>
             </div>
             <ArrowRight className="w-4 h-4 text-muted-foreground ml-auto shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
           </Link>
